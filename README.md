@@ -1,6 +1,6 @@
 # README #
 
-[![Build Status](https://travis-ci.org/ChaoranHu/coga.svg?branch=master)](https://travis-ci.org/ChaoranHu/coga)
+[![Build Status](https://travis-ci.org/ChaoranHu/thmam_pkg.svg?branch=master)](https://travis-ci.org/ChaoranHu/thmam_pkg)
 
 ### What is this R package for? ###
 
