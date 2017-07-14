@@ -1,0 +1,22 @@
+Package: thmam
+Title: Three States Model of Animal Movement
+Version: 0.0.0.9000
+Date: 2017-07-13
+Authors@R: c(
+    person("Chaoran", "Hu", email = "chaoran.hu@uconn.edu", role = c("aut", "cre")),
+    person("Vladimir", "Pozdnyakov", email = "vladimir.pozdnyakov@uconn.edu", role = "ths"),
+    person("Jun", "Yan", email = "jun.yan@uconn.edu", role = "ths"))
+Description: Three states model of animal movement in R. This package is a implementation
+    of this model, and is used only for research work.
+Depends: R (>= 3.4.0)
+License: GPL (>= 3.0)
+Encoding: UTF-8
+LazyData: true
+Imports: nloptr,
+    stats,
+    Rcpp,
+    RcppParallel
+LinkingTo: Rcpp, RcppGSL, RcppParallel
+SystemRequirements: GNU GSL, GNU make, C++11
+RoxygenNote: 6.0.1
+NeedsCompilation: yes
