@@ -14,4 +14,4 @@ Chaoran Hu, <chaoran.hu@uconn.edu>
 
 ### Reference ###
 
-1. Pozdnyakov, V., Hu, C., Meyer, T., and Yan, J. (2017+): On Discretely Observed Brownian Motion governed by a Continuous Time Markov Chain. \textit{Journal of Applied Probability.} Under Review.
+1. Pozdnyakov, V., Hu, C., Meyer, T., and Yan, J. (2017+): On Discretely Observed Brownian Motion governed by a Continuous Time Markov Chain. Journal of Applied Probability. Under Review.

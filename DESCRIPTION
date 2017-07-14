@@ -8,7 +8,7 @@ Authors@R: c(
     person("Jun", "Yan", email = "jun.yan@uconn.edu", role = "ths"))
 Description: Three states model of animal movement in R. This package is a implementation
     of this model, and is used only for research work.
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.3.1)
 License: GPL (>= 3.0)
 Encoding: UTF-8
 LazyData: true
