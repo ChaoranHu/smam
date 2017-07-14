@@ -6,7 +6,7 @@
 
 * This package is a draft R package for doing research in the field of three states model of animal movement.
 
-* Version: 0.2.0.9000
+* Version: 0.0.0.9000
 
 ### Who do I talk to? ###
 
