@@ -8,6 +8,7 @@
 ##' @param optim.control The control parameter for R function optim.
 ##' @param integrControl Integration control vector includes rel.tol,
 ##' abs.tol, and subdivisions.
+##' @param grainSize Minimum chunk size for parallelization.
 ##' @param lower Lower bound for optimization.
 ##' @param upper Upper bound for optimization.
 ##'
@@ -49,6 +50,28 @@ fitMovResHun5 <- function(data, start, lower, upper,
     fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths,
                           data = dinc,
                           integrControl = integrControl,
+                          lb = lower,
+                          ub = upper,
+                          opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+                                      "print_level" = 3,
+                                      "maxeval" = 0))
+
+    fit
+}
+
+##' @rdname fitMovResHun1
+##' @export
+fitMovResHun.parallel <- function(data, start, lower, upper,
+                                  grainSize,
+                                  integrControl = integr.control()) {
+    if (!is.matrix(data)) data <- as.matrix(data)
+    dinc <- apply(data, 2, diff)
+    integrControl <- unlist(integrControl)
+
+    fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths_parallel,
+                          data = dinc,
+                          integrControl = integrControl,
+                          grainSize = grainSize,
                           lb = lower,
                           ub = upper,
                           opts = list("algorithm"   = "NLOPT_LN_COBYLA",

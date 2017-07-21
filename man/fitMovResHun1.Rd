@@ -3,6 +3,7 @@
 \name{fitMovResHun1}
 \alias{fitMovResHun1}
 \alias{fitMovResHun5}
+\alias{fitMovResHun.parallel}
 \alias{fitMovResHun6}
 \title{Fit Three States Model}
 \usage{
@@ -10,6 +11,9 @@ fitMovResHun1(data, start, optim.control = list(),
   integrControl = integr.control())
 
 fitMovResHun5(data, start, lower, upper, integrControl = integr.control())
+
+fitMovResHun.parallel(data, start, lower, upper, grainSize,
+  integrControl = integr.control())
 
 fitMovResHun6(data, start, lower, upper, integrControl = integr.control())
 }
@@ -26,6 +30,8 @@ abs.tol, and subdivisions.}
 \item{lower}{Lower bound for optimization.}
 
 \item{upper}{Upper bound for optimization.}
+
+\item{grainSize}{Minimum chunk size for parallelization.}
 }
 \value{
 A list of estimation result.
