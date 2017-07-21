@@ -1594,9 +1594,10 @@ double nllk_fwd_ths(NumericVector &theta, NumericMatrix &data,
   // data diff of t and x
   int n = data.nrow(); int dim = data.ncol() - 1;
   double lambda0 = theta[0], lambda1 = theta[1], lambda2 = theta[2];
-  double ps0 = 1. / lambda0 / (1. / lambda0 + 1. / lambda1 + 1. / lambda2);
-  double ps1 = 1. / lambda1 / (1. / lambda0 + 1. / lambda1 + 1. / lambda2);
-  double ps2 = 1. / lambda2 / (1. / lambda0 + 1. / lambda1 + 1. / lambda2);
+  double p = theta[4];
+  double ps0 = 1. / lambda0 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps1 = p / lambda1 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps2 = (1 - p) / lambda2 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
   NumericVector tt = data.column(0);
   NumericMatrix x = data(Range(0, n - 1), Range(1, dim));
   double hresult00, hresult01, hresult02;
@@ -1661,9 +1662,10 @@ double nllk_fwd_ths_parallel(NumericVector &theta, NumericMatrix &data,
   // data diff of t and x
   int n = data.nrow(); int dim = data.ncol() - 1;
   double lambda0 = theta[0], lambda1 = theta[1], lambda2 = theta[2];
-  double ps0 = 1. / lambda0 / (1. / lambda0 + 1. / lambda1 + 1. / lambda2);
-  double ps1 = 1. / lambda1 / (1. / lambda0 + 1. / lambda1 + 1. / lambda2);
-  double ps2 = 1. / lambda2 / (1. / lambda0 + 1. / lambda1 + 1. / lambda2);
+  double p = theta[4];
+  double ps0 = 1. / lambda0 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps1 = p / lambda1 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps2 = (1 - p) / lambda2 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
   NumericVector tt = data.column(0);
   NumericMatrix x = data(Range(0, n - 1), Range(1, dim));
   NumericVector
