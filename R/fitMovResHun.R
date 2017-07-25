@@ -9,6 +9,7 @@
 ##' @param integrControl Integration control vector includes rel.tol,
 ##' abs.tol, and subdivisions.
 ##' @param grainSize Minimum chunk size for parallelization.
+##' @param numThreads Allocate the number of threads.
 ##' @param lower Lower bound for optimization.
 ##' @param upper Upper bound for optimization.
 ##'
@@ -63,10 +64,14 @@ fitMovResHun5 <- function(data, start, lower, upper,
 ##' @export
 fitMovResHun.parallel <- function(data, start, lower, upper,
                                   grainSize,
+                                  numThreads = RcppParallel::defaultNumThreads() * 3 / 4,
                                   integrControl = integr.control()) {
     if (!is.matrix(data)) data <- as.matrix(data)
     dinc <- apply(data, 2, diff)
     integrControl <- unlist(integrControl)
+
+    ## allocate threads
+    RcppParallel::setThreadOptions(numThreads = numThreads)
 
     fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths_parallel,
                           data = dinc,

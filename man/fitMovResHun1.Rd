@@ -13,6 +13,7 @@ fitMovResHun1(data, start, optim.control = list(),
 fitMovResHun5(data, start, lower, upper, integrControl = integr.control())
 
 fitMovResHun.parallel(data, start, lower, upper, grainSize,
+  numThreads = RcppParallel::defaultNumThreads() * 3/4,
   integrControl = integr.control())
 
 fitMovResHun6(data, start, lower, upper, integrControl = integr.control())
@@ -32,6 +33,8 @@ abs.tol, and subdivisions.}
 \item{upper}{Upper bound for optimization.}
 
 \item{grainSize}{Minimum chunk size for parallelization.}
+
+\item{numThreads}{Allocate the number of threads.}
 }
 \value{
 A list of estimation result.
