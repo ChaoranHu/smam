@@ -1707,7 +1707,5 @@ double nllk_fwd_ths_parallel(NumericVector &theta, NumericMatrix &data,
     alpha2 = sumf2 / dx;
     llk += log(dx);
   }
-  // clang and gcc
-  if (llk > 0) return 3;
   return(-llk);
 }
