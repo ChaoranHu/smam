@@ -1595,6 +1595,7 @@ double nllk_fwd_ths(NumericVector &theta, NumericMatrix &data,
   int n = data.nrow(); int dim = data.ncol() - 1;
   double lambda0 = theta[0], lambda1 = theta[1], lambda2 = theta[2];
   double p = theta[4];
+  if (lambda1 < lambda2) return NA_REAL;
   double ps0 = 1. / lambda0 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
   double ps1 = p / lambda1 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
   double ps2 = (1 - p) / lambda2 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
@@ -1663,6 +1664,7 @@ double nllk_fwd_ths_parallel(NumericVector &theta, NumericMatrix &data,
   int n = data.nrow(); int dim = data.ncol() - 1;
   double lambda0 = theta[0], lambda1 = theta[1], lambda2 = theta[2];
   double p = theta[4];
+  if (lambda1 < lambda2) return NA_REAL;
   double ps0 = 1. / lambda0 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
   double ps1 = p / lambda1 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
   double ps2 = (1 - p) / lambda2 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);

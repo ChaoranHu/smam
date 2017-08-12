@@ -11,7 +11,7 @@ using namespace Rcpp;
 
 // dcoga2dim
 double dcoga2dim(double x, double shape1, double shape2, double rate1, double rate2);
-static SEXP thmam_dcoga2dim_try(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
+static SEXP _thmam_dcoga2dim_try(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< double >::type x(xSEXP);
@@ -23,11 +23,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_dcoga2dim(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
+RcppExport SEXP _thmam_dcoga2dim(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_dcoga2dim_try(xSEXP, shape1SEXP, shape2SEXP, rate1SEXP, rate2SEXP));
+        rcpp_result_gen = PROTECT(_thmam_dcoga2dim_try(xSEXP, shape1SEXP, shape2SEXP, rate1SEXP, rate2SEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -45,7 +45,7 @@ RcppExport SEXP thmam_dcoga2dim(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SE
 }
 // pcoga2dim_diff_shape
 double pcoga2dim_diff_shape(double x, double shape1, double shape2, double rate1, double rate2);
-static SEXP thmam_pcoga2dim_diff_shape_try(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
+static SEXP _thmam_pcoga2dim_diff_shape_try(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< double >::type x(xSEXP);
@@ -57,11 +57,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_pcoga2dim_diff_shape(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
+RcppExport SEXP _thmam_pcoga2dim_diff_shape(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_pcoga2dim_diff_shape_try(xSEXP, shape1SEXP, shape2SEXP, rate1SEXP, rate2SEXP));
+        rcpp_result_gen = PROTECT(_thmam_pcoga2dim_diff_shape_try(xSEXP, shape1SEXP, shape2SEXP, rate1SEXP, rate2SEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -79,7 +79,7 @@ RcppExport SEXP thmam_pcoga2dim_diff_shape(SEXP xSEXP, SEXP shape1SEXP, SEXP sha
 }
 // ths_vp00
 NumericVector ths_vp00(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp00_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp00_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -92,11 +92,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp00(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp00(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp00_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp00_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -114,7 +114,7 @@ RcppExport SEXP thmam_ths_vp00(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp01
 NumericVector ths_vp01(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp01_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp01_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -127,11 +127,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp01(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp01(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp01_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp01_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -149,7 +149,7 @@ RcppExport SEXP thmam_ths_vp01(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp02
 NumericVector ths_vp02(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp02_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp02_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -162,11 +162,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp02(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp02(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp02_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp02_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -184,7 +184,7 @@ RcppExport SEXP thmam_ths_vp02(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp10
 NumericVector ths_vp10(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp10_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp10_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -197,11 +197,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp10(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp10(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp10_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp10_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -219,7 +219,7 @@ RcppExport SEXP thmam_ths_vp10(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp11
 NumericVector ths_vp11(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp11_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp11_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -232,11 +232,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp11(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp11(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp11_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp11_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -254,7 +254,7 @@ RcppExport SEXP thmam_ths_vp11(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp12
 NumericVector ths_vp12(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp12_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp12_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -267,11 +267,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp12(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp12(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp12_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp12_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -289,7 +289,7 @@ RcppExport SEXP thmam_ths_vp12(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp20
 NumericVector ths_vp20(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp20_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp20_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -302,11 +302,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp20(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp20(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp20_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp20_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -324,7 +324,7 @@ RcppExport SEXP thmam_ths_vp20(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp21
 NumericVector ths_vp21(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp21_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp21_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -337,11 +337,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp21(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp21(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp21_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp21_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -359,7 +359,7 @@ RcppExport SEXP thmam_ths_vp21(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_vp22
 NumericVector ths_vp22(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
-static SEXP thmam_ths_vp22_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+static SEXP _thmam_ths_vp22_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vs(vsSEXP);
@@ -372,11 +372,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_vp22(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
+RcppExport SEXP _thmam_ths_vp22(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_vp22_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_vp22_try(vsSEXP, tSEXP, lambda0SEXP, lambda1SEXP, lambda2SEXP, pSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -394,7 +394,7 @@ RcppExport SEXP thmam_ths_vp22(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP l
 }
 // ths_h00
 NumericVector ths_h00(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h00_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h00_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -405,11 +405,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h00(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h00(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h00_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h00_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -427,7 +427,7 @@ RcppExport SEXP thmam_ths_h00(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h01
 NumericVector ths_h01(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h01_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h01_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -438,11 +438,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h01(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h01(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h01_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h01_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -460,7 +460,7 @@ RcppExport SEXP thmam_ths_h01(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h02
 NumericVector ths_h02(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h02_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h02_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -471,11 +471,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h02(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h02(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h02_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h02_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -493,7 +493,7 @@ RcppExport SEXP thmam_ths_h02(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h10
 NumericVector ths_h10(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h10_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h10_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -504,11 +504,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h10(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h10(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h10_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h10_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -526,7 +526,7 @@ RcppExport SEXP thmam_ths_h10(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h11
 NumericVector ths_h11(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h11_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h11_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -537,11 +537,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h11(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h11(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h11_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h11_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -559,7 +559,7 @@ RcppExport SEXP thmam_ths_h11(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h12
 NumericVector ths_h12(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h12_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h12_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -570,11 +570,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h12(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h12(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h12_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h12_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -592,7 +592,7 @@ RcppExport SEXP thmam_ths_h12(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h20
 NumericVector ths_h20(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h20_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h20_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -603,11 +603,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h20(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h20(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h20_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h20_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -625,7 +625,7 @@ RcppExport SEXP thmam_ths_h20(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h21
 NumericVector ths_h21(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h21_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h21_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -636,11 +636,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h21(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h21(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h21_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h21_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -658,7 +658,7 @@ RcppExport SEXP thmam_ths_h21(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h22
 NumericVector ths_h22(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP thmam_ths_h22_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_ths_h22_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -669,11 +669,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h22(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_ths_h22(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h22_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h22_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -691,7 +691,7 @@ RcppExport SEXP thmam_ths_h22(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integ
 }
 // ths_h00_paral
 NumericVector ths_h00_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h00_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h00_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -703,11 +703,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h00_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h00_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h00_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h00_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -725,7 +725,7 @@ RcppExport SEXP thmam_ths_h00_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h01_paral
 NumericVector ths_h01_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h01_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h01_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -737,11 +737,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h01_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h01_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h01_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h01_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -759,7 +759,7 @@ RcppExport SEXP thmam_ths_h01_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h02_paral
 NumericVector ths_h02_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h02_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h02_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -771,11 +771,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h02_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h02_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h02_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h02_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -793,7 +793,7 @@ RcppExport SEXP thmam_ths_h02_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h10_paral
 NumericVector ths_h10_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h10_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h10_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -805,11 +805,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h10_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h10_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h10_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h10_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -827,7 +827,7 @@ RcppExport SEXP thmam_ths_h10_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h11_paral
 NumericVector ths_h11_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h11_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h11_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -839,11 +839,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h11_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h11_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h11_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h11_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -861,7 +861,7 @@ RcppExport SEXP thmam_ths_h11_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h12_paral
 NumericVector ths_h12_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h12_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h12_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -873,11 +873,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h12_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h12_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h12_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h12_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -895,7 +895,7 @@ RcppExport SEXP thmam_ths_h12_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h20_paral
 NumericVector ths_h20_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h20_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h20_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -907,11 +907,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h20_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h20_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h20_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h20_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -929,7 +929,7 @@ RcppExport SEXP thmam_ths_h20_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h21_paral
 NumericVector ths_h21_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h21_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h21_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -941,11 +941,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h21_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h21_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h21_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h21_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -963,7 +963,7 @@ RcppExport SEXP thmam_ths_h21_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // ths_h22_paral
 NumericVector ths_h22_paral(NumericMatrix x, NumericVector t, NumericVector theta, NumericVector integrControl, int grainSize);
-static SEXP thmam_ths_h22_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_ths_h22_paral_try(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -975,11 +975,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_ths_h22_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_ths_h22_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_ths_h22_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_ths_h22_paral_try(xSEXP, tSEXP, thetaSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -997,7 +997,7 @@ RcppExport SEXP thmam_ths_h22_paral(SEXP xSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP
 }
 // con_v_m
 NumericMatrix con_v_m(NumericVector x);
-static SEXP thmam_con_v_m_try(SEXP xSEXP) {
+static SEXP _thmam_con_v_m_try(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
@@ -1005,11 +1005,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_con_v_m(SEXP xSEXP) {
+RcppExport SEXP _thmam_con_v_m(SEXP xSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_con_v_m_try(xSEXP));
+        rcpp_result_gen = PROTECT(_thmam_con_v_m_try(xSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -1027,7 +1027,7 @@ RcppExport SEXP thmam_con_v_m(SEXP xSEXP) {
 }
 // con_n_v
 NumericVector con_n_v(double x);
-static SEXP thmam_con_n_v_try(SEXP xSEXP) {
+static SEXP _thmam_con_n_v_try(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< double >::type x(xSEXP);
@@ -1035,11 +1035,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_con_n_v(SEXP xSEXP) {
+RcppExport SEXP _thmam_con_n_v(SEXP xSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_con_n_v_try(xSEXP));
+        rcpp_result_gen = PROTECT(_thmam_con_n_v_try(xSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -1057,7 +1057,7 @@ RcppExport SEXP thmam_con_n_v(SEXP xSEXP) {
 }
 // nllk_fwd_ths
 double nllk_fwd_ths(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl);
-static SEXP thmam_nllk_fwd_ths_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
+static SEXP _thmam_nllk_fwd_ths_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector& >::type theta(thetaSEXP);
@@ -1067,11 +1067,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_nllk_fwd_ths(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _thmam_nllk_fwd_ths(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_nllk_fwd_ths_try(thetaSEXP, dataSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_thmam_nllk_fwd_ths_try(thetaSEXP, dataSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -1089,7 +1089,7 @@ RcppExport SEXP thmam_nllk_fwd_ths(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrCon
 }
 // nllk_fwd_ths_parallel
 double nllk_fwd_ths_parallel(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl, int grainSize);
-static SEXP thmam_nllk_fwd_ths_parallel_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+static SEXP _thmam_nllk_fwd_ths_parallel_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector& >::type theta(thetaSEXP);
@@ -1100,11 +1100,11 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP thmam_nllk_fwd_ths_parallel(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
+RcppExport SEXP _thmam_nllk_fwd_ths_parallel(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP, SEXP grainSizeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(thmam_nllk_fwd_ths_parallel_try(thetaSEXP, dataSEXP, integrControlSEXP, grainSizeSEXP));
+        rcpp_result_gen = PROTECT(_thmam_nllk_fwd_ths_parallel_try(thetaSEXP, dataSEXP, integrControlSEXP, grainSizeSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -1122,7 +1122,7 @@ RcppExport SEXP thmam_nllk_fwd_ths_parallel(SEXP thetaSEXP, SEXP dataSEXP, SEXP 
 }
 
 // validate (ensure exported C++ functions exist before calling them)
-static int thmam_RcppExport_validate(const char* sig) { 
+static int _thmam_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
         signatures.insert("double(*dcoga2dim)(double,double,double,double,double)");
@@ -1163,79 +1163,79 @@ static int thmam_RcppExport_validate(const char* sig) {
 }
 
 // registerCCallable (register entry points for exported C++ functions)
-RcppExport SEXP thmam_RcppExport_registerCCallable() { 
-    R_RegisterCCallable("thmam", "thmam_dcoga2dim", (DL_FUNC)thmam_dcoga2dim_try);
-    R_RegisterCCallable("thmam", "thmam_pcoga2dim_diff_shape", (DL_FUNC)thmam_pcoga2dim_diff_shape_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp00", (DL_FUNC)thmam_ths_vp00_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp01", (DL_FUNC)thmam_ths_vp01_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp02", (DL_FUNC)thmam_ths_vp02_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp10", (DL_FUNC)thmam_ths_vp10_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp11", (DL_FUNC)thmam_ths_vp11_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp12", (DL_FUNC)thmam_ths_vp12_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp20", (DL_FUNC)thmam_ths_vp20_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp21", (DL_FUNC)thmam_ths_vp21_try);
-    R_RegisterCCallable("thmam", "thmam_ths_vp22", (DL_FUNC)thmam_ths_vp22_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h00", (DL_FUNC)thmam_ths_h00_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h01", (DL_FUNC)thmam_ths_h01_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h02", (DL_FUNC)thmam_ths_h02_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h10", (DL_FUNC)thmam_ths_h10_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h11", (DL_FUNC)thmam_ths_h11_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h12", (DL_FUNC)thmam_ths_h12_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h20", (DL_FUNC)thmam_ths_h20_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h21", (DL_FUNC)thmam_ths_h21_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h22", (DL_FUNC)thmam_ths_h22_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h00_paral", (DL_FUNC)thmam_ths_h00_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h01_paral", (DL_FUNC)thmam_ths_h01_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h02_paral", (DL_FUNC)thmam_ths_h02_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h10_paral", (DL_FUNC)thmam_ths_h10_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h11_paral", (DL_FUNC)thmam_ths_h11_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h12_paral", (DL_FUNC)thmam_ths_h12_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h20_paral", (DL_FUNC)thmam_ths_h20_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h21_paral", (DL_FUNC)thmam_ths_h21_paral_try);
-    R_RegisterCCallable("thmam", "thmam_ths_h22_paral", (DL_FUNC)thmam_ths_h22_paral_try);
-    R_RegisterCCallable("thmam", "thmam_con_v_m", (DL_FUNC)thmam_con_v_m_try);
-    R_RegisterCCallable("thmam", "thmam_con_n_v", (DL_FUNC)thmam_con_n_v_try);
-    R_RegisterCCallable("thmam", "thmam_nllk_fwd_ths", (DL_FUNC)thmam_nllk_fwd_ths_try);
-    R_RegisterCCallable("thmam", "thmam_nllk_fwd_ths_parallel", (DL_FUNC)thmam_nllk_fwd_ths_parallel_try);
-    R_RegisterCCallable("thmam", "thmam_RcppExport_validate", (DL_FUNC)thmam_RcppExport_validate);
+RcppExport SEXP _thmam_RcppExport_registerCCallable() { 
+    R_RegisterCCallable("thmam", "_thmam_dcoga2dim", (DL_FUNC)_thmam_dcoga2dim_try);
+    R_RegisterCCallable("thmam", "_thmam_pcoga2dim_diff_shape", (DL_FUNC)_thmam_pcoga2dim_diff_shape_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp00", (DL_FUNC)_thmam_ths_vp00_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp01", (DL_FUNC)_thmam_ths_vp01_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp02", (DL_FUNC)_thmam_ths_vp02_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp10", (DL_FUNC)_thmam_ths_vp10_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp11", (DL_FUNC)_thmam_ths_vp11_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp12", (DL_FUNC)_thmam_ths_vp12_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp20", (DL_FUNC)_thmam_ths_vp20_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp21", (DL_FUNC)_thmam_ths_vp21_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_vp22", (DL_FUNC)_thmam_ths_vp22_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h00", (DL_FUNC)_thmam_ths_h00_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h01", (DL_FUNC)_thmam_ths_h01_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h02", (DL_FUNC)_thmam_ths_h02_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h10", (DL_FUNC)_thmam_ths_h10_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h11", (DL_FUNC)_thmam_ths_h11_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h12", (DL_FUNC)_thmam_ths_h12_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h20", (DL_FUNC)_thmam_ths_h20_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h21", (DL_FUNC)_thmam_ths_h21_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h22", (DL_FUNC)_thmam_ths_h22_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h00_paral", (DL_FUNC)_thmam_ths_h00_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h01_paral", (DL_FUNC)_thmam_ths_h01_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h02_paral", (DL_FUNC)_thmam_ths_h02_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h10_paral", (DL_FUNC)_thmam_ths_h10_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h11_paral", (DL_FUNC)_thmam_ths_h11_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h12_paral", (DL_FUNC)_thmam_ths_h12_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h20_paral", (DL_FUNC)_thmam_ths_h20_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h21_paral", (DL_FUNC)_thmam_ths_h21_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_ths_h22_paral", (DL_FUNC)_thmam_ths_h22_paral_try);
+    R_RegisterCCallable("thmam", "_thmam_con_v_m", (DL_FUNC)_thmam_con_v_m_try);
+    R_RegisterCCallable("thmam", "_thmam_con_n_v", (DL_FUNC)_thmam_con_n_v_try);
+    R_RegisterCCallable("thmam", "_thmam_nllk_fwd_ths", (DL_FUNC)_thmam_nllk_fwd_ths_try);
+    R_RegisterCCallable("thmam", "_thmam_nllk_fwd_ths_parallel", (DL_FUNC)_thmam_nllk_fwd_ths_parallel_try);
+    R_RegisterCCallable("thmam", "_thmam_RcppExport_validate", (DL_FUNC)_thmam_RcppExport_validate);
     return R_NilValue;
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"thmam_dcoga2dim", (DL_FUNC) &thmam_dcoga2dim, 5},
-    {"thmam_pcoga2dim_diff_shape", (DL_FUNC) &thmam_pcoga2dim_diff_shape, 5},
-    {"thmam_ths_vp00", (DL_FUNC) &thmam_ths_vp00, 6},
-    {"thmam_ths_vp01", (DL_FUNC) &thmam_ths_vp01, 6},
-    {"thmam_ths_vp02", (DL_FUNC) &thmam_ths_vp02, 6},
-    {"thmam_ths_vp10", (DL_FUNC) &thmam_ths_vp10, 6},
-    {"thmam_ths_vp11", (DL_FUNC) &thmam_ths_vp11, 6},
-    {"thmam_ths_vp12", (DL_FUNC) &thmam_ths_vp12, 6},
-    {"thmam_ths_vp20", (DL_FUNC) &thmam_ths_vp20, 6},
-    {"thmam_ths_vp21", (DL_FUNC) &thmam_ths_vp21, 6},
-    {"thmam_ths_vp22", (DL_FUNC) &thmam_ths_vp22, 6},
-    {"thmam_ths_h00", (DL_FUNC) &thmam_ths_h00, 4},
-    {"thmam_ths_h01", (DL_FUNC) &thmam_ths_h01, 4},
-    {"thmam_ths_h02", (DL_FUNC) &thmam_ths_h02, 4},
-    {"thmam_ths_h10", (DL_FUNC) &thmam_ths_h10, 4},
-    {"thmam_ths_h11", (DL_FUNC) &thmam_ths_h11, 4},
-    {"thmam_ths_h12", (DL_FUNC) &thmam_ths_h12, 4},
-    {"thmam_ths_h20", (DL_FUNC) &thmam_ths_h20, 4},
-    {"thmam_ths_h21", (DL_FUNC) &thmam_ths_h21, 4},
-    {"thmam_ths_h22", (DL_FUNC) &thmam_ths_h22, 4},
-    {"thmam_ths_h00_paral", (DL_FUNC) &thmam_ths_h00_paral, 5},
-    {"thmam_ths_h01_paral", (DL_FUNC) &thmam_ths_h01_paral, 5},
-    {"thmam_ths_h02_paral", (DL_FUNC) &thmam_ths_h02_paral, 5},
-    {"thmam_ths_h10_paral", (DL_FUNC) &thmam_ths_h10_paral, 5},
-    {"thmam_ths_h11_paral", (DL_FUNC) &thmam_ths_h11_paral, 5},
-    {"thmam_ths_h12_paral", (DL_FUNC) &thmam_ths_h12_paral, 5},
-    {"thmam_ths_h20_paral", (DL_FUNC) &thmam_ths_h20_paral, 5},
-    {"thmam_ths_h21_paral", (DL_FUNC) &thmam_ths_h21_paral, 5},
-    {"thmam_ths_h22_paral", (DL_FUNC) &thmam_ths_h22_paral, 5},
-    {"thmam_con_v_m", (DL_FUNC) &thmam_con_v_m, 1},
-    {"thmam_con_n_v", (DL_FUNC) &thmam_con_n_v, 1},
-    {"thmam_nllk_fwd_ths", (DL_FUNC) &thmam_nllk_fwd_ths, 3},
-    {"thmam_nllk_fwd_ths_parallel", (DL_FUNC) &thmam_nllk_fwd_ths_parallel, 4},
-    {"thmam_RcppExport_registerCCallable", (DL_FUNC) &thmam_RcppExport_registerCCallable, 0},
+    {"_thmam_dcoga2dim", (DL_FUNC) &_thmam_dcoga2dim, 5},
+    {"_thmam_pcoga2dim_diff_shape", (DL_FUNC) &_thmam_pcoga2dim_diff_shape, 5},
+    {"_thmam_ths_vp00", (DL_FUNC) &_thmam_ths_vp00, 6},
+    {"_thmam_ths_vp01", (DL_FUNC) &_thmam_ths_vp01, 6},
+    {"_thmam_ths_vp02", (DL_FUNC) &_thmam_ths_vp02, 6},
+    {"_thmam_ths_vp10", (DL_FUNC) &_thmam_ths_vp10, 6},
+    {"_thmam_ths_vp11", (DL_FUNC) &_thmam_ths_vp11, 6},
+    {"_thmam_ths_vp12", (DL_FUNC) &_thmam_ths_vp12, 6},
+    {"_thmam_ths_vp20", (DL_FUNC) &_thmam_ths_vp20, 6},
+    {"_thmam_ths_vp21", (DL_FUNC) &_thmam_ths_vp21, 6},
+    {"_thmam_ths_vp22", (DL_FUNC) &_thmam_ths_vp22, 6},
+    {"_thmam_ths_h00", (DL_FUNC) &_thmam_ths_h00, 4},
+    {"_thmam_ths_h01", (DL_FUNC) &_thmam_ths_h01, 4},
+    {"_thmam_ths_h02", (DL_FUNC) &_thmam_ths_h02, 4},
+    {"_thmam_ths_h10", (DL_FUNC) &_thmam_ths_h10, 4},
+    {"_thmam_ths_h11", (DL_FUNC) &_thmam_ths_h11, 4},
+    {"_thmam_ths_h12", (DL_FUNC) &_thmam_ths_h12, 4},
+    {"_thmam_ths_h20", (DL_FUNC) &_thmam_ths_h20, 4},
+    {"_thmam_ths_h21", (DL_FUNC) &_thmam_ths_h21, 4},
+    {"_thmam_ths_h22", (DL_FUNC) &_thmam_ths_h22, 4},
+    {"_thmam_ths_h00_paral", (DL_FUNC) &_thmam_ths_h00_paral, 5},
+    {"_thmam_ths_h01_paral", (DL_FUNC) &_thmam_ths_h01_paral, 5},
+    {"_thmam_ths_h02_paral", (DL_FUNC) &_thmam_ths_h02_paral, 5},
+    {"_thmam_ths_h10_paral", (DL_FUNC) &_thmam_ths_h10_paral, 5},
+    {"_thmam_ths_h11_paral", (DL_FUNC) &_thmam_ths_h11_paral, 5},
+    {"_thmam_ths_h12_paral", (DL_FUNC) &_thmam_ths_h12_paral, 5},
+    {"_thmam_ths_h20_paral", (DL_FUNC) &_thmam_ths_h20_paral, 5},
+    {"_thmam_ths_h21_paral", (DL_FUNC) &_thmam_ths_h21_paral, 5},
+    {"_thmam_ths_h22_paral", (DL_FUNC) &_thmam_ths_h22_paral, 5},
+    {"_thmam_con_v_m", (DL_FUNC) &_thmam_con_v_m, 1},
+    {"_thmam_con_n_v", (DL_FUNC) &_thmam_con_n_v, 1},
+    {"_thmam_nllk_fwd_ths", (DL_FUNC) &_thmam_nllk_fwd_ths, 3},
+    {"_thmam_nllk_fwd_ths_parallel", (DL_FUNC) &_thmam_nllk_fwd_ths_parallel, 4},
+    {"_thmam_RcppExport_registerCCallable", (DL_FUNC) &_thmam_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
 };
 
