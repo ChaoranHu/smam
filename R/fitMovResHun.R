@@ -138,3 +138,8 @@ integr.control <- function(rel.tol = .Machine$double.eps^.25,
     list(rel.tol = rel.tol, abs.tol = abs.tol, subdivisions = subdivisions)
 }
 
+
+
+.onUnload <- function (libpath) {
+  library.dynam.unload("thmam", libpath)
+}
