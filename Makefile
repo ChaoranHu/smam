@@ -31,7 +31,7 @@ preview: $(vignettes)
 
 $(tar): $(objects)
 #	@make -s updateMeta
-	Rscript -e "library(methods); devtools::document();";
+	Rscript -e "library(methods); devtools::document();"#;
 	R CMD build $(dir)
 
 $(checkLog): $(tar) $(tests)
