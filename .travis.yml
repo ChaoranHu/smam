@@ -2,8 +2,6 @@ language: r
 cache: packages
 sudo: required
 
-group: deprecated-2017Q4
-
 r:
   - oldrel
   - release
@@ -11,6 +9,7 @@ r:
 
 apt_packages:
   - libgsl0-dev
+  - libnlopt-dev
 
 r_packages:
   - devtools
