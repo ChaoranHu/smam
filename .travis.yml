@@ -1,6 +1,9 @@
 language: r
 cache: packages
 sudo: required
+
+group: deprecated-2017Q4
+
 r:
   - oldrel
   - release
@@ -11,7 +14,6 @@ apt_packages:
 
 r_packages:
   - devtools
-  - nloptr
 
 r_github_packages:
   - jimhester/covr
