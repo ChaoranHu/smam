@@ -25,44 +25,6 @@ namespace thmam {
         }
     }
 
-    inline double dcoga2dim(double x, double shape1, double shape2, double rate1, double rate2) {
-        typedef SEXP(*Ptr_dcoga2dim)(SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_dcoga2dim p_dcoga2dim = NULL;
-        if (p_dcoga2dim == NULL) {
-            validateSignature("double(*dcoga2dim)(double,double,double,double,double)");
-            p_dcoga2dim = (Ptr_dcoga2dim)R_GetCCallable("thmam", "_thmam_dcoga2dim");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_dcoga2dim(Shield<SEXP>(Rcpp::wrap(x)), Shield<SEXP>(Rcpp::wrap(shape1)), Shield<SEXP>(Rcpp::wrap(shape2)), Shield<SEXP>(Rcpp::wrap(rate1)), Shield<SEXP>(Rcpp::wrap(rate2)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<double >(rcpp_result_gen);
-    }
-
-    inline double pcoga2dim_diff_shape(double x, double shape1, double shape2, double rate1, double rate2) {
-        typedef SEXP(*Ptr_pcoga2dim_diff_shape)(SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_pcoga2dim_diff_shape p_pcoga2dim_diff_shape = NULL;
-        if (p_pcoga2dim_diff_shape == NULL) {
-            validateSignature("double(*pcoga2dim_diff_shape)(double,double,double,double,double)");
-            p_pcoga2dim_diff_shape = (Ptr_pcoga2dim_diff_shape)R_GetCCallable("thmam", "_thmam_pcoga2dim_diff_shape");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_pcoga2dim_diff_shape(Shield<SEXP>(Rcpp::wrap(x)), Shield<SEXP>(Rcpp::wrap(shape1)), Shield<SEXP>(Rcpp::wrap(shape2)), Shield<SEXP>(Rcpp::wrap(rate1)), Shield<SEXP>(Rcpp::wrap(rate2)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<double >(rcpp_result_gen);
-    }
-
     inline NumericVector ths_vp00(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p) {
         typedef SEXP(*Ptr_ths_vp00)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_ths_vp00 p_ths_vp00 = NULL;

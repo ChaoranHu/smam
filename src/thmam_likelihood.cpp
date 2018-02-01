@@ -11,35 +11,47 @@ using namespace Rcpp;
 using namespace RcppParallel;
 
 /***************** basic formula for coga *****************/
-
-// [[Rcpp::export]]
 double dcoga2dim(double x, double shape1, double shape2,
 		       double rate1, double rate2) {
   // transfer rate to scale
   double beta1 = 1 / rate1;
   double beta2 = 1 / rate2;
   
+  // gsl_set_error_handler_off();
+  // double lgam = shape1 + shape2;
+  // double parx = (1/beta1 - 1/beta2) * x;
+  // double result = pow(x, lgam - 1);
+  // result *= gsl_sf_hyperg_1F1(shape2, lgam, parx);
+  // result /= pow(beta1, shape1) * pow(beta2, shape2);
+  // result /= exp(R::lgammafn(lgam) + (x / beta1));
+  // return result;
+
   gsl_set_error_handler_off();
   double lgam = shape1 + shape2;
   double parx = (1/beta1 - 1/beta2) * x;
-  double result = pow(x, lgam - 1);
-  result *= gsl_sf_hyperg_1F1(shape2, lgam, parx);
-  result /= pow(beta1, shape1) * pow(beta2, shape2);
-  result /= exp(R::lgammafn(lgam) + (x / beta1));
+  double result = gsl_sf_hyperg_1F1(shape2, lgam, parx);
+  result *= R::dgamma(x, lgam, beta1, 0);
+  result *= pow(beta1 / beta2, shape2);
   return result;
 }
 
-
-// [[Rcpp::export]]
 double pcoga2dim_diff_shape (double x,
 			     double shape1, double shape2,
 			     double rate1, double rate2) {
   gsl_set_error_handler_off();
-  double result = pow(rate1, shape1) * pow(rate2, shape2);
+  // double result = pow(rate1, shape1) * pow(rate2, shape2);
+  // double lgam = shape1 + shape2 + 1;
+  // double parx = x * (rate1 - rate2);
+  // result *= pow(x, lgam - 1);
+  // result /= exp(R::lgammafn(lgam) + (x * rate1));
+  // result *= gsl_sf_hyperg_1F1(shape2, lgam, parx);
+  // return result;
+
+  double result = pow(rate2 / rate1, shape2);
   double lgam = shape1 + shape2 + 1;
   double parx = x * (rate1 - rate2);
-  result *= pow(x, lgam - 1);
-  result /= exp(R::lgammafn(lgam) + (x * rate1));
+  result /= rate1;
+  result *= R::dgamma(x, lgam, 1 / rate1, 0);
   result *= gsl_sf_hyperg_1F1(shape2, lgam, parx);
   return result;
 }
