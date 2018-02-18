@@ -5,7 +5,7 @@
 \alias{fitMovResHun5}
 \alias{fitMovResHun.parallel}
 \alias{fitMovResHun6}
-\title{Fit Three States Model}
+\title{Fit Three States Model (forward algrithm nllk)}
 \usage{
 fitMovResHun1(data, start, optim.control = list(),
   integrControl = integr.control())
