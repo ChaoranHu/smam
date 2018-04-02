@@ -14,7 +14,9 @@ transfData(data, dateFormat, roundValue, lengthUnit = "km")
 \item{roundValue}{Round GPS coordinate to \code{roundValue} with unit meter.}
 
 \item{lengthUnit}{Charater string indicates the length unit of GPS coordinate,
-which can be "m"(default) or "km".}
+which can be "m" or "km"(default). Usually, we recommend not change the
+default setup of this parameter. Otherwise, numerical computaion problem
+will happen.}
 }
 \value{
 A \code{data.frame} containing the following components, which is

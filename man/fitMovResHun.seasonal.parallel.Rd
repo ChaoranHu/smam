@@ -4,7 +4,8 @@
 \alias{fitMovResHun.seasonal.parallel}
 \title{Fit three states model for seasonal analysis}
 \usage{
-fitMovResHun.seasonal.parallel(data, start, lower, upper,
+fitMovResHun.seasonal.parallel(data, start, lower = c(0.001, 0.001, 0.001,
+  0.001, 0.001), upper = c(10, 10, 10, 10, 0.999),
   numThreads = RcppParallel::defaultNumThreads() * 3/4,
   integrControl = integr.control())
 }
