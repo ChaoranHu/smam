@@ -150,6 +150,7 @@ fitMovResHun.composite.parallel <- function(data, start, lower, upper,
 
 
 
+
 #' Auxiliary for Controlling Numerical Integration
 #'
 #' Auxiliary function for the numerical integration used in the
@@ -180,7 +181,3 @@ integr.control <- function(rel.tol = .Machine$double.eps^.25,
 }
 
 
-
-.onUnload <- function (libpath) {
-  library.dynam.unload("thmam", libpath)
-}
