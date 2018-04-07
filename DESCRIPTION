@@ -18,7 +18,10 @@ Imports: nloptr,
     RcppParallel,
     doParallel,
     foreach,
-    parallel
+    parallel,
+    smam,
+    methods,
+    numDeriv
 LinkingTo: Rcpp, RcppGSL, RcppParallel
 SystemRequirements: GNU GSL, GNU make, C++11
 RoxygenNote: 6.0.1

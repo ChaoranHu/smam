@@ -1,0 +1,155 @@
+## nllk_bmme_seasonal:    nllk for seasonal analysis with bmme
+##                        process.
+## ncllk_m1_inc_seasonal: composite nllk for seasonal analysis.
+## nllk_inc_seasonal:     forward algorithm nllk for seasonal analysis.
+## fitBmme.seasonal:      fit bmme model for seasonal analysis.
+## fitMovRes.seasonal:    fit a moving-resting model for seasonal analysis.
+
+
+
+## The negative log-likelihood of bmme for seasonal analysis data.
+## input:
+##        param: vector of (sigma, delta)
+##        data:  list have the *similar* format as the output from
+##               'seasonFilter' after 'prepareSeasonalFit'
+## output:
+##        negative log-likelihood of seasonal filtered data
+nllk_bmme_seasonal <- function(param, data) {
+    n.year <- length(data)
+    result <- lapply(data, smam:::nllk.bmme, param = param)
+    sum(unlist(result))
+}
+
+## The composite and forward algorithm nllk of two-states model
+## for seasonal analysis data.
+## input:
+##        theta: vector of (lambda1, lambda0, sigma)
+##        data:  list have the *similar* format as the output from
+##               'seasonFilter' after 'prepareSeasonalFit'
+##        integrControl, logtr: see smam:::ncllk_m1_inc
+## output:
+##        negative log-likelihood of seasonal filtered data
+ncllk_m1_inc_seasonal <- function(theta, data,
+                                  integrControl, logtr) {
+    n.year <- length(data)
+    result <- lapply(data, smam:::ncllk_m1_inc,
+                     theta = theta, integrControl = integrControl,
+                     logtr = logtr)
+    sum(unlist(result))
+}
+
+nllk_inc_seasonal <- function(theta, data,
+                              integrControl, logtr) {
+    n.year <- length(data)
+    result <- lapply(data, smam:::nllk_inc,
+                     theta = theta, integrControl = integrControl,
+                     logtr = logtr)
+    sum(unlist(result))
+}
+
+## obtain initial value for sigma and delta by method of moment
+## (the wrapper of 'smam:::bmme.start' for seasonal analysis data.)
+## input:
+##      dat: list with the same format as the output from 'seasonalFilter'
+## output
+##      a vector containing rough initial value of sigma 
+bmme.start.seasonal <- function(dat) {
+    dif <- prepareSeasonalFit(dat)
+    dim <- ncol(dif[[1]]) - 1
+
+    numerator <- sum(unlist(lapply(dif, function(x) {sum(x[,-1]^2)})))
+    denominator <- sum(unlist(lapply(dif, function(x) {sum(2 + x[,1])}))) * dim
+    st <- sqrt(numerator / denominator)
+    c(st, st)
+}
+
+##' Fit a bmme for seasonal analysis
+##'
+##' Fit Brownian motion with measurement error for seasonal
+##' analysis. (The document of this function should be merged
+##' to \code{smam::fitBmme}.)
+##'
+##' @param data The dataset should be fitted with the same format
+##' as the output of \code{seasonFilter}.
+##' @param start,method These two params are the same as params
+##' in \code{smam::fitBmme}.
+##' @param ... The params will be passed to \code{optim}.
+##'
+##' @return A list of fit result, which is the same as \code{optim}'s
+##' output.
+##'
+##' @importFrom stats optim
+##' @importFrom methods is
+##' @export
+fitBmme.seasonal <- function(data, start = NULL, method = "Nelder-Mead", ...) {
+    if (is.null(start)) start <- bmme.start.seasonal(data)
+    dinc <- prepareSeasonalFit(data)
+    fit <- optim(start, nllk_bmme_seasonal, data = dinc, method=method, ...)
+    
+    ## get variance estimate
+    varest <- matrix(NA_real_, 2, 2)
+    estimate <- fit$par
+    ## always do this without log transformation
+    hess <- tryCatch(numDeriv::hessian(nllk_bmme_seasonal, estimate, data = dinc),
+                     error = function(e) e)
+    if (!is(hess, "error")) varest <- solve(hess)
+    ## not -hess because objfun is negative llk already
+    
+    list(estimate    = estimate,
+         varest      = varest,
+         loglik      = -fit$value,
+         convergence = fit$convergence)
+}
+
+##' Fit a moving-resting model for seasonal analysis
+##'
+##' Fit a moving-resting model with embedded Brownian motion with
+##' seasonal data. (The document of this function should be merged
+##' to \code{smam::fitMovRes}.)
+##'
+##' @param data The dataset should be fitted with the same format
+##' as the output of \code{seasonFilter}.
+##' @param start,likelihood,logtr,method,optim.control,integrControl The
+##' same as the param from \code{smam::fitMovRes}.
+##'
+##' @return a list of estimation result, which is the same as the
+##' output from \code{smam::fitMovRes}.
+##'
+##' @importFrom stats optim
+##' @importFrom methods is
+##' @export
+fitMovRes.seasonal <- function(data, start, likelihood = c("full", "composite"),
+                               logtr = FALSE,
+                               method = "Nelder-Mead",
+                               optim.control = list(),
+                               integrControl = integr.control()) {
+    dinc <- prepareSeasonalFit(data)
+    objfun <- switch(likelihood,
+                     composite = ncllk_m1_inc_seasonal,
+                     full = nllk_inc_seasonal,
+                     stop("Not valid likelihood type.")
+                     )
+    integrControl <- unlist(integrControl)
+    fit <- optim(start, objfun, data = dinc, method = method,
+                 control = optim.control, 
+                 integrControl = integrControl, 
+                 logtr = logtr)
+    ## get variance estimate
+    varest <- matrix(NA_real_, 3, 3)
+    estimate <- if (logtr) exp(fit$par) else fit$par
+    if (likelihood == "full") {
+        ## always do this without log transformation
+        hess <- tryCatch(numDeriv::hessian(
+            objfun, estimate, data = dinc,
+            integrControl = integrControl, logtr = FALSE),
+                         error = function(e) e)
+        if (!is(hess, "error")) varest <- solve(hess)
+        ## not -hess because objfun is negative llk already
+    }
+    
+    list(estimate    = estimate,
+         varest      = varest,
+         loglik      = -fit$value,
+         convergence = fit$convergence,
+         likelihood  = likelihood)
+}
