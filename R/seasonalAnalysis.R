@@ -49,7 +49,7 @@ transfData <- function(data, dateFormat, roundValue, lengthUnit = "km") {
     centerE <- data$e1 - data$e1[1]
     centerN <- data$n1 - data$n1[1]
     result <- data.frame(date, cumTime, centerE, centerN)
-    result[, 3:4] <- round(result[, 3:4] / roundValue)
+    result[, 3:4] <- round(result[, 3:4] / roundValue) * roundValue
     if (lengthUnit == "km") {
         result[, 3:4] <- result[, 3:4] / 1000
         return(result)
@@ -73,12 +73,6 @@ dateFilter <- function(data, startDate, endDate) {
 }
 
 
-
-
-
-
-
-
 ##' Subsetting data during given season for each year.
 ##'
 ##' Return subsets of data from each year, which is in given
@@ -86,7 +80,7 @@ dateFilter <- function(data, startDate, endDate) {
 ##' defined by \code{startDate} and \code{endDate}.
 ##'
 ##' @param data The data be filtered, which has the same format
-##' as the outpur from \code{\link{transfData}}.
+##' as the output from \code{\link{transfData}}.
 ##' @param startDate,endDate Start point and end point of
 ##' time interval during a year, which has the format "MM-DD".
 ##'
@@ -131,24 +125,21 @@ prepareSeasonalFit <- function(data) {
 ## input: theta, integrControl, numThreads: are the same as
 ##               other nllk function.
 ##        data: list have the *similar* format as the output from
-##              'seasonFilter' after 'rmDate'.
+##              'seasonFilter' after 'prepareSeasonalFit'.
 ## output: negative log-likelihood of seasonal filtered data.
-
-##' @import foreach
 nllk_seasonal_parallel <- function(theta, data,
-                          integrControl, numThreads) {
+                                   integrControl, numThreads) {
     n.year <- length(data)
+    result <- numeric(n.year)
 
-    ## create parallel backend
-    cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
-    doParallel::registerDoParallel(cl)
+    grainSize <- lapply(data, function(x) {ceiling(nrow(x) / numThreads)})
+    grainSize <- unlist(grainSize)
 
-    i = 1 #Dummy line for Rstudio warnings
-    result <- foreach(i = 1:n.year) %dopar% {
-        nllk_fwd_ths(theta, data[[i]], integrControl)
+    for (i in 1:n.year) {
+        result[i] <- nllk_fwd_ths_parallel(theta, data[[i]], integrControl, grainSize[i])
     }
 
-    sum(unlist(result))
+    sum(result)
 }
 
 
@@ -168,6 +159,7 @@ nllk_seasonal_parallel <- function(theta, data,
 ##' and \code{\link{fitMovResHun.parallel}}.
 ##'
 ##' @return A list of estimation result.
+##' @seealso \code{\link{seasonFilter}}
 ##' @author Chaoran Hu
 ##' @export
 fitMovResHun.seasonal.parallel <- function(data, start,

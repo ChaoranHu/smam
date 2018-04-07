@@ -8,7 +8,7 @@ seasonFilter(data, startDate, endDate)
 }
 \arguments{
 \item{data}{The data be filtered, which has the same format
-as the outpur from \code{\link{transfData}}.}
+as the output from \code{\link{transfData}}.}
 
 \item{startDate, endDate}{Start point and end point of
 time interval during a year, which has the format "MM-DD".}

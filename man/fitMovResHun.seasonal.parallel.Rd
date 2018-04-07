@@ -27,6 +27,9 @@ will be explained in detail below. The data is actually the
 subsets of whole dataset which come from some certain period
 of each year.
 }
+\seealso{
+\code{\link{seasonFilter}}
+}
 \author{
 Chaoran Hu
 }
