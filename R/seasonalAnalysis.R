@@ -127,20 +127,39 @@ prepareSeasonalFit <- function(data) {
 ##        data: list have the *similar* format as the output from
 ##              'seasonFilter' after 'prepareSeasonalFit'.
 ## output: negative log-likelihood of seasonal filtered data.
+##' @import foreach
 nllk_seasonal_parallel <- function(theta, data,
-                                   integrControl, numThreads) {
+                          integrControl, numThreads) {
     n.year <- length(data)
-    result <- numeric(n.year)
 
-    grainSize <- lapply(data, function(x) {ceiling(nrow(x) / numThreads)})
-    grainSize <- unlist(grainSize)
+    ## create parallel backend
+    cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
+    doParallel::registerDoParallel(cl)
 
-    for (i in 1:n.year) {
-        result[i] <- nllk_fwd_ths_parallel(theta, data[[i]], integrControl, grainSize[i])
+    i = 1 #Dummy line for Rstudio warnings
+    result <- foreach(i = 1:n.year) %dopar% {
+        nllk_fwd_ths(theta, data[[i]], integrControl)
     }
 
-    sum(result)
+    sum(unlist(result))
 }
+
+## another parallel version which does not work
+## in win-server
+## nllk_seasonal_parallel <- function(theta, data,
+##                                    integrControl, numThreads) {
+##     n.year <- length(data)
+##     result <- numeric(n.year)
+
+##     grainSize <- lapply(data, function(x) {ceiling(nrow(x) / numThreads)})
+##     grainSize <- unlist(grainSize)
+
+##     for (i in 1:n.year) {
+##         result[i] <- nllk_fwd_ths_parallel(theta, data[[i]], integrControl, grainSize[i])
+##     }
+
+##     sum(result)
+## }
 
 
 
