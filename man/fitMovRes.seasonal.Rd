@@ -4,7 +4,7 @@
 \alias{fitMovRes.seasonal}
 \title{Fit a moving-resting model for seasonal analysis}
 \usage{
-fitMovRes.seasonal(data, start, likelihood = c("full", "composite"),
+fitMovRes.seasonal(data, start = NULL, likelihood = c("full", "composite"),
   logtr = FALSE, method = "Nelder-Mead", optim.control = list(),
   integrControl = integr.control())
 }

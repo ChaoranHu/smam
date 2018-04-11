@@ -51,7 +51,7 @@ nllk_inc_seasonal <- function(theta, data,
 ## (the wrapper of 'smam:::bmme.start' for seasonal analysis data.)
 ## input:
 ##      dat: list with the same format as the output from 'seasonalFilter'
-## output
+## output:
 ##      a vector containing rough initial value of sigma 
 bmme.start.seasonal <- function(dat) {
     dif <- prepareSeasonalFit(dat)
@@ -101,6 +101,42 @@ fitBmme.seasonal <- function(data, start = NULL, method = "Nelder-Mead", ...) {
          convergence = fit$convergence)
 }
 
+
+
+
+## glue all elements in a list together as a matrix
+## input:
+##        x: list, whose elements are same format data.fram
+##           or matrix.
+## output:
+##        unlist the input as a matrix.
+glue_list <- function(x) {
+    n <- length(x)
+    m <- sapply(x, nrow)
+    result <- matrix(NA_real_, sum(m), 3)
+    m <- c(0, cumsum(m))
+    for(i in 1:n) {
+        result[(m[i]+1):m[i+1],] <- x[[i]]
+    }
+    result
+}
+
+## obtain initial value for Mov-Res model for seasonal analysis
+## input:
+##      dat: list with the same format as the output from 'seasonalFilter'
+## output:
+##      a vector containing rough initial value of sigma
+##' @importFrom stats coef lm
+movres.start.seasonal <- function(dat) {
+    dat <- lapply(dat, function(x) {x[, -1]})
+    dinc <- lapply(dat, function(x) {apply(x, 2, diff)})
+    dinc <- glue_list(dinc)
+    s1 <- coef(lm(dinc[, 2]^2 ~ dinc[, 1] - 1))
+    s2 <- coef(lm(dinc[, 3]^2 ~ dinc[, 1] - 1))
+    ss <- sqrt(mean(c(s1, s2)))
+    c(0.5, 0.5, ss)
+}
+
 ##' Fit a moving-resting model for seasonal analysis
 ##'
 ##' Fit a moving-resting model with embedded Brownian motion with
@@ -118,11 +154,12 @@ fitBmme.seasonal <- function(data, start = NULL, method = "Nelder-Mead", ...) {
 ##' @importFrom stats optim
 ##' @importFrom methods is
 ##' @export
-fitMovRes.seasonal <- function(data, start, likelihood = c("full", "composite"),
+fitMovRes.seasonal <- function(data, start = NULL, likelihood = c("full", "composite"),
                                logtr = FALSE,
                                method = "Nelder-Mead",
                                optim.control = list(),
                                integrControl = integr.control()) {
+    if (is.null(start)) start <- movres.start.seasonal(data)
     dinc <- prepareSeasonalFit(data)
     objfun <- switch(likelihood,
                      composite = ncllk_m1_inc_seasonal,
