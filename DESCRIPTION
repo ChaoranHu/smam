@@ -1,25 +1,26 @@
-Package: thmam
-Title: Three States Model of Animal Movement
-Version: 0.0.0.9000
-Date: 2018-04-01
+Package: smam
+Title: Statistical Modeling of Animal Movements
+Version: 1.0.0
+Date: 2018-05-16
 Authors@R: c(
     person("Chaoran", "Hu", email = "chaoran.hu@uconn.edu", role = c("aut", "cre")),
-    person("Vladimir", "Pozdnyakov", email = "vladimir.pozdnyakov@uconn.edu", role = "ths"),
-    person("Jun", "Yan", email = "jun.yan@uconn.edu", role = "ths"))
-Description: Three states model of animal movement in R. This package is a implementation
-    of this model, and is used only for research work.
+    person("Vladimir", "Pozdnyakov", email = "vladimir.pozdnyakov@uconn.edu", role = "aut"),
+    person("Jun", "Yan", email = "jun.yan@uconn.edu", role = "aut"))
+Description: Animal movement models including moving-resting process
+    with embedded Brownian motion, Brownian motion with measurement error,
+    and moving-resting-hunting process with embedded Brownian motion.
 Depends: R (>= 3.3.0)
 License: GPL (>= 3.0)
 Encoding: UTF-8
 LazyData: true
 Imports: nloptr,
+    Matrix,
     stats,
     Rcpp,
     RcppParallel,
     doParallel,
     foreach,
     parallel,
-    smam,
     methods,
     numDeriv
 LinkingTo: Rcpp, RcppGSL, RcppParallel

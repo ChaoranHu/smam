@@ -1,22 +1,45 @@
 # README #
 
-[![Build Status](https://travis-ci.org/ChaoranHu/thmam.svg?branch=master)](https://travis-ci.org/ChaoranHu/thmam)
+[![Build Status](https://travis-ci.org/ChaoranHu/smam.svg?branch=master)](https://travis-ci.org/ChaoranHu/smam) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/smam)](https://cran.r-project.org/package=smam)
+
+
+This README would normally document whatever steps are necessary to get this application up and running.
 
 ### What is this R package for? ###
 
-* This package is a draft R package for doing research in the field of three states model of animal movement.
+* Statistical modeling of animal movements in R. Three statistcal models are provided by this package. They are moving-resting model with embedded Brownian motion, moving-resting-hunting model with embedded Brownian motion and Brownian motion with measurement error. A quick guide for this package is given as package vignette.
 
-* Version: 0.0.0.9000
+* Version: 1.0.0
+
+### How do I get set up? ###
+
+* Run the following R code.
+
+```
+## install.packages("devtools")
+devtools::install_github("ChaoranHu/smam")
+```
+
+or
+
+```
+install.packages("smam")
+```
+
+Note: The first way need your computer have development tools, but can help you follow the newest version from my github. This package includes Cpp and C codes, so you need a CPP compiler (for mac, you can use Xcode, which can be installed from Apple Store). Also, this package use GNU GSL, so you also need to install GNU GSL first. If you do not have these tools, please use second way to install from CRAN.
+
+* Run `library(smam)` to load in R.
+
+### How do I use? ###
+
+Please read the vignette of this package for more information, documentation and examples.
 
 ### Who do I talk to? ###
 
 Chaoran Hu, <chaoran.hu@uconn.edu>
 
-### Warning ###
-
-This estimation work is time comsuming and is writen by
-parallel algorithm.
-
 ### Reference ###
 
 1. Pozdnyakov, V., Hu, C., Meyer, T., and Yan, J. (2017+): On Discretely Observed Brownian Motion governed by a Continuous Time Markov Chain. Journal of Applied Probability. Under Review.
+
+2. Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415.

@@ -149,35 +149,3 @@ fitMovResHun.composite.parallel <- function(data, start, lower, upper,
 
 
 
-
-
-#' Auxiliary for Controlling Numerical Integration
-#'
-#' Auxiliary function for the numerical integration used in the
-#' likelihood and composite likelihood functions. Typically only
-#' used internally by 'fitMovRes'. 
-#'
-#' @param rel.tol relative accuracy requested.
-#' @param abs.tol absolute accuracy requested.
-#' @param subdivisions the maximum number of subintervals.
-#'
-#' @details
-#' The arguments are the same as \code{integrate}, but passed
-#' down to the C API of Rdqags used by \code{integrate}.
-#'
-#' @return
-#' A list with components named as the arguments.
-#'
-#' @export
-integr.control <- function(rel.tol = .Machine$double.eps^.25,
-                           abs.tol = rel.tol, subdivisions = 100L) {
-    if (!is.numeric(rel.tol) || rel.tol <= 0) 
-        stop("value of 'rel.tol' must be > 0")
-    if (!is.numeric(abs.tol) || abs.tol <= 0) 
-        stop("value of 'abs.tol' must be > 0")
-    if (!is.numeric(subdivisions) || subdivisions <= 0) 
-        stop("maximum number of subintervals must be > 0")
-    list(rel.tol = rel.tol, abs.tol = abs.tol, subdivisions = subdivisions)
-}
-
-

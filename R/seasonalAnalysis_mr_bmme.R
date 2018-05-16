@@ -16,7 +16,7 @@
 ##        negative log-likelihood of seasonal filtered data
 nllk_bmme_seasonal <- function(param, data) {
     n.year <- length(data)
-    result <- lapply(data, smam:::nllk.bmme, param = param)
+    result <- lapply(data, nllk.bmme, param = param)
     sum(unlist(result))
 }
 
@@ -26,13 +26,13 @@ nllk_bmme_seasonal <- function(param, data) {
 ##        theta: vector of (lambda1, lambda0, sigma)
 ##        data:  list have the *similar* format as the output from
 ##               'seasonFilter' after 'prepareSeasonalFit'
-##        integrControl, logtr: see smam:::ncllk_m1_inc
+##        integrControl, logtr: see ncllk_m1_inc
 ## output:
 ##        negative log-likelihood of seasonal filtered data
 ncllk_m1_inc_seasonal <- function(theta, data,
                                   integrControl, logtr) {
     n.year <- length(data)
-    result <- lapply(data, smam:::ncllk_m1_inc,
+    result <- lapply(data, ncllk_m1_inc,
                      theta = theta, integrControl = integrControl,
                      logtr = logtr)
     sum(unlist(result))
@@ -41,14 +41,14 @@ ncllk_m1_inc_seasonal <- function(theta, data,
 nllk_inc_seasonal <- function(theta, data,
                               integrControl, logtr) {
     n.year <- length(data)
-    result <- lapply(data, smam:::nllk_inc,
+    result <- lapply(data, nllk_inc,
                      theta = theta, integrControl = integrControl,
                      logtr = logtr)
     sum(unlist(result))
 }
 
 ## obtain initial value for sigma and delta by method of moment
-## (the wrapper of 'smam:::bmme.start' for seasonal analysis data.)
+## (the wrapper of 'bmme.start' for seasonal analysis data.)
 ## input:
 ##      dat: list with the same format as the output from 'seasonalFilter'
 ## output:
@@ -67,12 +67,12 @@ bmme.start.seasonal <- function(dat) {
 ##'
 ##' Fit Brownian motion with measurement error for seasonal
 ##' analysis. (The document of this function should be merged
-##' to \code{smam::fitBmme}.)
+##' to \code{fitBmme}.)
 ##'
 ##' @param data The dataset should be fitted with the same format
 ##' as the output of \code{seasonFilter}.
 ##' @param start,method These two params are the same as params
-##' in \code{smam::fitBmme}.
+##' in \code{fitBmme}.
 ##' @param ... The params will be passed to \code{optim}.
 ##'
 ##' @return A list of fit result, which is the same as \code{optim}'s
@@ -141,15 +141,15 @@ movres.start.seasonal <- function(dat) {
 ##'
 ##' Fit a moving-resting model with embedded Brownian motion with
 ##' seasonal data. (The document of this function should be merged
-##' to \code{smam::fitMovRes}.)
+##' to \code{fitMovRes}.)
 ##'
 ##' @param data The dataset should be fitted with the same format
 ##' as the output of \code{seasonFilter}.
 ##' @param start,likelihood,logtr,method,optim.control,integrControl The
-##' same as the param from \code{smam::fitMovRes}.
+##' same as the param from \code{fitMovRes}.
 ##'
 ##' @return a list of estimation result, which is the same as the
-##' output from \code{smam::fitMovRes}.
+##' output from \code{fitMovRes}.
 ##'
 ##' @importFrom stats optim
 ##' @importFrom methods is

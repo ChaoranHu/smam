@@ -1,15 +1,41 @@
-# CHANGES IN coga VERSION 0.2.2
+# CHANGES IN smam VERSION 1.0.0
 
 ## MAJOR CHANGES
 
-* Rewrite function `dcoga2dim` and `pcoga2dim` to make it faster and more robust.
+* Added moving-resting-hunting model with both full likelihood and composite likelihood.
 
-* Rewrite function `dcoga` to make it can handle wider ranges of parameters and x.
+* Provided tools for seasonal behavior analysis.
 
-* Add new function `dcoga_approx` and `pcoga_approx` for approximation method, that can impove the speed of code under three or more variables case.
+* Parallel code is implemented for moving-resting-hunting model to speed code up.
+
+
+
+
+# CHANGES IN smam VERSION 0.3.0
+
+## MAJOR CHANGES
+
+* Added full likelihood based hidden Markov model
+
+* Full likelihood and composite likelihood are now done with Rcpp
+
+
+
+
+# CHANGES IN smam VERSION 0.2.2
 
 ## MINOR CHANGES
 
-* Remove `microbenchmark` from *Suggests* according to the requirement from CRAN.
+* Added Depends: R (>= 3.0.0).
 
-* Move vignette to inst in order to pass the cran check with devel R.
+* Corrected double to void of C function pmr.
+
+
+
+
+# CHANGES IN smam VERSION 0.2.1
+
+## MAJOR CHANGES
+
+* First public release.
+
