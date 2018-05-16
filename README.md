@@ -51,3 +51,5 @@ Chaoran Hu, <chaoran.hu@uconn.edu>
 
 2. create a vignette.
 
+3. try git
+
