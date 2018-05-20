@@ -1,49 +1,46 @@
-##' Fit Three States Model (forward algrithm nllk)
+##' Fit a Moving-Resting-Handling Model with Embedded Brownian Motion
 ##'
-##' Fit Model using different optimation approaches. The fit1 bases on
-##' Nelder-Mead. The fit5 bases on COBYLA. The fit6 bases on BOBYQA.
+##' Fit a Moving-Resting-Handling Model with Embedded Brownian Motion with
+##' animal movement data at discretely observation times by maximizing
+##' a full likelihood. The parallel code is provided as \code{fitMovResHun.parallel},
+##' which improves the code speed significantly.
 ##'
-##' @param data The dataset should be fitted.
-##' @param start The initial value for optimization.
-##' @param optim.control The control parameter for R function optim.
+##' @param data a \code{data.frame} whose first column is the observation
+##' time, and other columns are location coordinates.
+##' @param start The initial value for optimization, in the order of rate
+##' of moving, rate of resting, rate of handling, volatility and switching
+##' probability.
+##' @param lower,upper Lower and upper bound for optimization.
 ##' @param integrControl Integration control vector includes rel.tol,
 ##' abs.tol, and subdivisions.
-##' @param grainSize Minimum chunk size for parallelization.
-##' @param numThreads Allocate the number of threads.
-##' @param lower Lower bound for optimization.
-##' @param upper Upper bound for optimization.
+##' @param numThreads int, the number of threads allocated for parallel
+##' computation. The default setup is 3/4 available threads.
 ##'
-##' @return A list of estimation result.
+##' @return A list of estimation result, with estimator, log-likelihood and
+##' convergence code from \code{nloptr}.
+##'
+##' @references
+##' Pozdnyakov, V., Elbroch, L.M., Hu, C., Meyer, T., and Yan, J. (2018+)
+##' On estimation for Brownian motion governed by telegraph process with
+##' multiple off states. (Under Review)
+##'
+##' @seealso \code{\link{rMovResHun}} for simulation.
+##'
+##' @examples
+##' ## do not run !!
+##' ## time consuming work
+##' ## set.seed(06269)
+##' ## tgrid <- seq(0, 4000, by = 8)
+##' ## dat <- rMovResHun(tgrid, 4, 0.5, 0.1, 25, 0.8, 'm')
+##' ## fitMovResHun(dat, c(4, 0.5, 0.1, 25, 0.8))
+##' ## fitMovResHun.parallel(dat, c(4, 0.5, 0.1, 25, 0.8))
 ##' 
 ##' @author Chaoran Hu
 ##' @export
-fitMovResHun1 <- function(data, start,
-                          optim.control = list(),
-                          integrControl = integr.control()) {
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    integrControl <- unlist(integrControl)
-
-    objfun <- function(theta) {
-        if (theta[1] > 0 & theta[2] > 0 & theta[3] > 0 &
-            theta[4] > 0 & theta[5] > 0 & theta[5] < 1) {
-            return(nllk_fwd_ths(theta, dinc, integrControl))
-        } else {
-            return(NA)
-        }
-    }
-    
-    fit <- stats::optim(par = start, fn = objfun,
-                        method = "Nelder-Mead",
-                        control = optim.control)
-
-    fit
-}
-
-##' @rdname fitMovResHun1
-##' @export
-fitMovResHun5 <- function(data, start, lower, upper,
-                          integrControl = integr.control()) {
+fitMovResHun <- function(data, start,
+                         lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
+                         upper = c(   10,    10,    10,    10, 0.999),
+                         integrControl = integr.control()) {
     if (!is.matrix(data)) data <- as.matrix(data)
     dinc <- apply(data, 2, diff)
     integrControl <- unlist(integrControl)
@@ -57,18 +54,26 @@ fitMovResHun5 <- function(data, start, lower, upper,
                                       "print_level" = 3,
                                       "maxeval" = 0))
 
-    fit
+    result <- list(estimate    =  fit[[18]],
+                   loglik      = -fit[[17]],
+                   convergence =  fit[[13]])
+    result
 }
 
-##' @rdname fitMovResHun1
+##' @rdname fitMovResHun
 ##' @export
-fitMovResHun.parallel <- function(data, start, lower, upper,
-                                  grainSize,
-                                  numThreads = RcppParallel::defaultNumThreads() * 3 / 4,
+fitMovResHun.parallel <- function(data, start,
+                                  lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
+                                  upper = c(   10,    10,    10,    10, 0.999),
+                                  numThreads = NULL,
                                   integrControl = integr.control()) {
+    if (is.null(numThreads)) numThreads <- RcppParallel::defaultNumThreads() * 3 / 4
+    
     if (!is.matrix(data)) data <- as.matrix(data)
     dinc <- apply(data, 2, diff)
     integrControl <- unlist(integrControl)
+
+    grainSize <- ceiling(nrow(dinc) / numThreads)
 
     ## allocate threads
     RcppParallel::setThreadOptions(numThreads = numThreads)
@@ -83,69 +88,57 @@ fitMovResHun.parallel <- function(data, start, lower, upper,
                                       "print_level" = 3,
                                       "maxeval" = 0))
 
-    fit
-}
-
-##' @rdname fitMovResHun1
-##' @export
-fitMovResHun6 <- function(data, start, lower, upper,
-                          integrControl = integr.control()) {
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    integrControl <- unlist(integrControl)
-
-    fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths,
-                          data = dinc,
-                          integrControl = integrControl,
-                          lb = lower,
-                          ub = upper,
-                          opts = list("algorithm"   = "NLOPT_LN_BOBYQA",
-                                      "print_level" = 3,
-                                      "maxeval" = 0))
-
-    fit
+    result <- list(estimate    =  fit[[18]],
+                   loglik      = -fit[[17]],
+                   convergence =  fit[[13]])
+    result
 }
 
 
-##' Fit Three States Model (composite nllk with parallel feature)
-##'
-##' Fit Model using COBYLA optimation approaches for composite negetive
-##' log likelihood.
-##'
-##' @param data The dataset should be fitted.
-##' @param start The initial value for optimization.
-##' @param lower Lower bound for optimization.
-##' @param upper Upper bound for optimization.
-##' @param groupSize int size of each group for composite likelihood.
-##' @param integrControl Integration control vector includes rel.tol,
-##' abs.tol, and subdivisions.
-##' @param numThreads Allocate the number of threads.
-##'
-##' @return A list of estimation result.
-##' 
-##' @author Chaoran Hu
-##' @export
-fitMovResHun.composite.parallel <- function(data, start, lower, upper,
-                                            groupSize,
-                                            numThreads = RcppParallel::defaultNumThreads() * 3 / 4,
-                                            integrControl = integr.control()) {
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    integrControl <- unlist(integrControl)
 
-    fit <- nloptr::nloptr(x0 = start, eval_f = nllk_composite_parallel,
-                          data = dinc,
-                          integrControl = integrControl,
-                          groupSize = groupSize,
-                          numThreads = numThreads,
-                          lb = lower,
-                          ub = upper,
-                          opts = list("algorithm"   = "NLOPT_LN_COBYLA",
-                                      "print_level" = 3,
-                                      "maxeval" = 0))
+##### do not export composite llk for MovResHun,
+##### because it is more time consuming.
 
-    fit
-}
+## composite nllk
+## nllk_composite_parallel <- function(theta, data, groupSize,
+##                                     integrControl, numThreads) {
+##     nGroup <- nrow(data) %/% groupSize
+
+##     ## create parallel backend
+##     cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
+##     doParallel::registerDoParallel(cl)
+
+##     i = 1 #Dummy line for RStudio warnings
+##     result <- foreach(i = 1:nGroup) %dopar% {
+##         dataCart <- data[((i - 1) * groupSize + 1):(i * groupSize), ]
+##         nllk_fwd_ths(theta, dataCart, integrControl)
+##     }
+
+##     sum(unlist(result))
+## }
+
+## fit base on composite nllk
+## fitMovResHun.composite.parallel <- function(data, start, lower, upper,
+##                                             groupSize,
+##                                             numThreads = RcppParallel::defaultNumThreads() * 3 / 4,
+##                                             integrControl = integr.control()) {
+##     if (!is.matrix(data)) data <- as.matrix(data)
+##     dinc <- apply(data, 2, diff)
+##     integrControl <- unlist(integrControl)
+
+##     fit <- nloptr::nloptr(x0 = start, eval_f = nllk_composite_parallel,
+##                           data = dinc,
+##                           integrControl = integrControl,
+##                           groupSize = groupSize,
+##                           numThreads = numThreads,
+##                           lb = lower,
+##                           ub = upper,
+##                           opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+##                                       "print_level" = 3,
+##                                       "maxeval" = 0))
+
+##     fit
+## }
 
 
 

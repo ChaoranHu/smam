@@ -174,8 +174,7 @@ nllk_seasonal_parallel <- function(theta, data,
 ##' @param data The dataset should be fitted, which have the same
 ##' format as the output of \code{seasonFilter}.
 ##' @param start,lower,upper,numThreads,integrControl All parameters
-##' here are the same as \code{\link{fitMovResHun.composite.parallel}}
-##' and \code{\link{fitMovResHun.parallel}}.
+##' here are the same as \code{\link{fitMovResHun.parallel}}.
 ##'
 ##' @return A list of estimation result.
 ##' @seealso \code{\link{seasonFilter}}

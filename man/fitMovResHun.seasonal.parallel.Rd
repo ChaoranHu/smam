@@ -14,8 +14,7 @@ fitMovResHun.seasonal.parallel(data, start, lower = c(0.001, 0.001, 0.001,
 format as the output of \code{seasonFilter}.}
 
 \item{start, lower, upper, numThreads, integrControl}{All parameters
-here are the same as \code{\link{fitMovResHun.composite.parallel}}
-and \code{\link{fitMovResHun.parallel}}.}
+here are the same as \code{\link{fitMovResHun.parallel}}.}
 }
 \value{
 A list of estimation result.

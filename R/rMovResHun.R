@@ -66,52 +66,55 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
     x[tt %in% time]
 }
 
-### simulation a moving-resting-staying path given a grid time #######################
+### simulation a moving-resting-handling path given a grid time #######################
 
-##' Sampling from a Moving-Resting-Staying Process with Embedded brownian Motion
+##' Sampling from a Moving-Resting-Handling Process with Embedded brownian Motion
 ##'
-##' A moving-resting-staying process consists of three states: moving, resting and staying.
+##' A moving-resting-handling process consists of three states: moving, resting and handling.
 ##' The transition between the three states is modeled by an alternating
 ##' renewal process, with expenentially distributed duration.
-##' An animal stays at the same location while resting and staying
-##' (the choice of resting and staying depends on bernoulli distribution),
-##' and moves according to a Brownian motion while moving.
+##' An animal stays at the same location while resting and handling
+##' (the choice of resting and handling depends on bernoulli distribution),
+##' and moves according to a Brownian motion while moving state.
 ##' The sequence of states is moving, resting or staying, moving, resting or staying ...
 ##' or versus
 ##'
 ##' @param time time points at which observations are to be simulated
 ##' @param lamM rate parameter of the exponential duration while moving
 ##' @param lamR rate parameter of the exponential duration while resting
-##' @param lamS rate parameter of the exponential duration while staying
+##' @param lamH rate parameter of the exponential duration while handling
 ##' @param sigma volatility parameter of the Brownian motion while moving
 ##' @param p probability of choosing resting,
-##' and 1-p is probability of choosing staying
-##' @param s0 the state at time 0, must be one of "m" or "r", for moving and
-##' resting or staying, respectively
+##' and 1-p is probability of choosing handling
+##' @param s0 the state at time 0, must be one of "m" (moving) or "r" (resting/handling).
 ##' @param dim (integer) dimension of the Brownian motion
 ##'
 ##' @return
 ##' A \code{data.frame} whose first column is the time points and whose
 ##' other columns are coordinates of the locations.
+##' 
 ##' @references
-##' Jun Yan and Vladimir Pozdnyakov (2016). smam: Statistical Modeling of Animal
-##' Movements. R package version 0.3-0. https://CRAN.R-project.org/package=smam
-##' @author Chaoran Hu
+##' Pozdnyakov, V., Elbroch, L.M., Hu, C., Meyer, T., and Yan, J. (2018+)
+##' On estimation for Brownian motion governed by telegraph process with
+##' multiple off states. (Under Review)
 ##'
+##' @seealso \code{\link{fitMovResHun}} for fitting model.
+##' 
 ##' @examples
 ##' tgrid <- seq(0, 8000, length.out=1001)
-##' dat <- rMovResHun(time=tgrid, lamM=4, lamR=0.04, lamS=0.2,
+##' dat <- rMovResHun(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
 ##'                   sigma=1000, p=0.5, s0="m", dim=2)
 ##' plot(dat$time, dat$X1, type='l')
 ##' plot(dat$time, dat$X2, type='l')
 ##' plot(dat$X1,   dat$X2, type='l')
-##' 
+##'
+##' @author Chaoran Hu
 ##' @export
-rMovResHun <- function(time, lamM, lamR, lamS, sigma, p, s0, dim = 2) {
+rMovResHun <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2) {
     stopifnot(s0 %in% c("m", "r"))
     t0moving <- as.integer(s0 == "m")
     lam1 <- lamM
-    lam2 <- c(lamR, lamS)
+    lam2 <- c(lamR, lamH)
     tmax <- time[length(time)]
     brtimes <- sim1.times.bbz.mov(tmax, lam1, lam2, p)*t0moving
              + sim1.times.bbz.sta(tmax, lam1, lam2, p)*(1 - t0moving)
