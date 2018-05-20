@@ -2,7 +2,7 @@
 % Please edit documentation in R/seasonalAnalysis_mrh.R
 \name{transfData}
 \alias{transfData}
-\title{Transfer raw dataset to the standard dataset in this package}
+\title{Transfer raw dataset to the standard dataset (seasonal analysis toolbox)}
 \usage{
 transfData(data, dateFormat, roundValue, lengthUnit = "km")
 }
@@ -38,6 +38,8 @@ which is acceptable in this packages. The raw dataset contains at least
 four components: 1. \code{t1}: data information. 2. \code{dt..hr.}: the
 difference of time between two sample points. 3. \code{e1}: the GPS
 coordinate of east-west. 4. \code{n1}: the GPS coordinate of nouth-south.
+(These weird variable names are from the original GPS data. We will
+change them in later version.)
 }
 \seealso{
 \code{\link{as.Date}} has parameter \code{format}, which is the

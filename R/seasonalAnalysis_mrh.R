@@ -9,13 +9,15 @@
 ##                                 seasonal analysis.
 
 
-##' Transfer raw dataset to the standard dataset in this package
+##' Transfer raw dataset to the standard dataset (seasonal analysis toolbox)
 ##'
 ##' Transfer the raw location dataset of animal to the standard dataset,
 ##' which is acceptable in this packages. The raw dataset contains at least
 ##' four components: 1. \code{t1}: data information. 2. \code{dt..hr.}: the
 ##' difference of time between two sample points. 3. \code{e1}: the GPS
 ##' coordinate of east-west. 4. \code{n1}: the GPS coordinate of nouth-south.
+##' (These weird variable names are from the original GPS data. We will
+##' change them in later version.)
 ##'
 ##' @param data The raw dataset.
 ##' @param dateFormat Charater string indicates the format of date variable.
@@ -73,7 +75,7 @@ dateFilter <- function(data, startDate, endDate) {
 }
 
 
-##' Subsetting data during given season for each year.
+##' Subsetting data during given season for each year (seasonal analysis toolbox)
 ##'
 ##' Return subsets of data from each year, which is in given
 ##' time interval. The time interval here is for one year and
@@ -163,28 +165,41 @@ nllk_seasonal_parallel <- function(theta, data,
 
 
 
-##' Fit three states model for seasonal analysis
+##' Fit MRH, MR, BMME Models for Seasonal Analysis (seasonal analysis toolbox)
 ##'
-##' Fit model using COBYLA optimization approach for the seasonal
-##' analysis. The special structure of data is require here, that
-##' will be explained in detail below. The data is actually the
-##' subsets of whole dataset which come from some certain period
-##' of each year.
+##' Fit a MRH, MR or BMME models, that is a wrapper of \code{\link{fitMovResHun}},
+##' \code{\link{fitMovRes}} and \code{\link{fitBmme}} separately for
+##' seasonal analysis. The special structure of data is required,
+##' that is the same as the return from \code{\link{seasonFilter}}.
+##' During seasonal analysis, the data is actually the subsets of whole
+##' dataset which come from some certain period of each year.
 ##'
 ##' @param data The dataset should be fitted, which have the same
 ##' format as the output of \code{seasonFilter}.
-##' @param start,lower,upper,numThreads,integrControl All parameters
-##' here are the same as \code{\link{fitMovResHun.parallel}}.
+##' @param start The initial value for optimization.
+##' @param lower,upper,numThreads,integrControl are the same as \code{\link{fitMovResHun}}.
+##' @param method,... are the parameters passed to \code{optim}.
+##' @param likelihood,logtr,optim.control are the same as \code{\link{fitMovRes}}.
 ##'
-##' @return A list of estimation result.
-##' @seealso \code{\link{seasonFilter}}
+##' @return A list of estimation result with the same format as
+##' corresponding normal functions.
+##' 
+##' @seealso \code{\link{fitMovResHun}} for normal fit MRH model,
+##' \code{\link{fitMovRes}} for normal fit MR model,
+##' \code{\link{fitBmme}} for normal fit BMME model,
+##' \code{\link{transfData}} for transfering original GPS data to standard
+##' format, \code{\link{seasonFilter}} for subsetting given date interval
+##' from transfered data.
+##' 
 ##' @author Chaoran Hu
 ##' @export
-fitMovResHun.seasonal.parallel <- function(data, start,
-                                           lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
-                                           upper = c(10, 10, 10, 10, 0.999),
-                                           numThreads = RcppParallel::defaultNumThreads() * 3 / 4,
-                                           integrControl = integr.control()) {
+fitMovResHun.seasonal <- function(data, start,
+                                  lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
+                                  upper = c(10, 10, 10, 10, 0.999),
+                                  numThreads = NULL,
+                                  integrControl = integr.control()) {
+    if (is.null(numThreads)) numThreads <- RcppParallel::defaultNumThreads() * 3 / 4
+    
     dinc <- prepareSeasonalFit(data)
     integrControl <- unlist(integrControl)
 
@@ -198,6 +213,9 @@ fitMovResHun.seasonal.parallel <- function(data, start,
                                       "print_level" = 3,
                                       "maxeval" = 0))
 
-    fit
+    result <- list(estimate    =  fit[[18]],
+                   loglik      = -fit[[17]],
+                   convergence =  fit[[13]])
+    result
 }
 

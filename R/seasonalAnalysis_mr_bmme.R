@@ -63,23 +63,10 @@ bmme.start.seasonal <- function(dat) {
     c(st, st)
 }
 
-##' Fit a bmme for seasonal analysis
-##'
-##' Fit Brownian motion with measurement error for seasonal
-##' analysis. (The document of this function should be merged
-##' to \code{fitBmme}.)
-##'
-##' @param data The dataset should be fitted with the same format
-##' as the output of \code{seasonFilter}.
-##' @param start,method These two params are the same as params
-##' in \code{fitBmme}.
-##' @param ... The params will be passed to \code{optim}.
-##'
-##' @return A list of fit result, which is the same as \code{optim}'s
-##' output.
-##'
+
 ##' @importFrom stats optim
 ##' @importFrom methods is
+##' @rdname fitMovResHun.seasonal
 ##' @export
 fitBmme.seasonal <- function(data, start = NULL, method = "Nelder-Mead", ...) {
     if (is.null(start)) start <- bmme.start.seasonal(data)
@@ -137,22 +124,10 @@ movres.start.seasonal <- function(dat) {
     c(0.5, 0.5, ss)
 }
 
-##' Fit a moving-resting model for seasonal analysis
-##'
-##' Fit a moving-resting model with embedded Brownian motion with
-##' seasonal data. (The document of this function should be merged
-##' to \code{fitMovRes}.)
-##'
-##' @param data The dataset should be fitted with the same format
-##' as the output of \code{seasonFilter}.
-##' @param start,likelihood,logtr,method,optim.control,integrControl The
-##' same as the param from \code{fitMovRes}.
-##'
-##' @return a list of estimation result, which is the same as the
-##' output from \code{fitMovRes}.
-##'
+
 ##' @importFrom stats optim
 ##' @importFrom methods is
+##' @rdname fitMovResHun.seasonal
 ##' @export
 fitMovRes.seasonal <- function(data, start = NULL, likelihood = c("full", "composite"),
                                logtr = FALSE,

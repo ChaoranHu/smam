@@ -2,7 +2,7 @@
 % Please edit documentation in R/seasonalAnalysis_mrh.R
 \name{seasonFilter}
 \alias{seasonFilter}
-\title{Subsetting data during given season for each year.}
+\title{Subsetting data during given season for each year (seasonal analysis toolbox)}
 \usage{
 seasonFilter(data, startDate, endDate)
 }
