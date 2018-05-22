@@ -22,7 +22,7 @@ sigma and delta.}
 }
 \value{
 A list of the following components:
-  \item{estimate }{the esimated parameter vector}
+  \item{estimate }{the estimated parameter vector}
   \item{var.est }{variance matrix of the estimator}
   \item{loglik }{loglikelihood evaluated at the estimate}
   \item{convergence}{convergence code from optim}

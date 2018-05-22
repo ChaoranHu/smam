@@ -68,13 +68,13 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 
 ### simulation a moving-resting-handling path given a grid time #######################
 
-##' Sampling from a Moving-Resting-Handling Process with Embedded brownian Motion
+##' Sampling from a Moving-Resting-Handling Process with Embedded Brownian Motion
 ##'
 ##' A moving-resting-handling process consists of three states: moving, resting and handling.
 ##' The transition between the three states is modeled by an alternating
 ##' renewal process, with expenentially distributed duration.
 ##' An animal stays at the same location while resting and handling
-##' (the choice of resting and handling depends on bernoulli distribution),
+##' (the choice of resting and handling depends on Bernoulli distribution),
 ##' and moves according to a Brownian motion while moving state.
 ##' The sequence of states is moving, resting or staying, moving, resting or staying ...
 ##' or versus

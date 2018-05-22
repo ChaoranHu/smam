@@ -55,7 +55,7 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 #'
 #' A moving-resting process consists of two states: moving and resting.
 #' The transition between the two states is modeled by an alternating
-#' renewal process, with expenentially distributed duration. An animal
+#' renewal process, with exponentially distributed duration. An animal
 #' stays at the same location while resting, and moves according to a
 #' Brownian motion while moving.
 #'
@@ -71,7 +71,7 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 #' A \code{data.frame} whose first column is the time points and whose
 #' other columns are coordinates of the locations.
 #' @references
-#' Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V.,
+#' Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,
 #' Williams, S., and Meyer, T. (2014) A moving-resting process with an
 #' embedded Brownian motion for animal movements.
 #' Population Ecology. 56(2): 401--415.

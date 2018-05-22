@@ -15,7 +15,7 @@
 ##' which is acceptable in this packages. The raw dataset contains at least
 ##' four components: 1. \code{t1}: data information. 2. \code{dt..hr.}: the
 ##' difference of time between two sample points. 3. \code{e1}: the GPS
-##' coordinate of east-west. 4. \code{n1}: the GPS coordinate of nouth-south.
+##' coordinate of east-west. 4. \code{n1}: the GPS coordinate of north-south.
 ##' (These weird variable names are from the original GPS data. We will
 ##' change them in later version.)
 ##'
@@ -24,7 +24,7 @@
 ##' @param roundValue Round GPS coordinate to \code{roundValue} with unit meter.
 ##' @param lengthUnit Charater string indicates the length unit of GPS coordinate,
 ##' which can be "m" or "km"(default). Usually, we recommend not change the
-##' default setup of this parameter. Otherwise, numerical computaion problem
+##' default setup of this parameter. Otherwise, numerical computation problem
 ##' will happen.
 ##'
 ##' @return A \code{data.frame} containing the following components, which is
@@ -36,7 +36,7 @@
 ##' from time 0 in this time line. (Time unit is hours.)
 ##'   \item centerE: the centered east-west GPS coordinate with the center is
 ##' the starting point (when \code{cumTime[1]}).
-##'   \item centerN: the centered nouth-south GPS coordinate with the center is
+##'   \item centerN: the centered north-south GPS coordinate with the center is
 ##' the starting point (when \code{cumTime[1]}).
 ##' }
 ##'
@@ -187,9 +187,9 @@ nllk_seasonal_parallel <- function(theta, data,
 ##' @seealso \code{\link{fitMovResHun}} for normal fit MRH model,
 ##' \code{\link{fitMovRes}} for normal fit MR model,
 ##' \code{\link{fitBmme}} for normal fit BMME model,
-##' \code{\link{transfData}} for transfering original GPS data to standard
+##' \code{\link{transfData}} for transferring original GPS data to standard
 ##' format, \code{\link{seasonFilter}} for subsetting given date interval
-##' from transfered data.
+##' from transferred data.
 ##' 
 ##' @author Chaoran Hu
 ##' @export

@@ -45,9 +45,9 @@ dataset which come from some certain period of each year.
 \code{\link{fitMovResHun}} for normal fit MRH model,
 \code{\link{fitMovRes}} for normal fit MR model,
 \code{\link{fitBmme}} for normal fit BMME model,
-\code{\link{transfData}} for transfering original GPS data to standard
+\code{\link{transfData}} for transferring original GPS data to standard
 format, \code{\link{seasonFilter}} for subsetting given date interval
-from transfered data.
+from transferred data.
 }
 \author{
 Chaoran Hu

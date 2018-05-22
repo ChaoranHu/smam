@@ -2,7 +2,7 @@
 % Please edit documentation in R/rMovResHun.R
 \name{rMovResHun}
 \alias{rMovResHun}
-\title{Sampling from a Moving-Resting-Handling Process with Embedded brownian Motion}
+\title{Sampling from a Moving-Resting-Handling Process with Embedded Brownian Motion}
 \usage{
 rMovResHun(time, lamM, lamR, lamH, sigma, p, s0, dim = 2)
 }
@@ -33,7 +33,7 @@ A moving-resting-handling process consists of three states: moving, resting and 
 The transition between the three states is modeled by an alternating
 renewal process, with expenentially distributed duration.
 An animal stays at the same location while resting and handling
-(the choice of resting and handling depends on bernoulli distribution),
+(the choice of resting and handling depends on Bernoulli distribution),
 and moves according to a Brownian motion while moving state.
 The sequence of states is moving, resting or staying, moving, resting or staying ...
 or versus
