@@ -8,6 +8,12 @@
 
 * Parallel code is implemented for moving-resting-hunting model to speed code up.
 
+## MINOR CHANGES
+
+* Added vignette for quick start.
+
+* Redocumented whole package.
+
 
 
 

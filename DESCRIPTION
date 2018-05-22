@@ -1,7 +1,7 @@
 Package: smam
 Title: Statistical Modeling of Animal Movements
 Version: 1.0.0
-Date: 2018-05-16
+Date: 2018-05-22
 Authors@R: c(
     person("Chaoran", "Hu", email = "chaoran.hu@uconn.edu", role = c("aut", "cre")),
     person("Vladimir", "Pozdnyakov", email = "vladimir.pozdnyakov@uconn.edu", role = "aut"),
@@ -23,7 +23,11 @@ Imports: nloptr,
     parallel,
     methods,
     numDeriv
+Suggests: R.rsp
 LinkingTo: Rcpp, RcppGSL, RcppParallel
 SystemRequirements: GNU GSL, GNU make, C++11
+VignetteBuilder: R.rsp
+BugReports: https://github.com/ChaoranHu/smam/issues
+URL: https://github.com/ChaoranHu/smam
 RoxygenNote: 6.0.1
 NeedsCompilation: yes

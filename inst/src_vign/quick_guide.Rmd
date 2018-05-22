@@ -1,6 +1,6 @@
 ---
 title: "smam: Statistical Modeling for Animal Movements"
-author: "Chaoran Hu"
+author: "Chaoran Hu, Jun Yan, Vladimir Pozdnyakov"
 fontsize: 12pt
 documentclass: article
 margin: 1in
@@ -19,18 +19,142 @@ In this vignette, we play with a mountain lion GPS dataset and quantify the
 movement behavior of lion. First of all, let us take a look at the dataset.
 
 ```{r, include=FALSE}
-load("/Users/ChaoranHu/Desktop/thmam_project/lionData/dataset/lionData.RData")
+load("f109.RData")
+```
+
+```{r, echo=TRUE}
+library(smam)
+head(f109)
+```
+
+The first column, `t1`, tells us when the observation is collected. The second column,
+`dt..hr.`, stands for the difference of time between two obvservations. The last two
+column, `e1` and `n1`, record the location information. Within this dataset, the location
+is based on the Universal Transverse Mercator mapping system. In order to play with `smam`,
+we should transfer the data to the 'standart' format.
+
+```{r, echo=TRUE}
+f109_std1 <- transfData(f109, dateFormat = '%Y-%m-%d', roundValue = 100)
+head(f109_std1)
+```
+
+By the above function, `transfData`, we modify the original GPS data with 1. rename the column;
+2. the second column become the cumulated time line; 3. the location information here is centered
+by the first observation and round to 100 meters. This data format is required for seasonal analysis.
+
+We mention that even if you do not have the same format original dataset as us, you can still
+modify them yourself, and as long as the data has the correct format, the functions in this
+package can be applied properly. The data format for overall analysis is shown below.
+
+```{r, echo = TRUE}
+f109_std2 <- f109_std1[, -1] ##simply deleted the first column date
+head(f109_std2)
+```
+
+We summary the data format by the following table.
+
+| Data formats   | f109_std1             | f109_std2                           |
+|----------------|-----------------------|-------------------------------------|
+| Analysis types | Seasonal analysis     | Overall analysis                    |
+| R funtions     | seasonFilter          |                                     |
+|                | fitBmme.seasonal      | fitBmme                             |
+|                | fitMovRes.seasonal    | fitMovRes                           |
+|                | fitMovResHun.seasonal | fitMovResHun; fitMovResHun.parallel |
+
+#2. Overall analysis
+
+In this section, we show how to play with `fitBmme`, `fitMovRes`, `fitMovResHun`
+and `fitMovResHun.parallel`. All of these functions are designed for analysis
+whole dataset. Note that the last function `fitMovResHun.parallel` is the parallel
+computation wrapper for `fitMovResHun`, which inproves the speed of code significantly.
+Because these processes are time consuming, we do not show the result in this section
+and the result is self-explained.
+
+```{r, eval=FALSE, include=TRUE}
+## Brownian motion with measurement error
+fitBmme(f109_std2)
+
+## Moving-resting process with embedded Brownian motion
+fitMovRes(f109_std2, start = c(4, 0.4, 1), likelihood = "full")
+
+## Moving-resting-hunting process with embedded Brownian motion
+fitMovResHun(f109_std2, start = c(4, 0.4, 0.1, 1, 0.5))
+fitMovResHun.parallel(f109_std2, start = c(4, 0.4, 0.1, 1, 0.5),
+                      ## number of threads allocated for parallel computation
+                      numThreads = 6)
+```
+
+#3. Seasonal analysis
+
+Most wild animal has seasonal behavior, especially in the field of movement. In order
+to apply seasonal analysis, the first step is subset the whole data with given season.
+In this section, we need to use `f109_std1` and we know the data is from 2009 to 2012.
+We are going to focus on the summer part, which in the mountain area is from June 1st
+to August 31th. The following code will return the summer part data to us, which is a
+list with each element is for one year.
+
+```{r, echo=TRUE}
+f109_summer <- seasonFilter(f109_std1,
+                            startDate = '06-01', endDate = '08-31')
+lapply(f109_summer, head)
+```
+
+Now, we can apply `fitBmme.seasonal`, `fitMovRes.seasonal`, `fitMovResHun.seasonal` on
+`f109_summer`. Because of the same result as before, we do not show the result here.
+For details of result, please read the document for each function.
+
+```{r, eval=FALSE, include=TRUE}
+## Brownian motion with measurement error
+fitBmme.seasonal(f109_summer)
+
+## Moving-resting process with embedded Brownian motion
+fitMovRes.seasonal(f109_summer, start = c(4, 0.4, 1), likelihood = "full")
+
+## Moving-resting-hunting process with embedded Brownian motion
+fitMovResHun.seasonal(f109_summer, start = c(4, 0.4, 0.1, 1, 0.5),
+                      ## number of threads allocated for parallel computation
+                      numThreads = 6)
 ```
 
 
+#4. Simulation
 
+All models in the package, `smam`, can be simulated with corresponding functions,
+`rbmme`, `rMovRes`, and `rMovResHun`. The simulation result is based on a given time
+gird.
 
+```{r, echo=TRUE}
+## create the time grid for sampling
+tgrid <- seq(0, 10, length = 1001)
 
+## simulation
+simul_bmme <- rbmme(tgrid, sigma = 1, delta = 1)
+simul_movres <- rMovRes(tgrid, lamM = 4, lamR = 0.4,
+                        sigma = 1, s0 = "m")
+simul_movreshun <- rMovResHun(tgrid, lamM = 4, lamR = 0.4, lamH = 0.1,
+                              sigma = 1, p = 0.8, s0 = "m")
 
+head(simul_bmme)
+head(simul_movres)
+head(simul_movreshun)
+```
 
+#5. High-dimension case
 
+We proudly mention that all our models and code also handle high-dimension case!
+We give a quick simulation example with moving-resting model here. Let's consider
+five dimension case.
 
+```{r, echo = TRUE}
+tgrid <- seq(0, 10, length=500)
+set.seed(123)
+## make it irregularly spaced
+tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
+dat <- rMovRes(tgrid, 1, 2, 25, "m", dim = 5)
+head(dat)
 
+fitMovRes(dat, start=c(1, 2, 25), likelihood = "full")
+```
 
 
 
