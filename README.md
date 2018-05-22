@@ -41,15 +41,9 @@ Chaoran Hu, <chaoran.hu@uconn.edu>
 
 ### Reference ###
 
-1. Pozdnyakov, V., Hu, C., Meyer, T., and Yan, J. (2017+): On Discretely Observed Brownian Motion governed by a Continuous Time Markov Chain. Journal of Applied Probability. Under Review.
+[1] Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018+): On estimation for Brownian motion governed by telegraph process with multiple off states. Under Review.
 
-2. Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415.
+[2] Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415.
 
-### to-do-list
 
-1. redocument all functions from thmam.
-
-2. create a vignette.
-
-3. try git
 
