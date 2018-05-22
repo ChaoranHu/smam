@@ -64,7 +64,7 @@ par(old.par)
 
 }
 \references{
-Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V.,
+Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,
 Williams, S., and Meyer, T. (2014) A moving-resting process with an
 embedded Brownian motion for animal movements.
 Population Ecology. 56(2): 401--415.

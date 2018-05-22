@@ -202,7 +202,7 @@ dtr.r <- function(w, t, lamM, lamR) {
 #' \code{dtm} returns the density for time in moving;
 #' \code{dtr} returns the density for time in resting.
 #' @references
-#' Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V.,
+#' Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,
 #' Williams, S., and Meyer, T. (2014) A moving-resting process with an
 #' embedded Brownian motion for animal movements.
 #' Population Ecology. 56(2): 401--415.
@@ -427,7 +427,7 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' \item{convergence}{convergence code from \code{optim}}
 #' \item{likelihood}{likelihood type (full or composite) from the input}
 #' @references
-#' Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V.,
+#' Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,
 #' Williams, S., and Meyer, T. (2014) A moving-resting process with an
 #' embedded Brownian motion for animal movements.
 #' Population Ecology. 56(2): 401--415.
