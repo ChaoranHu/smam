@@ -10,9 +10,9 @@ output: pdf_document
 #1. Introduction
 
 This package is designed for animal movement analysis. We totally implemented
-three models, Brownian motion with measurement error, moving-resting process
-with embedded Brownian motion [2,3], and moving-resting-hunting process with embedded
-Brownian motion [1]. We also provided toolbox for seasonal analysis within this
+three models, Brownian motion with measurement error [4], moving-resting process
+with embedded Brownian motion [1,2], and moving-resting-hunting process with embedded
+Brownian motion [3]. We also provided toolbox for seasonal analysis within this
 package, because wild animal usually has obvious seasonal behavior.
 
 In this vignette, we play with a mountain lion GPS dataset and quantify the
@@ -156,7 +156,35 @@ head(dat)
 fitMovRes(dat, start=c(1, 2, 25), likelihood = "full")
 ```
 
+#6. Wrapper functions
 
+After finishing the first five sections above, you have already known everything
+you need to play with this package. So, you can stop here if you want. However,
+if you want to make your code more clear and concise, you can try our wrapper
+functions, `rSmam` and `fitSmam`. The first thing first, what is a wrapper function?
+I copy this definition from Professor Bryan Hanson, "The wrapper wraps, i.e. calls,
+another function that does the real work but provides a different or more convenient
+(or more convenient for a specific purpose) interface to it or specific syntax."
+
+In this package, `rSmam` is based on `rbmme`, `rMovRes`, and `rMovResHan`.
+`fitSmam` is based on `fitBmme`, `fitMovRes`, `fitMovResHan`, `fitMovResHan.parallel`,
+`fitBmme.seasonal`, `fitMovRes.seasonal`, and `fitMovResHan.seasonal`. Let's take a
+look to the following short example and please note that these pairs of code give
+us the same result.
+
+```{r, echo=TRUE}
+## seasonal analysis with moving-resting model
+fitMovRes.seasonal(f109_summer, start = c(4, 0.4, 1), likelihood = "full")
+fitSmam(f109_summer, model = "MovRes", start = c(4, 0.4, 1), likelihood = "full")
+
+## overall analysis with moving-resting model
+fitMovRes(f109_std2, start = c(4, 0.4, 1), likelihood = "full")
+fitSmam(f109_std2, model = "MovRes", start = c(4, 0.4, 1), likelihood = "full")
+```
+
+The parameters needed by `fitSmam` and `rSmam` depend on the selected model. We recommend
+you reading the original functions' documentation to clarify which parameters should be
+given.
 
 
 
@@ -164,16 +192,13 @@ fitMovRes(dat, start=c(1, 2, 25), likelihood = "full")
 
 
 # References
-[1] Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018+) On estimation for
-Brownian motion governed by telegraph process with multiple off states. Under Review.
+[1] Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415. doi:10.1007/s10144-013-0428-8
 
-[2] Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely
-observed Brownian motion governed by telegraph process: estimation. Methodology and
-Computing in Applied Probability. To Appear.
+[2] Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability. doi:10.1007/s11009-017-9547-6.
 
-[3] Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and
-Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal
-movements. Population Ecology. 56(2): 401--415.
+[3] Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018+) On estimation for Brownian motion governed by telegraph process with multiple off states. Under Review.
+
+[4] Pozdnyakov, V. , Meyer, T. , Wang, Y. and Yan, J. (2014), On modeling animal movements using Brownian motion with measurement error. Ecology, 95: 247-253. doi:10.1890/13-0532.1
 
 
 
