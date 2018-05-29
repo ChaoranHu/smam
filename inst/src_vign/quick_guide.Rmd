@@ -1,6 +1,6 @@
 ---
 title: "smam: Statistical Modeling for Animal Movements"
-author: "Chaoran Hu, Jun Yan, Vladimir Pozdnyakov"
+author: "Jun Yan, Vladimir Pozdnyakov, Chaoran Hu"
 fontsize: 12pt
 documentclass: article
 margin: 1in
@@ -59,14 +59,14 @@ We summary the data format by the following table.
 | R funtions     | seasonFilter          |                                     |
 |                | fitBmme.seasonal      | fitBmme                             |
 |                | fitMovRes.seasonal    | fitMovRes                           |
-|                | fitMovResHun.seasonal | fitMovResHun; fitMovResHun.parallel |
+|                | fitMovResHan.seasonal | fitMovResHan; fitMovResHan.parallel |
 
 #2. Overall analysis
 
-In this section, we show how to play with `fitBmme`, `fitMovRes`, `fitMovResHun`
-and `fitMovResHun.parallel`. All of these functions are designed for analysis
-whole dataset. Note that the last function `fitMovResHun.parallel` is the parallel
-computation wrapper for `fitMovResHun`, which inproves the speed of code significantly.
+In this section, we show how to play with `fitBmme`, `fitMovRes`, `fitMovResHan`
+and `fitMovResHan.parallel`. All of these functions are designed for analysis
+whole dataset. Note that the last function `fitMovResHan.parallel` is the parallel
+computation wrapper for `fitMovResHan`, which inproves the speed of code significantly.
 Because these processes are time consuming, we do not show the result in this section
 and the result is self-explained.
 
@@ -78,8 +78,8 @@ fitBmme(f109_std2)
 fitMovRes(f109_std2, start = c(4, 0.4, 1), likelihood = "full")
 
 ## Moving-resting-hunting process with embedded Brownian motion
-fitMovResHun(f109_std2, start = c(4, 0.4, 0.1, 1, 0.5))
-fitMovResHun.parallel(f109_std2, start = c(4, 0.4, 0.1, 1, 0.5),
+fitMovResHan(f109_std2, start = c(4, 0.4, 0.1, 1, 0.5))
+fitMovResHan.parallel(f109_std2, start = c(4, 0.4, 0.1, 1, 0.5),
                       ## number of threads allocated for parallel computation
                       numThreads = 6)
 ```
@@ -99,7 +99,7 @@ f109_summer <- seasonFilter(f109_std1,
 lapply(f109_summer, head)
 ```
 
-Now, we can apply `fitBmme.seasonal`, `fitMovRes.seasonal`, `fitMovResHun.seasonal` on
+Now, we can apply `fitBmme.seasonal`, `fitMovRes.seasonal`, `fitMovResHan.seasonal` on
 `f109_summer`. Because of the same result as before, we do not show the result here.
 For details of result, please read the document for each function.
 
@@ -111,7 +111,7 @@ fitBmme.seasonal(f109_summer)
 fitMovRes.seasonal(f109_summer, start = c(4, 0.4, 1), likelihood = "full")
 
 ## Moving-resting-hunting process with embedded Brownian motion
-fitMovResHun.seasonal(f109_summer, start = c(4, 0.4, 0.1, 1, 0.5),
+fitMovResHan.seasonal(f109_summer, start = c(4, 0.4, 0.1, 1, 0.5),
                       ## number of threads allocated for parallel computation
                       numThreads = 6)
 ```
@@ -120,7 +120,7 @@ fitMovResHun.seasonal(f109_summer, start = c(4, 0.4, 0.1, 1, 0.5),
 #4. Simulation
 
 All models in the package, `smam`, can be simulated with corresponding functions,
-`rbmme`, `rMovRes`, and `rMovResHun`. The simulation result is based on a given time
+`rbmme`, `rMovRes`, and `rMovResHan`. The simulation result is based on a given time
 gird.
 
 ```{r, echo=TRUE}
@@ -131,12 +131,12 @@ tgrid <- seq(0, 10, length = 1001)
 simul_bmme <- rbmme(tgrid, sigma = 1, delta = 1)
 simul_movres <- rMovRes(tgrid, lamM = 4, lamR = 0.4,
                         sigma = 1, s0 = "m")
-simul_movreshun <- rMovResHun(tgrid, lamM = 4, lamR = 0.4, lamH = 0.1,
+simul_MovResHan <- rMovResHan(tgrid, lamM = 4, lamR = 0.4, lamH = 0.1,
                               sigma = 1, p = 0.8, s0 = "m")
 
 head(simul_bmme)
 head(simul_movres)
-head(simul_movreshun)
+head(simul_MovResHan)
 ```
 
 #5. High-dimension case

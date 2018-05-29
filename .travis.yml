@@ -13,9 +13,7 @@ apt_packages:
 
 r_packages:
   - devtools
-
-r_github_packages:
-  - jimhester/covr
+  - covr
 
 after_success:
   - Rscript -e 'covr::codecov()'
