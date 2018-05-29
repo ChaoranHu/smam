@@ -66,7 +66,7 @@ bmme.start.seasonal <- function(dat) {
 
 ##' @importFrom stats optim
 ##' @importFrom methods is
-##' @rdname fitMovResHun.seasonal
+##' @rdname fitMovResHan.seasonal
 ##' @export
 fitBmme.seasonal <- function(data, start = NULL, method = "Nelder-Mead", ...) {
     if (is.null(start)) start <- bmme.start.seasonal(data)
@@ -127,7 +127,7 @@ movres.start.seasonal <- function(dat) {
 
 ##' @importFrom stats optim
 ##' @importFrom methods is
-##' @rdname fitMovResHun.seasonal
+##' @rdname fitMovResHan.seasonal
 ##' @export
 fitMovRes.seasonal <- function(data, start = NULL, likelihood = c("full", "composite"),
                                logtr = FALSE,

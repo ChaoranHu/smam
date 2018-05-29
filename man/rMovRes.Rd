@@ -44,4 +44,9 @@ Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,
 Williams, S., and Meyer, T. (2014) A moving-resting process with an
 embedded Brownian motion for animal movements.
 Population Ecology. 56(2): 401--415.
+
+Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J.
+(2017) Discretely observed Brownian motion governed by telegraph
+process: estimation. Methodology and Computing in Applied Probability.
+doi:10.1007/s11009-017-9547-6.
 }

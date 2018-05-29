@@ -5,7 +5,7 @@
 ##                     data 'nllk_seasonal_parallel' needed.
 ## nllk_seasonal_parallel: nllk for seasonal analysis dataset
 ##                         with parallel function.
-## fitMovResHun.seasonal.parallel: fit three states model for
+## fitMovResHan.seasonal.parallel: fit three states model for
 ##                                 seasonal analysis.
 
 
@@ -167,7 +167,7 @@ nllk_seasonal_parallel <- function(theta, data,
 
 ##' Fit MRH, MR, BMME Models for Seasonal Analysis (seasonal analysis toolbox)
 ##'
-##' Fit a MRH, MR or BMME models, that is a wrapper of \code{\link{fitMovResHun}},
+##' Fit a MRH, MR or BMME models, that is a wrapper of \code{\link{fitMovResHan}},
 ##' \code{\link{fitMovRes}} and \code{\link{fitBmme}} separately for
 ##' seasonal analysis. The special structure of data is required,
 ##' that is the same as the return from \code{\link{seasonFilter}}.
@@ -177,14 +177,14 @@ nllk_seasonal_parallel <- function(theta, data,
 ##' @param data The dataset should be fitted, which have the same
 ##' format as the output of \code{seasonFilter}.
 ##' @param start The initial value for optimization.
-##' @param lower,upper,numThreads,integrControl are the same as \code{\link{fitMovResHun}}.
+##' @param lower,upper,numThreads,integrControl are the same as \code{\link{fitMovResHan}}.
 ##' @param method,... are the parameters passed to \code{optim}.
 ##' @param likelihood,logtr,optim.control are the same as \code{\link{fitMovRes}}.
 ##'
 ##' @return A list of estimation result with the same format as
 ##' corresponding normal functions.
 ##' 
-##' @seealso \code{\link{fitMovResHun}} for normal fit MRH model,
+##' @seealso \code{\link{fitMovResHan}} for normal fit MRH model,
 ##' \code{\link{fitMovRes}} for normal fit MR model,
 ##' \code{\link{fitBmme}} for normal fit BMME model,
 ##' \code{\link{transfData}} for transferring original GPS data to standard
@@ -193,7 +193,7 @@ nllk_seasonal_parallel <- function(theta, data,
 ##' 
 ##' @author Chaoran Hu
 ##' @export
-fitMovResHun.seasonal <- function(data, start,
+fitMovResHan.seasonal <- function(data, start,
                                   lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
                                   upper = c(10, 10, 10, 10, 0.999),
                                   numThreads = NULL,

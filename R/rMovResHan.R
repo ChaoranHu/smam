@@ -98,11 +98,11 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 ##' On estimation for Brownian motion governed by telegraph process with
 ##' multiple off states. (Under Review)
 ##'
-##' @seealso \code{\link{fitMovResHun}} for fitting model.
+##' @seealso \code{\link{fitMovResHan}} for fitting model.
 ##' 
 ##' @examples
 ##' tgrid <- seq(0, 8000, length.out=1001)
-##' dat <- rMovResHun(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
+##' dat <- rMovResHan(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
 ##'                   sigma=1000, p=0.5, s0="m", dim=2)
 ##' plot(dat$time, dat$X1, type='l')
 ##' plot(dat$time, dat$X2, type='l')
@@ -110,7 +110,7 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 ##'
 ##' @author Chaoran Hu
 ##' @export
-rMovResHun <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2) {
+rMovResHan <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2) {
     stopifnot(s0 %in% c("m", "r"))
     t0moving <- as.integer(s0 == "m")
     lam1 <- lamM

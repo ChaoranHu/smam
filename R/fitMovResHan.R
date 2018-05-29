@@ -2,7 +2,7 @@
 ##'
 ##' Fit a Moving-Resting-Handling Model with Embedded Brownian Motion with
 ##' animal movement data at discretely observation times by maximizing
-##' a full likelihood. The parallel code is provided as \code{fitMovResHun.parallel},
+##' a full likelihood. The parallel code is provided as \code{fitMovResHan.parallel},
 ##' which improves the code speed significantly.
 ##'
 ##' @param data a \code{data.frame} whose first column is the observation
@@ -24,20 +24,21 @@
 ##' On estimation for Brownian motion governed by telegraph process with
 ##' multiple off states. (Under Review)
 ##'
-##' @seealso \code{\link{rMovResHun}} for simulation.
+##' @seealso \code{\link{rMovResHan}} for simulation.
 ##'
 ##' @examples
-##' ## do not run !!
-##' ## time consuming work
-##' ## set.seed(06269)
-##' ## tgrid <- seq(0, 4000, by = 8)
-##' ## dat <- rMovResHun(tgrid, 4, 0.5, 0.1, 25, 0.8, 'm')
-##' ## fitMovResHun(dat, c(4, 0.5, 0.1, 25, 0.8))
-##' ## fitMovResHun.parallel(dat, c(4, 0.5, 0.1, 25, 0.8))
+##' \donttest{
+##' ## slow work, may take several hours
+##' set.seed(06269)
+##' tgrid <- seq(0, 400, by = 8)
+##' dat <- rMovResHan(tgrid, 4, 0.5, 0.1, 25, 0.8, 'm')
+##' fitMovResHan(dat, c(4, 0.5, 0.1, 25, 0.8))
+##' fitMovResHan.parallel(dat, c(4, 0.5, 0.1, 25, 0.8))
+##' }
 ##' 
 ##' @author Chaoran Hu
 ##' @export
-fitMovResHun <- function(data, start,
+fitMovResHan <- function(data, start,
                          lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
                          upper = c(   10,    10,    10,    10, 0.999),
                          integrControl = integr.control()) {
@@ -60,9 +61,9 @@ fitMovResHun <- function(data, start,
     result
 }
 
-##' @rdname fitMovResHun
+##' @rdname fitMovResHan
 ##' @export
-fitMovResHun.parallel <- function(data, start,
+fitMovResHan.parallel <- function(data, start,
                                   lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
                                   upper = c(   10,    10,    10,    10, 0.999),
                                   numThreads = NULL,
@@ -96,7 +97,7 @@ fitMovResHun.parallel <- function(data, start,
 
 
 
-##### do not export composite llk for MovResHun,
+##### do not export composite llk for MovResHan,
 ##### because it is more time consuming.
 
 ## composite nllk
@@ -118,7 +119,7 @@ fitMovResHun.parallel <- function(data, start,
 ## }
 
 ## fit base on composite nllk
-## fitMovResHun.composite.parallel <- function(data, start, lower, upper,
+## fitMovResHan.composite.parallel <- function(data, start, lower, upper,
 ##                                             groupSize,
 ##                                             numThreads = RcppParallel::defaultNumThreads() * 3 / 4,
 ##                                             integrControl = integr.control()) {

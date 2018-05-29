@@ -75,6 +75,12 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 #' Williams, S., and Meyer, T. (2014) A moving-resting process with an
 #' embedded Brownian motion for animal movements.
 #' Population Ecology. 56(2): 401--415.
+#'
+#' Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J.
+#' (2017) Discretely observed Brownian motion governed by telegraph
+#' process: estimation. Methodology and Computing in Applied Probability.
+#' doi:10.1007/s11009-017-9547-6.
+#' 
 #' @examples
 #' tgrid <- seq(0, 10, length=1001)
 #' ## make it irregularly spaced
@@ -431,6 +437,11 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' Williams, S., and Meyer, T. (2014) A moving-resting process with an
 #' embedded Brownian motion for animal movements.
 #' Population Ecology. 56(2): 401--415.
+#'
+#' Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J.
+#' (2017) Discretely observed Brownian motion governed by telegraph
+#' process: estimation. Methodology and Computing in Applied Probability.
+#' doi:10.1007/s11009-017-9547-6.
 #'
 #' @examples
 #' tgrid <- seq(0, 10, length=500)

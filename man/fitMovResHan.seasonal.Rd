@@ -4,7 +4,7 @@
 \name{fitBmme.seasonal}
 \alias{fitBmme.seasonal}
 \alias{fitMovRes.seasonal}
-\alias{fitMovResHun.seasonal}
+\alias{fitMovResHan.seasonal}
 \title{Fit MRH, MR, BMME Models for Seasonal Analysis (seasonal analysis toolbox)}
 \usage{
 fitBmme.seasonal(data, start = NULL, method = "Nelder-Mead", ...)
@@ -13,7 +13,7 @@ fitMovRes.seasonal(data, start = NULL, likelihood = c("full", "composite"),
   logtr = FALSE, method = "Nelder-Mead", optim.control = list(),
   integrControl = integr.control())
 
-fitMovResHun.seasonal(data, start, lower = c(0.001, 0.001, 0.001, 0.001,
+fitMovResHan.seasonal(data, start, lower = c(0.001, 0.001, 0.001, 0.001,
   0.001), upper = c(10, 10, 10, 10, 0.999), numThreads = NULL,
   integrControl = integr.control())
 }
@@ -27,14 +27,14 @@ format as the output of \code{seasonFilter}.}
 
 \item{likelihood, logtr, optim.control}{are the same as \code{\link{fitMovRes}}.}
 
-\item{lower, upper, numThreads, integrControl}{are the same as \code{\link{fitMovResHun}}.}
+\item{lower, upper, numThreads, integrControl}{are the same as \code{\link{fitMovResHan}}.}
 }
 \value{
 A list of estimation result with the same format as
 corresponding normal functions.
 }
 \description{
-Fit a MRH, MR or BMME models, that is a wrapper of \code{\link{fitMovResHun}},
+Fit a MRH, MR or BMME models, that is a wrapper of \code{\link{fitMovResHan}},
 \code{\link{fitMovRes}} and \code{\link{fitBmme}} separately for
 seasonal analysis. The special structure of data is required,
 that is the same as the return from \code{\link{seasonFilter}}.
@@ -42,7 +42,7 @@ During seasonal analysis, the data is actually the subsets of whole
 dataset which come from some certain period of each year.
 }
 \seealso{
-\code{\link{fitMovResHun}} for normal fit MRH model,
+\code{\link{fitMovResHan}} for normal fit MRH model,
 \code{\link{fitMovRes}} for normal fit MR model,
 \code{\link{fitBmme}} for normal fit BMME model,
 \code{\link{transfData}} for transferring original GPS data to standard
