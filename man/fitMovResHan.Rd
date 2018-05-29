@@ -43,9 +43,9 @@ which improves the code speed significantly.
 ## slow work, may take several hours
 set.seed(06269)
 tgrid <- seq(0, 400, by = 8)
-dat <- rMovResHan(tgrid, 4, 0.5, 0.1, 25, 0.8, 'm')
-fitMovResHan(dat, c(4, 0.5, 0.1, 25, 0.8))
-fitMovResHan.parallel(dat, c(4, 0.5, 0.1, 25, 0.8))
+dat <- rMovResHan(tgrid, 4, 0.5, 0.1, 5, 0.8, 'm')
+fitMovResHan(dat, c(4, 0.5, 0.1, 5, 0.8))
+fitMovResHan.parallel(dat, c(4, 0.5, 0.1, 5, 0.8))
 }
 
 }

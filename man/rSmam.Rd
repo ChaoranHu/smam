@@ -92,5 +92,5 @@ multiple off states. (Under Review)
 }
 \seealso{
 \code{\link{rbmme}}, \code{\link{rMovRes}},
-and \code{\link{rMovResHan}}.
+and \code{\link{rMovResHan}} for original functions.
 }
