@@ -116,8 +116,11 @@ rMovResHan <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2) {
     lam1 <- lamM
     lam2 <- c(lamR, lamH)
     tmax <- time[length(time)]
-    brtimes <- sim1.times.bbz.mov(tmax, lam1, lam2, p)*t0moving
-             + sim1.times.bbz.sta(tmax, lam1, lam2, p)*(1 - t0moving)
+    if (t0moving == 1) {
+        brtimes <- sim1.times.bbz.mov(tmax, lam1, lam2, p)
+    } else {
+        brtimes <- sim1.times.bbz.sta(tmax, lam1, lam2, p)
+    }
     coord <- replicate(dim, sim1.bbz(tmax, sigma, time, brtimes, t0moving))
     data.frame(time = time, coord)
 }
