@@ -1,4 +1,4 @@
-# CHANGES IN smam VERSION 1.0.0
+# CHANGES IN smam VERSION 0.4.0
 
 ## MAJOR CHANGES
 
@@ -7,6 +7,8 @@
 * Provided tools for seasonal behavior analysis.
 
 * Parallel code is implemented for moving-resting-hunting model to speed code up.
+
+* Added wrapper function which contains all three models.
 
 ## MINOR CHANGES
 

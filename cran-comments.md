@@ -32,4 +32,4 @@ There are currently no downstream dependencies for this package.
 
 ## Newer Version of R package smam
 
-The R package smam 0.3.0 has already in CRAN. This is the next version of smam. The version number of this package is 1.0.0. In this version, Chaoran Hu is added as an author and the new maintainer. The old maintainer is Professor Jun Yan (jun.yan@uconn.edu).
+The R package smam 0.3.0 has already in CRAN. This is the next version of smam. The version number of this package is 0.4.0. In this version, Chaoran Hu is added as an author and the new maintainer. The old maintainer is Professor Jun Yan (jun.yan@uconn.edu).

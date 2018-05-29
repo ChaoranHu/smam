@@ -1,16 +1,81 @@
 citHeader("To cite smam in publications use:")
 
 citEntry(entry = "Manual",
-         Title = "{smam}: Statistical Modeling of Animal Movement",
-         Author = personList(as.person("Jun Yan"),
+         title = "{smam}: Statistical Modeling of Animal Movement",
+         author = personList(as.person("Jun Yan"),
                              as.person("Vladimir Pozdnyakov"),
                              as.person("Chaoran Hu")),
-         Note = "R package version 1.0.0",
-         Year =	"2018",
-         Url = "https://github.com/ChaoranHu/smam",
+         note = "R package version 0.4.0",
+         year =	"2018",
+         url = "https://github.com/ChaoranHu/smam",
          
          textVersion = paste("Yan, J., Pozdnyakov, V., Hu, C. (2018). smam:",
                              "Statistical Modeling of Animal Movement.",
-                             "R package version 1.0.0",
+                             "R package version 0.4.0",
                              "https://github.com/ChaoranHu/smam")
+)
+
+citEntry(entry = "Article",
+         title = "On modeling animal movements using Brownian motion with measurement error",
+         author = personList(as.person("Vladimir Pozdnyakov"),
+                            as.person("Thomas Meyer"),
+                            as.person("Yubo Wang"),
+                            as.person("Jun Yan")),
+         journal = "Ecology",
+         year = "2014",
+         volume = "95",
+         number = "2",
+         pages = "247--253",
+         url = "https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/13-0532.1",
+
+         textVersion =
+  paste("Pozdnyakov, V. , Meyer, T. , Wang, Y. and Yan, J. (2014), On modeling animal movements using Brownian motion with measurement error. Ecology, 95(2): 247--253. doi:10.1890/13-0532.1")
+)
+
+citEntry(entry = "Article",
+         title = "Discretely observed Brownian motion governed by telegraph process: estimation",
+         author = personList(as.person("Vladimir Pozdnyakov"),
+                             as.person("L. Mark Elbroch"),
+                             as.person("Anthony Labarga"),
+                             as.person("Thomas Meyer"),
+                             as.person("Jun Yan")),
+         journal = "Methodology and Computing in Applied Probability",
+         year = "2017",
+         url = "https://doi.org/10.1007/s11009-017-9547-6",
+
+         textVersion =
+  paste("Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability. 10.1007/s11009-017-9547-6.")
+)
+
+citEntry(entry = "Article",
+         title = "A moving-resting process with an embedded Brownian motion for animal movements",
+         author = personList(as.person("Jun Yan"),
+                             as.person("Yung-wei Chen"),
+                             as.person("Kirstin Lawrence-Apfel"),
+                             as.person("Isaac M. Ortega"),
+                             as.person("Vladimir Pozdnyakov"),
+                             as.person("Scott Williams"),
+                             as.person("Thomas Meyer")),
+         journal = "Population Ecology",
+         year = "2014",
+         volume = "56",
+         number = "2",
+         pages = "401--415",
+         url = "https://doi.org/10.1007/s10144-013-0428-8",
+
+         textVersion =
+             paste("Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415. doi:10.1007/s10144-013-0428-8")
+)
+
+citEntry(entry = "Techreport",
+         title = "On estimation for Brownian motion governed by telegraph process with multiple off states",
+         author = personList(as.person("Vladimir Pozdnyakov"),
+                             as.person("L. Mark Elbroch"),
+                             as.person("Chaoran Hu"),
+                             as.person("Thomas Meyer"),
+                             as.person("Jun Yan")),
+         year = "2018+",
+         institution = "University of Connecticut, Department of Statistics",
+         textVersion =
+             paste("Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018+) On estimation for Brownian motion governed by telegraph process with multiple off states. Under Review.")
 )
