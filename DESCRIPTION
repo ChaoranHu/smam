@@ -11,7 +11,7 @@ Description: Animal movement models including moving-resting process
     <doi:10.1007/s10144-013-0428-8>, Pozdnyakov et al. (2017)
     <doi:10.1007/s11009-017-9547-6>, Brownian motion with
     measurement error according to Pozdnyakov et al. (2014)
-    <doi:10.1890/13-0532.1>, and moving-resting-hunting process
+    <doi:10.1890/13-0532.1>, and moving-resting-handling process
     with embedded Brownian motion Pozdnyakov et al. (2018+).
 Depends: R (>= 3.3.0)
 License: GPL (>= 3.0)

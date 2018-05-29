@@ -2,11 +2,11 @@
 
 ## MAJOR CHANGES
 
-* Added moving-resting-hunting model with both full likelihood and composite likelihood.
+* Added moving-resting-handling model with both full likelihood and composite likelihood.
 
 * Provided tools for seasonal behavior analysis.
 
-* Parallel code is implemented for moving-resting-hunting model to speed code up.
+* Parallel code is implemented for moving-resting-handling model to speed code up.
 
 * Added wrapper function which contains all three models.
 

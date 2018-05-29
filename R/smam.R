@@ -2,7 +2,7 @@
 ##'
 ##' Animal movement models including moving-resting process
 ##' with embedded Brownian motion, Brownian motion with measurement error,
-##' and moving-resting-hunting process with embedded Brownian motion.
+##' and moving-resting-handling process with embedded Brownian motion.
 ##'
 ##' @author
 ##' \itemize{
