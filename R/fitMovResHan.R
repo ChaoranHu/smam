@@ -22,7 +22,7 @@
 ##' @references
 ##' Pozdnyakov, V., Elbroch, L.M., Hu, C., Meyer, T., and Yan, J. (2018+)
 ##' On estimation for Brownian motion governed by telegraph process with
-##' multiple off states. (Under Review)
+##' multiple off states. <arXiv:1806.00849>
 ##'
 ##' @seealso \code{\link{rMovResHan}} for simulation.
 ##'

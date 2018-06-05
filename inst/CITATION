@@ -67,15 +67,21 @@ citEntry(entry = "Article",
              paste("Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415. doi:10.1007/s10144-013-0428-8")
 )
 
-citEntry(entry = "Techreport",
+citEntry(entry = "Article",
          title = "On estimation for Brownian motion governed by telegraph process with multiple off states",
          author = personList(as.person("Vladimir Pozdnyakov"),
                              as.person("L. Mark Elbroch"),
                              as.person("Chaoran Hu"),
                              as.person("Thomas Meyer"),
                              as.person("Jun Yan")),
-         year = "2018+",
-         institution = "University of Connecticut, Department of Statistics",
+         journal = "ArXiv e-prints",
+         archivePrefix = "arXiv",
+         eprint = "1806.00849",
+         primaryClass = "stat.ME",
+         year = "2018",
+         month = "jun",
+         adsurl = "http://adsabs.harvard.edu/abs/2018arXiv180600849P",
+         adsnote = "Provided by the SAO/NASA Astrophysics Data System",
          textVersion =
-             paste("Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018+) On estimation for Brownian motion governed by telegraph process with multiple off states. Under Review.")
+             paste("Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018+) On estimation for Brownian motion governed by telegraph process with multiple off states. <arXiv:1806.00849>")
 )

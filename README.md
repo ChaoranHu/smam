@@ -45,6 +45,6 @@ Chaoran Hu, <chaoran.hu@uconn.edu>
 
 [2] Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability. doi:10.1007/s11009-017-9547-6.
 
-[3] Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018+) On estimation for Brownian motion governed by telegraph process with multiple off states. Under Review.
+[3] Pozdnyakov, V., Elbroch, L., Hu, C., Meyer, T., and Yan, J. (2018) On estimation for Brownian motion governed by telegraph process with multiple off states. <arXiv:1806.00849>
 
 [4] Pozdnyakov, V. , Meyer, T. , Wang, Y. and Yan, J. (2014), On modeling animal movements using Brownian motion with measurement error. Ecology, 95: 247-253. doi:10.1890/13-0532.1
