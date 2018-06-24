@@ -165,6 +165,10 @@ nllk_fwd_ths_parallel <- function(theta, data, integrControl, grainSize) {
     .Call('_smam_nllk_fwd_ths_parallel', PACKAGE = 'smam', theta, data, integrControl, grainSize)
 }
 
+fwd_bwd_ths <- function(theta, data, integrControl) {
+    .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('_smam_RcppExport_registerCCallable', PACKAGE = 'smam')

@@ -1723,4 +1723,82 @@ double nllk_fwd_ths_parallel(NumericVector &theta, NumericMatrix &data,
 }
 
 
+/******************************************************************************
+ ****************** forward variables and backward variables ******************
+ **************************** normalized variables ****************************
+ ******************************* serial version *******************************
+ ******************************************************************************/
+
+// [[Rcpp::export]]
+NumericMatrix fwd_bwd_ths(NumericVector &theta, NumericMatrix &data,
+	                  NumericVector &integrControl) {
+  // theta lambda0, lambda1, lambda2, sigma, p
+  // data diff of t and x
+  int n = data.nrow(); int dim = data.ncol() - 1;
+  double lambda0 = theta[0], lambda1 = theta[1], lambda2 = theta[2];
+  double p = theta[4];
+  if (lambda1 < lambda2) return NA_REAL;
+  double ps0 = 1. / lambda0 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps1 = p / lambda1 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps2 = (1 - p) / lambda2 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  NumericVector tt = data.column(0);
+  NumericMatrix x = data(Range(0, n - 1), Range(1, dim));
+
+  // result matrix: frist three col for forward
+  //                last  three col for backward
+  NumericMatrix result(n + 1, 6);
+  result(0, 0) = ps0; result(0, 1) = ps1; result(0, 2) = ps2;
+  result(n, 3) =   1; result(n, 4) =   1; result(n, 5) =   1;
+  NumericVector dx(n);
+
+  // calculate all h functions
+  NumericVector
+    hresult00 = ths_h00(x, tt, theta, integrControl),
+    hresult01 = ths_h01(x, tt, theta, integrControl),
+    hresult02 = ths_h02(x, tt, theta, integrControl),
+    hresult10 = ths_h10(x, tt, theta, integrControl),
+    hresult11 = ths_h11(x, tt, theta, integrControl),
+    hresult12 = ths_h12(x, tt, theta, integrControl),
+    hresult20 = ths_h20(x, tt, theta, integrControl),
+    hresult21 = ths_h21(x, tt, theta, integrControl),
+    hresult22 = ths_h22(x, tt, theta, integrControl);
+  
+  for (int i = 0; i < n; i++) {
+    NumericVector crow = x.row(i);
+    if (is_true(all(crow == 0.))) {
+      hresult00[i] = 0.;
+      hresult01[i] = 0.;
+      hresult02[i] = 0.;
+      hresult10[i] = 0.;
+      hresult11[i] = exp(-lambda1 * tt[i]);
+      hresult12[i] = 0.;
+      hresult20[i] = 0.;
+      hresult21[i] = 0.;
+      hresult22[i] = exp(-lambda2 * tt[i]);
+    }
+  }
+
+  // forward algorithm
+  for (int i = 0; i < n; i++) {
+    double sumf0 = result(i, 0) * hresult00[i] + result(i, 1) * hresult10[i] + result(i, 2) * hresult20[i];
+    double sumf1 = result(i, 0) * hresult01[i] + result(i, 1) * hresult11[i] + result(i, 2) * hresult21[i];
+    double sumf2 = result(i, 0) * hresult02[i] + result(i, 1) * hresult12[i] + result(i, 2) * hresult22[i];
+    dx[i] = sumf0 + sumf1 + sumf2;
+    result(i + 1, 0) = sumf0 / dx[i];
+    result(i + 1, 1) = sumf1 / dx[i];
+    result(i + 1, 2) = sumf2 / dx[i];
+  }
+
+  //backward algorithm
+  for (int i = 0; i < n; i++) {
+    double sumb0 = result(n-i, 3) * hresult00[n-i-1] + result(n-i, 4) * hresult01[n-i-1] + result(n-i, 5) * hresult02[n-i-1];
+    double sumb1 = result(n-i, 3) * hresult10[n-i-1] + result(n-i, 4) * hresult11[n-i-1] + result(n-i, 5) * hresult12[n-i-1];
+    double sumb2 = result(n-i, 3) * hresult20[n-i-1] + result(n-i, 4) * hresult21[n-i-1] + result(n-i, 5) * hresult22[n-i-1];
+    result(n-i-1, 3) = sumb0 / dx[n-i-1];
+    result(n-i-1, 4) = sumb1 / dx[n-i-1];
+    result(n-i-1, 5) = sumb2 / dx[n-i-1];
+  }
+
+  return result;
+}
 
