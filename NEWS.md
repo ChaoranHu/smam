@@ -10,6 +10,8 @@
 
 * Added wrapper function which contains all three models.
 
+* Added code for estimating state at given time point in MRH model.
+
 ## MINOR CHANGES
 
 * Added vignette for quick start.
