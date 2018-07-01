@@ -97,14 +97,27 @@ dateFilter <- function(data, startDate, endDate) {
 seasonFilter <- function(data, startDate, endDate) {
     year <- unique(format(data[, 1], "%Y"))
     n.year <- length(year)
-    result <- vector('list', n.year)
+    startMth <- as.numeric(substr(startDate, 1, 2))
+    endMth <- as.numeric(substr(endDate, 1, 2))
 
-    for(i in 1:n.year) {
-        startday <- paste(year[i], "-", startDate, sep = "")
-        endday <- paste(year[i], "-", endDate, sep = "")
-        result[[i]] <- dateFilter(data, startday, endday)
+    if (startMth > endMth) {
+        result <- vector('list', n.year - 1)
+        
+        for(i in 1:(n.year-1)) {
+            startday <- paste(year[i], "-", startDate, sep = "")
+            endday <- paste(year[i+1], "-", endDate, sep = "")
+            result[[i]] <- dateFilter(data, startday, endday)
+        }
+    } else {
+        result <- vector('list', n.year)
+
+        for(i in 1:n.year) {
+            startday <- paste(year[i], "-", startDate, sep = "")
+            endday <- paste(year[i], "-", endDate, sep = "")
+            result[[i]] <- dateFilter(data, startday, endday)
+        }
     }
-
+    
     ## delete list elements with length 0
     zero.label <- sapply(result, nrow) != 0
     result[zero.label]
