@@ -1802,3 +1802,85 @@ NumericMatrix fwd_bwd_ths(NumericVector &theta, NumericMatrix &data,
   return result;
 }
 
+
+
+
+
+/******************************************************************************
+ ******************************* Viterbi Algorithm ****************************
+ ******************************* serial version *******************************
+ ****************** note that the result is log-likelihood of path ************
+ ******************************************************************************/
+
+// [[Rcpp::export]]
+NumericMatrix viterbi_ths(NumericVector &theta, NumericMatrix &data,
+	                  NumericVector &integrControl) {
+  // theta lambda0, lambda1, lambda2, sigma, p
+  // data diff of t and x
+  int n = data.nrow(); int dim = data.ncol() - 1;
+  double lambda0 = theta[0], lambda1 = theta[1], lambda2 = theta[2];
+  double p = theta[4];
+  if (lambda1 < lambda2) return NA_REAL;
+  double ps0 = 1. / lambda0 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps1 = p / lambda1 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  double ps2 = (1 - p) / lambda2 / (1. / lambda0 + p / lambda1 + (1 - p) / lambda2);
+  NumericVector tt = data.column(0);
+  NumericMatrix x = data(Range(0, n - 1), Range(1, dim));
+
+  // result matrix: three cols stand for Viterbi prob of state 0,1,2
+  //                at current time points. For numerical reason,
+  //                the log-prob is returned.
+  NumericMatrix result(n + 1, 3);
+  result(0, 0) = log(ps0); result(0, 1) = log(ps1); result(0, 2) = log(ps2);
+  NumericVector cartV = result.row(0);
+  NumericVector cartW(3);
+
+  // calculate all h functions
+  NumericVector
+    hresult00 = ths_h00(x, tt, theta, integrControl),
+    hresult01 = ths_h01(x, tt, theta, integrControl),
+    hresult02 = ths_h02(x, tt, theta, integrControl),
+    hresult10 = ths_h10(x, tt, theta, integrControl),
+    hresult11 = ths_h11(x, tt, theta, integrControl),
+    hresult12 = ths_h12(x, tt, theta, integrControl),
+    hresult20 = ths_h20(x, tt, theta, integrControl),
+    hresult21 = ths_h21(x, tt, theta, integrControl),
+    hresult22 = ths_h22(x, tt, theta, integrControl);
+  
+  for (int i = 0; i < n; i++) {
+    NumericVector crow = x.row(i);
+    if (is_true(all(crow == 0.))) {
+      hresult00[i] = 0.;
+      hresult01[i] = 0.;
+      hresult02[i] = 0.;
+      hresult10[i] = 0.;
+      hresult11[i] = exp(-lambda1 * tt[i]);
+      hresult12[i] = 0.;
+      hresult20[i] = 0.;
+      hresult21[i] = 0.;
+      hresult22[i] = exp(-lambda2 * tt[i]);
+    }
+  }
+
+  // calculate Viterbi path
+  for (int i = 1; i <= n; i++) {
+    cartW[0] = cartV[0] + log(hresult00[i - 1]);
+    cartW[1] = cartV[1] + log(hresult10[i - 1]);
+    cartW[2] = cartV[2] + log(hresult20[i - 1]);
+    result(i, 0) = max(cartW);
+
+    cartW[0] = cartV[0] + log(hresult01[i - 1]);
+    cartW[1] = cartV[1] + log(hresult11[i - 1]);
+    cartW[2] = cartV[2] + log(hresult21[i - 1]);
+    result(i, 1) = max(cartW);
+
+    cartW[0] = cartV[0] + log(hresult02[i - 1]);
+    cartW[1] = cartV[1] + log(hresult12[i - 1]);
+    cartW[2] = cartV[2] + log(hresult22[i - 1]);
+    result(i, 2) = max(cartW);
+
+    cartV = result.row(i);
+  }
+
+  return result;
+}

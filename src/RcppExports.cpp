@@ -1414,6 +1414,38 @@ RcppExport SEXP _smam_fwd_bwd_ths(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrCont
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// viterbi_ths
+NumericMatrix viterbi_ths(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl);
+static SEXP _smam_viterbi_ths_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericVector& >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type integrControl(integrControlSEXP);
+    rcpp_result_gen = Rcpp::wrap(viterbi_ths(theta, data, integrControl));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_viterbi_ths(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_viterbi_ths_try(thetaSEXP, dataSEXP, integrControlSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 
 // validate (ensure exported C++ functions exist before calling them)
 static int _smam_RcppExport_validate(const char* sig) { 
@@ -1461,6 +1493,7 @@ static int _smam_RcppExport_validate(const char* sig) {
         signatures.insert("double(*nllk_fwd_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("double(*nllk_fwd_ths_parallel)(NumericVector&,NumericMatrix&,NumericVector&,int)");
         signatures.insert("NumericMatrix(*fwd_bwd_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
+        signatures.insert("NumericMatrix(*viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -1509,6 +1542,7 @@ RcppExport SEXP _smam_RcppExport_registerCCallable() {
     R_RegisterCCallable("smam", "_smam_nllk_fwd_ths", (DL_FUNC)_smam_nllk_fwd_ths_try);
     R_RegisterCCallable("smam", "_smam_nllk_fwd_ths_parallel", (DL_FUNC)_smam_nllk_fwd_ths_parallel_try);
     R_RegisterCCallable("smam", "_smam_fwd_bwd_ths", (DL_FUNC)_smam_fwd_bwd_ths_try);
+    R_RegisterCCallable("smam", "_smam_viterbi_ths", (DL_FUNC)_smam_viterbi_ths_try);
     R_RegisterCCallable("smam", "_smam_RcppExport_validate", (DL_FUNC)_smam_RcppExport_validate);
     return R_NilValue;
 }
@@ -1559,6 +1593,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_smam_nllk_fwd_ths", (DL_FUNC) &_smam_nllk_fwd_ths, 3},
     {"_smam_nllk_fwd_ths_parallel", (DL_FUNC) &_smam_nllk_fwd_ths_parallel, 4},
     {"_smam_fwd_bwd_ths", (DL_FUNC) &_smam_fwd_bwd_ths, 3},
+    {"_smam_viterbi_ths", (DL_FUNC) &_smam_viterbi_ths, 3},
     {"_smam_RcppExport_registerCCallable", (DL_FUNC) &_smam_RcppExport_registerCCallable, 0},
     {"pmm", (DL_FUNC) &pmm, 6},
     {"pmr", (DL_FUNC) &pmr, 6},

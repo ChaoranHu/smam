@@ -169,6 +169,10 @@ fwd_bwd_ths <- function(theta, data, integrControl) {
     .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
 }
 
+viterbi_ths <- function(theta, data, integrControl) {
+    .Call('_smam_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl)
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('_smam_RcppExport_registerCCallable', PACKAGE = 'smam')

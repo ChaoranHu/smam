@@ -823,6 +823,25 @@ namespace smam {
         return Rcpp::as<NumericMatrix >(rcpp_result_gen);
     }
 
+    inline NumericMatrix viterbi_ths(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl) {
+        typedef SEXP(*Ptr_viterbi_ths)(SEXP,SEXP,SEXP);
+        static Ptr_viterbi_ths p_viterbi_ths = NULL;
+        if (p_viterbi_ths == NULL) {
+            validateSignature("NumericMatrix(*viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
+            p_viterbi_ths = (Ptr_viterbi_ths)R_GetCCallable("smam", "_smam_viterbi_ths");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_viterbi_ths(Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(data)), Shield<SEXP>(Rcpp::wrap(integrControl)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<NumericMatrix >(rcpp_result_gen);
+    }
+
 }
 
 #endif // RCPP_smam_RCPPEXPORTS_H_GEN_
