@@ -96,16 +96,21 @@ dateFilter <- function(data, startDate, endDate) {
 ##' @export
 seasonFilter <- function(data, startDate, endDate) {
     year <- unique(format(data[, 1], "%Y"))
+    year <- as.numeric(year)
     n.year <- length(year)
     startMth <- as.numeric(substr(startDate, 1, 2))
     endMth <- as.numeric(substr(endDate, 1, 2))
 
     if (startMth > endMth) {
-        result <- vector('list', n.year - 1)
+        minyear <- min(year)
+        maxyear <- max(year)
+        myyear <- c(minyear - 1, minyear:maxyear)
+        n_myyear <- length(myyear)
+        result <- vector('list', n_myyear)
         
-        for(i in 1:(n.year-1)) {
-            startday <- paste(year[i], "-", startDate, sep = "")
-            endday <- paste(year[i+1], "-", endDate, sep = "")
+        for(i in 1:n_myyear) {
+            startday <- paste(myyear[i], "-", startDate, sep = "")
+            endday <- paste(myyear[i] + 1, "-", endDate, sep = "")
             result[[i]] <- dateFilter(data, startday, endday)
         }
     } else {
