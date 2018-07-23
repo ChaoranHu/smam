@@ -3,11 +3,15 @@
 \name{fitStateMRH}
 \alias{fitStateMRH}
 \alias{fitViterbiMRH}
+\alias{fitPartialViterbiMRH}
 \title{Estimation of states at each time point with Moving-Resting-Handling Process}
 \usage{
 fitStateMRH(data, theta, integrControl = integr.control())
 
 fitViterbiMRH(data, theta, integrControl = integr.control())
+
+fitPartialViterbiMRH(data, theta, startpoint, pathlength,
+  integrControl = integr.control())
 }
 \arguments{
 \item{data}{a \code{data.frame} whose first column is the observation
@@ -19,6 +23,10 @@ and switching probability.}
 
 \item{integrControl}{Integration control vector includes rel.tol,
 abs.tol, and subdivisions.}
+
+\item{startpoint}{Start time point of interested time interval.}
+
+\item{pathlength}{the length of interested time interval.}
 }
 \value{
 A \code{data.frame} contains estimated results, with elements:
@@ -26,8 +34,9 @@ A \code{data.frame} contains estimated results, with elements:
  \item original data be estimated.
  \item conditional probability of moving, resting, handling (\code{p.m},
 \code{p.r}, \code{p.h}), which is \eqn{Pr(S(t = t_k) = s_k | X)} for
-\code{fitStateMRH} and \eqn{log-Pr(s_0, ..., s_k | X_k)} for
-\code{fitViterbiMRH}, where \eqn{X_k} is \eqn{(X_0, ..., X_k)}.
+\code{fitStateMRH}; \eqn{log-Pr(s_0, ..., s_k | X_k)} for
+\code{fitViterbiMRH}, where \eqn{X_k} is \eqn{(X_0, ..., X_k)};
+and \eqn{log-Pr(s_k, ..., s_{k+q-1}|X)} for \code{fitPartialViterbiMRH}.
  \item estimated states with 0-moving, 1-resting, 2-handling.
 }
 }
@@ -35,7 +44,8 @@ A \code{data.frame} contains estimated results, with elements:
 Estimate the state at each time point under the Moving-Resting-Handling
 process with Embedded Brownian Motion with animal movement data at
 discretely time points. See the difference between \code{fitStateMRH}
-and \code{fitViterbiMRH} in detail part.
+and \code{fitViterbiMRH} in detail part. Using \code{fitPartialViterbiMRH}
+to estimate the state during a small piece of time interval.
 }
 \details{
 \code{fitStateMRH} estimates the most likely state by maximizing
@@ -44,9 +54,15 @@ data and \eqn{s_k} is the possible sates at \eqn{t_k} (moving, resting
 or handling).
 
 \code{fitViterbiMRH} estimates the most likely state path by maximizing
-\eqn{Pr(S(t = 0) = s_0, S(t = 1) = s_1, ..., S(t = n) = s_n | X)}, where
+\eqn{Pr(S(t = t_0) = s_0, S(t = t_1) = s_1, ..., S(t = t_n) = s_n | X)}, where
 X is the whole data and \eqn{s_0, s_1, ..., s_n} is the possible
 state path.
+
+\code{fitPartialViterbiMRH} estimates the most likely state path of
+a small peice of time interval, by maximizing the probability of
+\eqn{Pr(S(t = t_k) = s_k, ..., S(t = t_{k+q-1}) = s_{k+q-1} | X)},
+where \eqn{k} is the start time point and \eqn{q} is the length of interested
+time interval.
 }
 \examples{
 \donttest{
@@ -55,6 +71,7 @@ tgrid <- seq(0, 400, by = 8)
 dat <- rMovResHan(tgrid, 4, 0.5, 0.1, 5, 0.8, 'm')
 fitStateMRH(dat, c(4, 0.5, 0.1, 5, 0.8))
 fitViterbiMRH(dat, c(4, 0.5, 0.1, 5, 0.8))
+fitPartialViterbiMRH(dat, c(4, 0.5, 0.1, 5, 0.8), 20, 10)
 }
 
 }

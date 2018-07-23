@@ -173,6 +173,10 @@ viterbi_ths <- function(theta, data, integrControl) {
     .Call('_smam_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl)
 }
 
+partial_viterbi_ths <- function(theta, data, integrControl, startpoint, pathlength) {
+    .Call('_smam_partial_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl, startpoint, pathlength)
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('_smam_RcppExport_registerCCallable', PACKAGE = 'smam')
