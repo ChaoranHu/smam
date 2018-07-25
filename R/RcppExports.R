@@ -41,6 +41,18 @@ nllk_inc <- function(theta, data, integrControl, logtr) {
     .Call('_smam_nllk_inc', PACKAGE = 'smam', theta, data, integrControl, logtr)
 }
 
+fwd_bwd_ths <- function(theta, data, integrControl) {
+    .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
+}
+
+viterbi_ths <- function(theta, data, integrControl) {
+    .Call('_smam_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl)
+}
+
+partial_viterbi_ths <- function(theta, data, integrControl, startpoint, pathlength) {
+    .Call('_smam_partial_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl, startpoint, pathlength)
+}
+
 ths_vp00 <- function(vs, t, lambda0, lambda1, lambda2, p) {
     .Call('_smam_ths_vp00', PACKAGE = 'smam', vs, t, lambda0, lambda1, lambda2, p)
 }
@@ -163,18 +175,6 @@ nllk_fwd_ths <- function(theta, data, integrControl) {
 
 nllk_fwd_ths_parallel <- function(theta, data, integrControl, grainSize) {
     .Call('_smam_nllk_fwd_ths_parallel', PACKAGE = 'smam', theta, data, integrControl, grainSize)
-}
-
-fwd_bwd_ths <- function(theta, data, integrControl) {
-    .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
-}
-
-viterbi_ths <- function(theta, data, integrControl) {
-    .Call('_smam_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl)
-}
-
-partial_viterbi_ths <- function(theta, data, integrControl, startpoint, pathlength) {
-    .Call('_smam_partial_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl, startpoint, pathlength)
 }
 
 # Register entry points for exported C++ functions
