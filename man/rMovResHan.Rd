@@ -4,7 +4,7 @@
 \alias{rMovResHan}
 \title{Sampling from a Moving-Resting-Handling Process with Embedded Brownian Motion}
 \usage{
-rMovResHan(time, lamM, lamR, lamH, sigma, p, s0, dim = 2)
+rMovResHan(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE)
 }
 \arguments{
 \item{time}{time points at which observations are to be simulated}
@@ -23,10 +23,14 @@ and 1-p is probability of choosing handling}
 \item{s0}{the state at time 0, must be one of "m" (moving) or "r" (resting/handling).}
 
 \item{dim}{(integer) dimension of the Brownian motion}
+
+\item{state}{indicates whether the simulation show the states at given
+time points.}
 }
 \value{
 A \code{data.frame} whose first column is the time points and whose
-other columns are coordinates of the locations.
+other columns are coordinates of the locations. If \code{state} is
+\code{TRUE}, the second column will be the simulation state.
 }
 \description{
 A moving-resting-handling process consists of three states: moving, resting and handling.
@@ -39,12 +43,19 @@ The sequence of states is moving, resting or staying, moving, resting or staying
 or versus
 }
 \examples{
+set.seed(06269)
 tgrid <- seq(0, 8000, length.out=1001)
 dat <- rMovResHan(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
                   sigma=1000, p=0.5, s0="m", dim=2)
 plot(dat$time, dat$X1, type='l')
 plot(dat$time, dat$X2, type='l')
 plot(dat$X1,   dat$X2, type='l')
+
+set.seed(06269) ## show the usage of state
+dat2 <- rMovResHan(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
+                   sigma=1000, p=0.5, s0="m", dim=2, state=TRUE)
+head(dat)
+head(dat2)
 
 }
 \references{

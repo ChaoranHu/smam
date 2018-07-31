@@ -4,18 +4,21 @@
 sim1.times.bbz.mov <- function(s, lam1, lam2, p) {
     tsum <- 0
     tt <- NULL
+    state <- NULL
     while (TRUE) {
         tnew <- stats::rexp(1, rate=lam1)
         tsum <- tsum + tnew
         tt <- c(tt, tsum)
+        state <- c(state, 0)
         if (tsum > s) break
         ind <- stats::rbinom(1, size=1, prob=p) ## the prob of choosing lam2[1] is p
         tnew <- stats::rexp(1, rate=lam2[1])*ind + stats::rexp(1, rate=lam2[2])*(1-ind)
         tsum <- tsum + tnew
         tt <- c(tt, tsum)
+        state <- c(state, (2 - ind))
         if (tsum > s) break
     }
-    tt
+    cbind(tt, state)
 }
 
 ## simulation of breaking time points
@@ -24,18 +27,21 @@ sim1.times.bbz.mov <- function(s, lam1, lam2, p) {
 sim1.times.bbz.sta <- function(s, lam1, lam2, p) {
     tsum <- 0
     tt <- NULL
+    state <- NULL
     while (TRUE) {
         ind <- stats::rbinom(1, size=1, prob=p) ## the prob of choosing lam2 is p
         tnew <- stats::rexp(1, rate=lam2[1])*ind + stats::rexp(1, rate=lam2[2])*(1-ind)
         tsum <- tsum + tnew
         tt <- c(tt, tsum)
+        state <- c(state, (2 - ind))
         if (tsum > s) break
         tnew <- stats::rexp(1, rate=lam1)
         tsum <- tsum + tnew
         tt <- c(tt, tsum)
+        state <- c(state, 0)
         if (tsum > s) break
     }
-    tt
+    cbind(tt, state)
 }
 
 
@@ -66,6 +72,30 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
     x[tt %in% time]
 }
 
+## figure out the state given breaking times
+sim.state <- function(time, brtimes) {
+    brstate <- brtimes[, 2]
+    brtimes <- brtimes[, 1]
+    tt <- sort(unique(c(time, brtimes)))
+    nt <- length(tt)
+    nb <- length(brtimes) 
+    x <- rep(NA, nt)
+    tend <- brtimes[1]
+    tend.state <- brstate[1]
+    j <- 1
+    for (i in 1:nt) {
+        if (tt[i] <= tend) { ## status unchanged
+            x[i] <- tend.state
+        }
+        if (tt[i] == tend) { ## switch status
+            j <- j + 1
+            tend <- brtimes[j]
+            tend.state <- brstate[j]
+        }
+    }
+    x[tt %in% time]
+}
+
 ### simulation a moving-resting-handling path given a grid time #######################
 
 ##' Sampling from a Moving-Resting-Handling Process with Embedded Brownian Motion
@@ -88,10 +118,13 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 ##' and 1-p is probability of choosing handling
 ##' @param s0 the state at time 0, must be one of "m" (moving) or "r" (resting/handling).
 ##' @param dim (integer) dimension of the Brownian motion
+##' @param state indicates whether the simulation show the states at given
+##' time points.
 ##'
 ##' @return
 ##' A \code{data.frame} whose first column is the time points and whose
-##' other columns are coordinates of the locations.
+##' other columns are coordinates of the locations. If \code{state} is
+##' \code{TRUE}, the second column will be the simulation state.
 ##' 
 ##' @references
 ##' Pozdnyakov, V., Elbroch, L.M., Hu, C., Meyer, T., and Yan, J. (2018+)
@@ -101,6 +134,7 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 ##' @seealso \code{\link{fitMovResHan}} for fitting model.
 ##' 
 ##' @examples
+##' set.seed(06269)
 ##' tgrid <- seq(0, 8000, length.out=1001)
 ##' dat <- rMovResHan(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
 ##'                   sigma=1000, p=0.5, s0="m", dim=2)
@@ -108,9 +142,15 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 ##' plot(dat$time, dat$X2, type='l')
 ##' plot(dat$X1,   dat$X2, type='l')
 ##'
+##' set.seed(06269) ## show the usage of state
+##' dat2 <- rMovResHan(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
+##'                    sigma=1000, p=0.5, s0="m", dim=2, state=TRUE)
+##' head(dat)
+##' head(dat2)
+##'
 ##' @author Chaoran Hu
 ##' @export
-rMovResHan <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2) {
+rMovResHan <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
     stopifnot(s0 %in% c("m", "r"))
     t0moving <- as.integer(s0 == "m")
     lam1 <- lamM
@@ -121,6 +161,12 @@ rMovResHan <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2) {
     } else {
         brtimes <- sim1.times.bbz.sta(tmax, lam1, lam2, p)
     }
-    coord <- replicate(dim, sim1.bbz(tmax, sigma, time, brtimes, t0moving))
+    coord <- replicate(dim, sim1.bbz(tmax, sigma, time, brtimes[, 1], t0moving))
+
+    stateresult <- sim.state(time, brtimes)
+    
+    if (state) {
+        return(data.frame(time = time, state = stateresult, coord))
+    }
     data.frame(time = time, coord)
 }
