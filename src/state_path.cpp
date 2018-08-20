@@ -279,17 +279,17 @@ NumericMatrix partial_viterbi_ths(NumericVector &theta, NumericMatrix &data,
 
   // last step of viterbi algorithm
   cartW[0] = cartV[0] + log(hresult00[ite_stop]) + log(bf_result(ite_stop + 1, 3));
-  cartW[1] = cartV[1] + log(hresult10[ite_stop]) + log(bf_result(ite_stop + 1, 4));
-  cartW[2] = cartV[2] + log(hresult20[ite_stop]) + log(bf_result(ite_stop + 1, 5));
+  cartW[1] = cartV[1] + log(hresult10[ite_stop]) + log(bf_result(ite_stop + 1, 3));
+  cartW[2] = cartV[2] + log(hresult20[ite_stop]) + log(bf_result(ite_stop + 1, 3));
   result(pathlength - 1, 0) = max(cartW);
 
-  cartW[0] = cartV[0] + log(hresult01[ite_stop]) + log(bf_result(ite_stop + 1, 3));
+  cartW[0] = cartV[0] + log(hresult01[ite_stop]) + log(bf_result(ite_stop + 1, 4));
   cartW[1] = cartV[1] + log(hresult11[ite_stop]) + log(bf_result(ite_stop + 1, 4));
-  cartW[2] = cartV[2] + log(hresult21[ite_stop]) + log(bf_result(ite_stop + 1, 5));
+  cartW[2] = cartV[2] + log(hresult21[ite_stop]) + log(bf_result(ite_stop + 1, 4));
   result(pathlength - 1, 1) = max(cartW);
 
-  cartW[0] = cartV[0] + log(hresult02[ite_stop]) + log(bf_result(ite_stop + 1, 3));
-  cartW[1] = cartV[1] + log(hresult12[ite_stop]) + log(bf_result(ite_stop + 1, 4));
+  cartW[0] = cartV[0] + log(hresult02[ite_stop]) + log(bf_result(ite_stop + 1, 5));
+  cartW[1] = cartV[1] + log(hresult12[ite_stop]) + log(bf_result(ite_stop + 1, 5));
   cartW[2] = cartV[2] + log(hresult22[ite_stop]) + log(bf_result(ite_stop + 1, 5));
   result(pathlength - 1, 2) = max(cartW);
 

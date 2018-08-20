@@ -383,3 +383,231 @@ double nllk_inc(NumericVector &theta, NumericMatrix &data,
   }
   return( - llk);
 }
+
+
+
+
+/*******************************************
+  forward variable and backward
+*******************************************/
+// [[Rcpp::export]]
+NumericMatrix fwd_bwd_mr(NumericVector &theta, NumericMatrix &data,
+	                 NumericVector &integrControl) {
+  // theta lambdaM (lambda1), lambdaR(lambda0), sigma
+  if (is_true( any(theta <= 0.) )) return(NA_REAL);
+  int n = data.nrow(), dim = data.ncol() - 1;
+  double lambda1 = theta[0], lambda0 = theta[1];
+  double pm = 1. / lambda1 / (1. / lambda1 + 1. / lambda0), pr = 1. - pm;
+  NumericVector tt = data.column(0);
+  NumericMatrix x  = data(Range(0, n - 1), Range(1, dim));
+
+
+  NumericVector
+    hmm = h11(x, tt, theta, integrControl),
+    hmr = h10(x, tt, theta, integrControl),
+    hrr = h00(x, tt, theta, integrControl),
+    hrm = h01(x, tt, theta, integrControl);
+
+  for (int i = 0; i < n; i++) {
+    NumericVector crow = x.row(i);
+    if (is_true(all(crow == 0.))) {
+      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hrr[i] = exp( -lambda0 * tt[i]);
+    }
+  }
+
+  // result matrix: frist two col for forward
+  //                last  two col for backward
+  //                moving first, resting second
+  NumericMatrix result(n + 1, 4);
+  result(0, 0) = pm; result(0, 1) = pr;
+  result(n, 2) =  1; result(n, 3) =  1;
+  NumericVector dx(n);
+
+
+
+    
+  // forward algorithm
+  for (int i = 0; i < n; i++) {
+    // ending with resting
+    double sumfr = result(i, 1) * hrr[i] + result(i, 0) * hmr[i];
+    // ending with moving
+    double sumfm = result(i, 1) * hrm[i] + result(i, 0) * hmm[i];
+
+    dx[i] = sumfr + sumfm;
+    result(i + 1, 1) = sumfr / dx[i];
+    result(i + 1, 0) = sumfm / dx[i];
+  }
+
+  //backward algorithm
+  for (int i = 0; i < n; i++) {
+    // starting from resting
+    double sumbr = result(n-i, 2) * hrm[n-i-1] + result(n-i, 3) * hrr[n-i-1];
+    // starting from moving
+    double sumbm = result(n-i, 2) * hmm[n-i-1] + result(n-i, 3) * hmr[n-i-1];
+
+    result(n-i-1, 2) = sumbm / dx[n-i-1];
+    result(n-i-1, 3) = sumbr / dx[n-i-1];
+  }
+
+  return result;
+}
+
+
+/*******************************
+  full viterbi path
+*******************************/
+
+// [[Rcpp::export]]
+NumericMatrix viterbi_mr(NumericVector &theta, NumericMatrix &data,
+	                 NumericVector &integrControl) {
+  // theta lambdaM (lambda1), lambdaR(lambda0), sigma
+  if (is_true( any(theta <= 0.) )) return(NA_REAL);
+  int n = data.nrow(), dim = data.ncol() - 1;
+  double lambda1 = theta[0], lambda0 = theta[1];
+  double pm = 1. / lambda1 / (1. / lambda1 + 1. / lambda0), pr = 1. - pm;
+  NumericVector tt = data.column(0);
+  NumericMatrix x  = data(Range(0, n - 1), Range(1, dim));
+
+
+  NumericVector
+    hmm = h11(x, tt, theta, integrControl),
+    hmr = h10(x, tt, theta, integrControl),
+    hrr = h00(x, tt, theta, integrControl),
+    hrm = h01(x, tt, theta, integrControl);
+
+  for (int i = 0; i < n; i++) {
+    NumericVector crow = x.row(i);
+    if (is_true(all(crow == 0.))) {
+      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hrr[i] = exp( -lambda0 * tt[i]);
+    }
+  }
+
+  // result matrix: three cols stand for Viterbi prob of state moving, resting
+  //                at current time points. For numerical reason, the log-prob is returned.
+  NumericMatrix result(n + 1, 2);
+  result(0, 0) = log(pm); result(0, 1) = log(pr);
+  NumericVector cartV = result.row(0);
+  NumericVector cartW(2);
+
+  // calculate Viterbi path
+  for (int i = 1; i <= n; i++) {
+    cartW[0] = cartV[0] + log(hmm[i - 1]);
+    cartW[1] = cartV[1] + log(hrm[i - 1]);
+    result(i, 0) = max(cartW);
+
+    cartW[0] = cartV[0] + log(hmr[i - 1]);
+    cartW[1] = cartV[1] + log(hrr[i - 1]);
+    result(i, 1) = max(cartW);
+
+    cartV = result.row(i);
+  }
+
+  return result;
+}
+
+
+/********************************
+  partial viterbi path
+*********************************/
+
+// [[Rcpp::export]]
+NumericMatrix partial_viterbi_mr(NumericVector &theta, NumericMatrix &data,
+				 NumericVector &integrControl,
+				 int &startpoint, int &pathlength){
+  // data diff of t and x
+  // startpoint the start time point, note that
+  //            the first time point in data is t0
+  // pathlength the length of partial viterbi path
+  // theta lambdaM (lambda1), lambdaR(lambda0), sigma
+  if (is_true( any(theta <= 0.) )) return(NA_REAL);
+  int n = data.nrow(), dim = data.ncol() - 1;
+  double lambda1 = theta[0], lambda0 = theta[1];
+  double pm = 1. / lambda1 / (1. / lambda1 + 1. / lambda0), pr = 1. - pm;
+  NumericVector tt = data.column(0);
+  NumericMatrix x  = data(Range(0, n - 1), Range(1, dim));
+
+  // bf_result matrix: frist two col for forward
+  //                   last  two col for backward
+  //                   moving first, resting second
+  NumericMatrix bf_result(n + 1, 4);
+  bf_result(0, 0) = pm; bf_result(0, 1) = pr;
+  bf_result(n, 2) =  1; bf_result(n, 3) =  1;
+  NumericVector dx(n);
+  
+  // result matrix: two cols stand for Viterbi prob of state moving, resting
+  //                at current time points. For numerical reason, the log-prob is returned.
+  NumericMatrix result(pathlength, 2);
+  NumericVector cartV(2);
+  NumericVector cartW(2);
+
+  // calculate all h functions
+  NumericVector
+    hmm = h11(x, tt, theta, integrControl),
+    hmr = h10(x, tt, theta, integrControl),
+    hrr = h00(x, tt, theta, integrControl),
+    hrm = h01(x, tt, theta, integrControl);
+
+  for (int i = 0; i < n; i++) {
+    NumericVector crow = x.row(i);
+    if (is_true(all(crow == 0.))) {
+      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hrr[i] = exp( -lambda0 * tt[i]);
+    }
+  }
+
+  // forward algorithm
+  for (int i = 0; i < n; i++) {
+    // ending with resting
+    double sumfr = bf_result(i, 1) * hrr[i] + bf_result(i, 0) * hmr[i];
+    // ending with moving
+    double sumfm = bf_result(i, 1) * hrm[i] + bf_result(i, 0) * hmm[i];
+
+    dx[i] = sumfr + sumfm;
+    bf_result(i + 1, 1) = sumfr / dx[i];
+    bf_result(i + 1, 0) = sumfm / dx[i];
+  }
+  
+
+  // backward algorithm
+  for (int i = 0; i < n; i++) {
+    // starting from resting
+    double sumbr = bf_result(n-i, 2) * hrm[n-i-1] + bf_result(n-i, 3) * hrr[n-i-1];
+    // starting from moving
+    double sumbm = bf_result(n-i, 2) * hmm[n-i-1] + bf_result(n-i, 3) * hmr[n-i-1];
+
+    bf_result(n-i-1, 2) = sumbm / dx[n-i-1];
+    bf_result(n-i-1, 3) = sumbr / dx[n-i-1];
+  }
+
+  // prepare for viterbi path
+  result(0, 0) = log(bf_result(startpoint, 0));
+  result(0, 1) = log(bf_result(startpoint, 1));
+  cartV = result.row(0);
+  int ite_stop = startpoint + pathlength - 2;
+
+  // viterbi algorithm
+  for (int i = startpoint; i < ite_stop; i++) {
+    cartW[0] = cartV[0] + log(hmm[i]);
+    cartW[1] = cartV[1] + log(hrm[i]);
+    result(i - startpoint + 1, 0) = max(cartW);
+
+    cartW[0] = cartV[0] + log(hmr[i]);
+    cartW[1] = cartV[1] + log(hrr[i]);
+    result(i - startpoint + 1, 1) = max(cartW);
+
+    cartV = result.row(i - startpoint + 1);
+  }
+
+  // last step of viterbi algorithm
+  cartW[0] = cartV[0] + log(hmm[ite_stop]) + log(bf_result(ite_stop + 1, 2));
+  cartW[1] = cartV[1] + log(hrm[ite_stop]) + log(bf_result(ite_stop + 1, 2));
+  result(pathlength - 1, 0) = max(cartW);
+
+  cartW[0] = cartV[0] + log(hmr[ite_stop]) + log(bf_result(ite_stop + 1, 3));
+  cartW[1] = cartV[1] + log(hrr[ite_stop]) + log(bf_result(ite_stop + 1, 3));
+  result(pathlength - 1, 1) = max(cartW);
+
+  return result;
+}

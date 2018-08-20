@@ -41,6 +41,18 @@ nllk_inc <- function(theta, data, integrControl, logtr) {
     .Call('_smam_nllk_inc', PACKAGE = 'smam', theta, data, integrControl, logtr)
 }
 
+fwd_bwd_mr <- function(theta, data, integrControl) {
+    .Call('_smam_fwd_bwd_mr', PACKAGE = 'smam', theta, data, integrControl)
+}
+
+viterbi_mr <- function(theta, data, integrControl) {
+    .Call('_smam_viterbi_mr', PACKAGE = 'smam', theta, data, integrControl)
+}
+
+partial_viterbi_mr <- function(theta, data, integrControl, startpoint, pathlength) {
+    .Call('_smam_partial_viterbi_mr', PACKAGE = 'smam', theta, data, integrControl, startpoint, pathlength)
+}
+
 fwd_bwd_ths <- function(theta, data, integrControl) {
     .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
 }
