@@ -4,7 +4,7 @@
 \alias{rMovRes}
 \title{Sampling from a Moving-Resting Process with Embedded Brownian Motion}
 \usage{
-rMovRes(time, lamM, lamR, sigma, s0, dim = 2)
+rMovRes(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE)
 }
 \arguments{
 \item{time}{time points at which observations are to be simulated}
@@ -19,6 +19,9 @@ rMovRes(time, lamM, lamR, sigma, s0, dim = 2)
 resting, respectively}
 
 \item{dim}{(integer) dimension of the Brownian motion}
+
+\item{state}{indicates whether the simulation show the states at given
+time points.}
 }
 \value{
 A \code{data.frame} whose first column is the time points and whose
@@ -37,6 +40,9 @@ tgrid <- seq(0, 10, length=1001)
 tgrid <- sort(sample(tgrid, 800))
 dat <- rMovRes(tgrid, 1, 1, 1, "m")
 plot(dat[,1], dat[,2], xlab="t", ylab="X(t)", type='l')
+
+dat2 <- rMovRes(tgrid, 1, 1, 1, "m", state = TRUE)
+head(dat2)
 
 }
 \references{

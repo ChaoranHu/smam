@@ -6,24 +6,27 @@
 
 ## simulation of breaking time points bbs
 ## for a 2 state telegraph process
-sim1.times.bbz <- function(s, lam1, lam2) {
+sim1mr.times.bbz <- function(s, lam1, lam2) {
     tsum <- 0
     tt <- NULL
+    state <- NULL
     while (TRUE) {
         tnew <- rexp(1, lam1) ## starting from state 1
         tsum <- tsum + tnew
         tt <- c(tt, tsum)
+        state <- c(state, 0)
         if (tsum > s) break
         tnew <- rexp(1, lam2)
         tsum <- tsum + tnew
         tt <- c(tt, tsum)
+        state <- c(state, 1)
         if (tsum > s) break
     }
-    tt
+    cbind(tt, state)
 }
 
 ## simulation of a realization given breaking times 
-sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
+sim1mr.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 #### time: time points in [0, s]
     tt <- sort(unique(c(time, brtimes)))
     nt <- length(tt)
@@ -49,6 +52,37 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
     x[tt %in% time]
 }
 
+## figure out the state given breaking times
+simmr.state <- function(time, brtimes, t0moving) {
+    brstate <- brtimes[, 2]
+    brtimes <- brtimes[, 1]
+    tt <- sort(unique(c(time, brtimes)))
+    nt <- length(tt)
+    nb <- length(brtimes) 
+    x <- rep(NA, nt)
+    tend <- brtimes[1]
+    tend.state <- brstate[1]
+    j <- 1
+    for (i in 1:nt) {
+        if (tt[i] <= tend) { ## status unchanged
+            x[i] <- tend.state
+        }
+        if (tt[i] == tend) { ## switch status
+            j <- j + 1
+            tend <- brtimes[j]
+            tend.state <- brstate[j]
+        }
+    }
+    
+    ## return result according to the start state
+    if (t0moving) {
+        return(1 - x[tt %in% time])
+    } else {
+        return(x[tt %in% time])
+    }
+}
+
+
 ## simulation a moving-resting path given a grid time
 
 #' Sampling from a Moving-Resting Process with Embedded Brownian Motion
@@ -66,6 +100,8 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 #' @param s0 the state at time 0, must be one of "m" or "r", for moving and
 #' resting, respectively
 #' @param dim (integer) dimension of the Brownian motion
+#' @param state indicates whether the simulation show the states at given
+#' time points.
 #'
 #' @return
 #' A \code{data.frame} whose first column is the time points and whose
@@ -87,17 +123,25 @@ sim1.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE) {
 #' tgrid <- sort(sample(tgrid, 800))
 #' dat <- rMovRes(tgrid, 1, 1, 1, "m")
 #' plot(dat[,1], dat[,2], xlab="t", ylab="X(t)", type='l')
+#'
+#' dat2 <- rMovRes(tgrid, 1, 1, 1, "m", state = TRUE)
+#' head(dat2)
 #' 
 #' @export
 
-rMovRes <- function(time, lamM, lamR, sigma, s0, dim = 2) {
+rMovRes <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
     stopifnot(s0 %in% c("m", "r"))
     t0moving <- (s0 == "m")
     lam1 <- if (t0moving) lamM else lamR
     lam2 <- if (t0moving) lamR else lamM
     tmax <- time[length(time)]
-    brtimes <- sim1.times.bbz(tmax, lam1, lam2)
-    coord <- replicate(dim, sim1.bbz(tmax, sigma, time, brtimes, t0moving))
+    brtimes <- sim1mr.times.bbz(tmax, lam1, lam2)
+    coord <- replicate(dim, sim1mr.bbz(tmax, sigma, time, brtimes, t0moving))
+
+    stateresult <- simmr.state(time, brtimes, t0moving = t0moving)
+    if (state) {
+        return(data.frame(time = time, state = stateresult, coord))
+    }
     data.frame(time = time, coord)
 }
 
