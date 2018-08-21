@@ -40,7 +40,7 @@
 ##' \code{fitStateMR}; \eqn{log-Pr(s_0, ..., s_k | X_k)} for
 ##' \code{fitViterbiMR}, where \eqn{X_k} is \eqn{(X_0, ..., X_k)};
 ##' and \eqn{log-Pr(s_k, ..., s_{k+q-1}|X)} for \code{fitPartialViterbiMR}.
-##'  \item estimated states with 0-moving, 1-resting.
+##'  \item estimated states with 1-moving, 0-resting.
 ##' }
 ##'
 ##'
@@ -68,7 +68,7 @@ fitStateMR <- function(data, theta,
     cart_fwd <- cart_result[, 1:2]
     cart_bwd <- cart_result[, 3:4]
     cart_result <- cart_fwd * cart_bwd
-    cart_state <- apply(cart_result, 1, which.max) - 1
+    cart_state <- 2 - apply(cart_result, 1, which.max)
     result <- cbind(data, cart_result, cart_state)
     colnames(result)[(ncol_data+1):(ncol_data+3)] <- c("p.m", "p.r", "states")
     as.data.frame(result)
@@ -85,7 +85,7 @@ fitViterbiMR <- function(data, theta,
     ncol_data <- ncol(data)
 
     cart_result <- viterbi_mr(theta, dinc, integrControl)
-    cart_state <- apply(cart_result, 1, which.max) - 1
+    cart_state <- 2 - apply(cart_result, 1, which.max)
     result <- cbind(data, cart_result, cart_state)
     colnames(result)[(ncol_data+1):(ncol_data+3)] <- c("p.m", "p.r", "states")
     as.data.frame(result)
@@ -104,8 +104,40 @@ fitPartialViterbiMR <- function(data, theta, startpoint, pathlength,
     ncol_data <- ncol(data)
 
     cart_result <- partial_viterbi_mr(theta, dinc, integrControl, startpoint - 1, pathlength)
-    cart_state <- apply(cart_result, 1, which.max) - 1
+    cart_state <- 2 - apply(cart_result, 1, which.max)
     result <- cbind(data[startpoint:(startpoint+pathlength-1), ], cart_result, cart_state)
     colnames(result)[(ncol_data+1):(ncol_data+3)] <- c("p.m", "p.r", "states")
     as.data.frame(result)
 }
+
+
+
+## test code
+## ## judge state by odds ratio
+## giveResult.mr <- function(result, theta) {
+##     lam1 <- theta[1]
+##     lam0 <- theta[2]
+##     odds <- lam0 / lam1 ## odds = p_m / p_r
+    
+##     myodds <- result[, 1] / result[, 2] ## estimated odds
+
+##     ifelse(myodds > odds, 1, 0)
+## }
+
+## fitStateMR.beta <- function(data, theta,
+##                        integrControl = integr.control()) {
+##     if (!is.matrix(data)) data <- as.matrix(data)
+##     dinc <- apply(data, 2, diff)
+##     integrControl <- unlist(integrControl)
+##     ncol_data <- ncol(data)
+
+##     cart_result <- fwd_bwd_mr(theta, dinc, integrControl)
+##     cart_fwd <- cart_result[, 1:2]
+##     cart_bwd <- cart_result[, 3:4]
+##     cart_result <- cart_fwd * cart_bwd
+##     cart_state <- giveResult.mr(cart_result, theta)
+##     result <- cbind(data, cart_result, cart_state)
+##     colnames(result)[(ncol_data+1):(ncol_data+3)] <- c("p.m", "p.r", "states")
+##     as.data.frame(result)
+## }
+

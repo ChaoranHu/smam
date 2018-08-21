@@ -36,7 +36,7 @@ A \code{data.frame} contains estimated results, with elements:
 \code{fitStateMR}; \eqn{log-Pr(s_0, ..., s_k | X_k)} for
 \code{fitViterbiMR}, where \eqn{X_k} is \eqn{(X_0, ..., X_k)};
 and \eqn{log-Pr(s_k, ..., s_{k+q-1}|X)} for \code{fitPartialViterbiMR}.
- \item estimated states with 0-moving, 1-resting.
+ \item estimated states with 1-moving, 0-resting.
 }
 }
 \description{
