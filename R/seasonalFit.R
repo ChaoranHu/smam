@@ -1,11 +1,56 @@
-## nllk_bmme_seasonal:    nllk for seasonal analysis with bmme
-##                        process.
-## ncllk_m1_inc_seasonal: composite nllk for seasonal analysis.
-## nllk_inc_seasonal:     forward algorithm nllk for seasonal analysis.
-## fitBmme.seasonal:      fit bmme model for seasonal analysis.
-## fitMovRes.seasonal:    fit a moving-resting model for seasonal analysis.
+## nllk_bmme_seasonal:     nllk for seasonal analysis with bmme process.
+## ncllk_m1_inc_seasonal:  composite nllk for seasonal analysis for MR model.
+## nllk_inc_seasonal:      full nllk for seasonal analysis for MR model.
+## nllk_seasonal_parallel: full nllk for seasonal analysis for MRH model.
+## fitBMME_seasonal:       fit bmme model for seasonal analysis.
+## fitMR_seasonal:         fit a moving-resting model for seasonal analysis.
+## fitMRH_seasonal:        fit a moving-resting-handling model for seasonal analysis.
 
 
+
+
+
+
+
+## transfer data to list according to given segments
+## data: standard data.frame with first col is time,
+##       other cols are coordinates, one of them is
+##       indicate segments.
+## segment: character variable indicate which col
+##       should be used for indicate segments.
+## return: a list with each element is a segment.
+seg2list <- function(data, segment) {
+  if (segment %in% names(data) != TRUE) {
+    stop("Cannot find segment variable in data.frame.")
+  }
+  
+  seg.col <- which(names(data) == segment)
+  segs    <- unique(data[, seg.col])
+  segs    <- segs[-which(segs == 0)]
+  n.segs  <- length(segs)
+  
+  result  <- vector('list', n.segs)
+  
+  for (i in 1:n.segs) {
+    result[[i]] <- data[which(data[, seg.col] == segs[i]), ]
+  }
+  
+  result
+}
+
+
+## delete the date column in the output of 'seasonFilter'.
+## convert each element of data list to matrix
+## generate diff of time and distance
+prepareSeasonalFit <- function(data) {
+    data <- lapply(data, function(x) x[, -4])
+    data <- lapply(data, as.matrix)
+    lapply(data, function(x) apply(x, 2, diff))
+}
+
+####################################
+### BMME Model seasonal analysis ###
+####################################
 
 ## The negative log-likelihood of bmme for seasonal analysis data.
 ## input:
@@ -63,12 +108,11 @@ bmme.start.seasonal <- function(dat) {
     c(st, st)
 }
 
-
+## internal function for fitBMME seasonal
 ##' @importFrom stats optim
 ##' @importFrom methods is
-##' @rdname fitMovResHan.seasonal
-##' @export
-fitBmme.seasonal <- function(data, start = NULL, method = "Nelder-Mead", ...) {
+fitBMME_seasonal <- function(data, segment, start, method, ...) {
+    data <- seg2list(data, segment)
     if (is.null(start)) start <- bmme.start.seasonal(data)
     dinc <- prepareSeasonalFit(data)
     fit <- optim(start, nllk_bmme_seasonal, data = dinc, method=method, ...)
@@ -88,6 +132,10 @@ fitBmme.seasonal <- function(data, start = NULL, method = "Nelder-Mead", ...) {
          convergence = fit$convergence)
 }
 
+
+##############################################
+### Moving-Resting Model seasonal analysis ###
+##############################################
 
 
 
@@ -125,15 +173,13 @@ movres.start.seasonal <- function(dat) {
 }
 
 
+
+## internal function for fitBMME seasonal
 ##' @importFrom stats optim
 ##' @importFrom methods is
-##' @rdname fitMovResHan.seasonal
-##' @export
-fitMovRes.seasonal <- function(data, start = NULL, likelihood = c("full", "composite"),
-                               logtr = FALSE,
-                               method = "Nelder-Mead",
-                               optim.control = list(),
-                               integrControl = integr.control()) {
+fitMR_seasonal <- function(data, segment, start, likelihood,
+                           logtr, method, optim.control, integrControl) {
+    data <- seg2list(data, segment)
     if (is.null(start)) start <- movres.start.seasonal(data)
     dinc <- prepareSeasonalFit(data)
     objfun <- switch(likelihood,
@@ -165,3 +211,77 @@ fitMovRes.seasonal <- function(data, start = NULL, likelihood = c("full", "compo
          convergence = fit$convergence,
          likelihood  = likelihood)
 }
+
+
+
+
+#######################################################
+### Moving-Resting-Handling Model Seasonal Analysis ###
+#######################################################
+
+## The negative log-likelihood for seasonal analysis data.
+## input: theta, integrControl, numThreads: are the same as
+##               other nllk function.
+##        data: list have the *similar* format as the output from
+##              'seasonFilter' after 'prepareSeasonalFit'.
+## output: negative log-likelihood of seasonal filtered data.
+##' @import foreach
+nllk_seasonal_parallel <- function(theta, data,
+                          integrControl, numThreads) {
+    n.year <- length(data)
+
+    ## create parallel backend
+    cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
+    doParallel::registerDoParallel(cl)
+
+    i = 1 #Dummy line for Rstudio warnings
+    result <- foreach(i = 1:n.year) %dopar% {
+        nllk_fwd_ths(theta, data[[i]], integrControl)
+    }
+
+    sum(unlist(result))
+}
+
+## another parallel version which does not work
+## in win-server
+## nllk_seasonal_parallel <- function(theta, data,
+##                                    integrControl, numThreads) {
+##     n.year <- length(data)
+##     result <- numeric(n.year)
+
+##     grainSize <- lapply(data, function(x) {ceiling(nrow(x) / numThreads)})
+##     grainSize <- unlist(grainSize)
+
+##     for (i in 1:n.year) {
+##         result[i] <- nllk_fwd_ths_parallel(theta, data[[i]], integrControl, grainSize[i])
+##     }
+
+##     sum(result)
+## }
+
+
+## internal function for fitMRH seasonal
+fitMRH_seasonal <- function(data, segment, start,
+                            lower, upper,
+                            numThreads, integrControl) {
+    data <- seg2list(data, segment)
+    dinc <- prepareSeasonalFit(data)
+
+    integrControl <- unlist(integrControl)
+
+    fit <- nloptr::nloptr(x0 = start, eval_f = nllk_seasonal_parallel,
+                          data = dinc,
+                          integrControl = integrControl,
+                          numThreads = numThreads,
+                          lb = lower,
+                          ub = upper,
+                          opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+                                      "print_level" = 3,
+                                      "maxeval" = 0))
+
+    result <- list(estimate    =  fit[[18]],
+                   loglik      = -fit[[17]],
+                   convergence =  fit[[13]])
+    result
+}
+

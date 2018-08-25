@@ -131,26 +131,26 @@ sim.state <- function(time, brtimes) {
 ##' On estimation for Brownian motion governed by telegraph process with
 ##' multiple off states. <arXiv:1806.00849>
 ##'
-##' @seealso \code{\link{fitMovResHan}} for fitting model.
+##' @seealso \code{\link{fitMRH}} for fitting model.
 ##' 
 ##' @examples
 ##' set.seed(06269)
 ##' tgrid <- seq(0, 8000, length.out=1001)
-##' dat <- rMovResHan(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
-##'                   sigma=1000, p=0.5, s0="m", dim=2)
+##' dat <- rMRH(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
+##'             sigma=1000, p=0.5, s0="m", dim=2)
 ##' plot(dat$time, dat$X1, type='l')
 ##' plot(dat$time, dat$X2, type='l')
 ##' plot(dat$X1,   dat$X2, type='l')
 ##'
 ##' set.seed(06269) ## show the usage of state
-##' dat2 <- rMovResHan(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
-##'                    sigma=1000, p=0.5, s0="m", dim=2, state=TRUE)
+##' dat2 <- rMRH(time=tgrid, lamM=4, lamR=0.04, lamH=0.2,
+##'              sigma=1000, p=0.5, s0="m", dim=2, state=TRUE)
 ##' head(dat)
 ##' head(dat2)
 ##'
 ##' @author Chaoran Hu
 ##' @export
-rMovResHan <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
+rMRH <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
     stopifnot(s0 %in% c("m", "r"))
     t0moving <- as.integer(s0 == "m")
     lam1 <- lamM

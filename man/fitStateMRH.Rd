@@ -68,7 +68,7 @@ time interval.
 \donttest{
 set.seed(06269)
 tgrid <- seq(0, 400, by = 8)
-dat <- rMovResHan(tgrid, 4, 0.5, 0.1, 5, 0.8, 'm')
+dat <- rMRH(tgrid, 4, 0.5, 0.1, 5, 0.8, 'm')
 fitStateMRH(dat, c(4, 0.5, 0.1, 5, 0.8))
 fitViterbiMRH(dat, c(4, 0.5, 0.1, 5, 0.8))
 fitPartialViterbiMRH(dat, c(4, 0.5, 0.1, 5, 0.8), 20, 10)
@@ -81,8 +81,8 @@ On estimation for Brownian motion governed by telegraph process with
 multiple off states. <arXiv:1806.00849>
 }
 \seealso{
-\code{\link{rMovResHan}} for simulation.
-\code{\link{fitMovResHan}} for estimation of parameters.
+\code{\link{rMRH}} for simulation.
+\code{\link{fitMRH}} for estimation of parameters.
 }
 \author{
 Chaoran Hu
