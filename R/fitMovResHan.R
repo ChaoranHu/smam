@@ -49,8 +49,10 @@ fitMRH <- function(data, start, segment = NULL,
                    upper = c(   10,    10,    10,    10, 0.999),
                    integrControl = integr.control()) {
     if (is.null(segment)) {
+        
 
         if (numThreads <= 1) { ## serial normal
+
             
             if (!is.matrix(data)) data <- as.matrix(data)
             dinc <- apply(data, 2, diff)
@@ -70,19 +72,25 @@ fitMRH <- function(data, start, segment = NULL,
                            convergence =  fit[[13]])
             return(result)
 
+            
         } else { ## parallel normal
 
+            
             result <- fitMRH_parallel(data, start, lower, upper, numThreads, integrControl)
             return(result)
 
+            
         }
+
         
     } else { ## parallel seasonal
+
         
         if (numThreads < 1) numThreads <- 1
         result <- fitMRH_seasonal(data, segment, start,
                                   lower, upper, numThreads, integrControl)
         return(result)
+
         
     }
 }

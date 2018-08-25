@@ -121,15 +121,15 @@ simmr.state <- function(time, brtimes, t0moving) {
 #' tgrid <- seq(0, 10, length=1001)
 #' ## make it irregularly spaced
 #' tgrid <- sort(sample(tgrid, 800))
-#' dat <- rMovRes(tgrid, 1, 1, 1, "m")
+#' dat <- rMR(tgrid, 1, 1, 1, "m")
 #' plot(dat[,1], dat[,2], xlab="t", ylab="X(t)", type='l')
 #'
-#' dat2 <- rMovRes(tgrid, 1, 1, 1, "m", state = TRUE)
+#' dat2 <- rMR(tgrid, 1, 1, 1, "m", state = TRUE)
 #' head(dat2)
 #' 
 #' @export
 
-rMovRes <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
+rMR <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
     stopifnot(s0 %in% c("m", "r"))
     t0moving <- (s0 == "m")
     lam1 <- if (t0moving) lamM else lamR
@@ -459,6 +459,8 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' and other columns are location coordinates.
 #' @param start starting value of the model, a vector of three components
 #' in the order of rate for moving, rate for resting, and volatility.
+#' @param segment integer vector indicates how to subset the dataset. 0 stands
+#' for discarding, non-0 stands for the labels of segments should be kept.
 #' @param likelihood a character string specifying the likelihood type to
 #' maximize in estimation. This can be "full" for full likelihood or
 #' "composite' for composite likelihood.
@@ -492,12 +494,12 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' set.seed(123)
 #' ## make it irregularly spaced
 #' tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
-#' dat <- rMovRes(tgrid, 1, 2, 25, "m")
+#' dat <- rMR(tgrid, 1, 2, 25, "m")
 #'
-#' fit.fl <- fitMovRes(dat, start=c(2, 2, 20), likelihood = "full")
+#' fit.fl <- fitMR(dat, start=c(2, 2, 20), likelihood = "full")
 #' fit.fl
 #' 
-#' fit.cl <- fitMovRes(dat, start=c(2, 2, 20), likelihood = "composite")
+#' fit.cl <- fitMR(dat, start=c(2, 2, 20), likelihood = "composite")
 #' fit.cl
 #' \dontrun{
 #' ## old, very slow, unexported R code
@@ -507,48 +509,65 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' @export
 
 
-fitMovRes <- function(data, start, likelihood = c("full", "composite"),
-                      logtr = FALSE,
-                      method = "Nelder-Mead",
-                      optim.control = list(),
-                      integrControl = integr.control()) {
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    objfun <- switch(likelihood,
-                     composite = ncllk_m1_inc,
-                     full = nllk_inc,
-                     stop("Not valid likelihood type.")
-                     )
-    integrControl <- unlist(integrControl)
-    fit <- optim(start, objfun, data = dinc, method = method,
-                 control = optim.control, 
-                 integrControl = integrControl, 
-                 logtr = logtr)
-    ## get variance estimate
-    varest <- matrix(NA_real_, 3, 3)
-    estimate <- if (logtr) exp(fit$par) else fit$par
-    if (likelihood == "full") {
-        ## always do this without log transformation
-        hess <- tryCatch(numDeriv::hessian(
-            objfun, estimate, data = dinc,
-            integrControl = integrControl, logtr = FALSE),
-                         error = function(e) e)
-        if (!is(hess, "error")) varest <- solve(hess)
-        ## not -hess because objfun is negative llk already
+fitMR <- function(data, start, segment = NULL,
+                  likelihood = c("full", "composite"),
+                  logtr = FALSE,
+                  method = "Nelder-Mead",
+                  optim.control = list(),
+                  integrControl = integr.control()) {
+    if (is.null(segment)) {
+
+        
+        ## normal process
+        if (!is.matrix(data)) data <- as.matrix(data)
+        dinc <- apply(data, 2, diff)
+        objfun <- switch(likelihood,
+                         composite = ncllk_m1_inc,
+                         full = nllk_inc,
+                         stop("Not valid likelihood type.")
+                         )
+        integrControl <- unlist(integrControl)
+        fit <- optim(start, objfun, data = dinc, method = method,
+                     control = optim.control, 
+                     integrControl = integrControl, 
+                     logtr = logtr)
+        ## get variance estimate
+        varest <- matrix(NA_real_, 3, 3)
+        estimate <- if (logtr) exp(fit$par) else fit$par
+        if (likelihood == "full") {
+            ## always do this without log transformation
+            hess <- tryCatch(numDeriv::hessian(
+                                           objfun, estimate, data = dinc,
+                                           integrControl = integrControl, logtr = FALSE),
+                             error = function(e) e)
+            if (!is(hess, "error")) varest <- solve(hess)
+            ## not -hess because objfun is negative llk already
+        }
+        
+        return(list(estimate    = estimate,
+                    varest      = varest,
+                    loglik      = -fit$value,
+                    convergence = fit$convergence,
+                    likelihood  = likelihood))
+
+        
+    } else {
+
+        
+        ## seasonal process
+        result <- fitMR_seasonal(data, segment, start, likelihood,
+                                 logtr, method, optim.control, integrControl)
+        return(result)
+
+        
     }
-    
-    list(estimate    = estimate,
-         varest      = varest,
-         loglik      = -fit$value,
-         convergence = fit$convergence,
-         likelihood  = likelihood)
 }
 
 #' Auxiliary for Controlling Numerical Integration
 #'
 #' Auxiliary function for the numerical integration used in the
 #' likelihood and composite likelihood functions. Typically only
-#' used internally by 'fitMovRes'. 
+#' used internally by 'fitMR' and 'fitMRH. 
 #'
 #' @param rel.tol relative accuracy requested.
 #' @param abs.tol absolute accuracy requested.
@@ -577,7 +596,7 @@ integr.control <- function(rel.tol = .Machine$double.eps^.25,
 
 
 ## The R version of composite likelihood estimation
-## Kept only for comparison check with fitMovRes using cl = TRUE
+## Kept only for comparison check with fitMR using cl = TRUE
 fitMovRes.cl <- function(data, start, logtr = FALSE, method = "Nelder-Mead",
                          optim.control = list()) {
     if (!is.matrix(data)) data <- as.matrix(data)

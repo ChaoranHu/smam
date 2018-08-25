@@ -65,15 +65,15 @@ time interval.
 \examples{
 set.seed(06269)
 tgrid <- seq(0, 400, by = 8)
-dat <- rMovRes(tgrid, 4, 3.8, 5, 'm')
+dat <- rMR(tgrid, 4, 3.8, 5, 'm')
 fitStateMR(dat, c(4, 3.8, 5))
 fitViterbiMR(dat, c(4, 3.8, 5))
 fitPartialViterbiMR(dat, c(4, 3.8, 5), 20, 10)
 
 }
 \seealso{
-\code{\link{rMovRes}} for simulation.
-\code{\link{fitMovRes}} for estimation of parameters.
+\code{\link{rMR}} for simulation.
+\code{\link{fitMR}} for estimation of parameters.
 }
 \author{
 Chaoran Hu

@@ -35,12 +35,11 @@
 #' tgrid <- seq(0, 10, length = 1001)
 #' ## make it irregularly spaced
 #' tgrid <- sort(sample(tgrid, 800))
-#' dat <- rbmme(tgrid, 1, 1)
+#' dat <- rBMME(tgrid, 1, 1)
 #' plot(dat[,1], dat[,2], xlab="t", ylab="X(t)", type="l")
 #'
 #' @export
-
-rbmme <- function(time, dim = 2,  sigma = 1, delta = 1) {  
+rBMME <- function(time, dim = 2,  sigma = 1, delta = 1) {  
     n <- length(time)
     dat <- matrix(NA_real_, n, dim)
     t.inc.root <- sqrt(diff(time))
@@ -136,6 +135,8 @@ bmme.start <- function(dat) {
 #'     sigma (sd of BM) and the other for delta (sd for measurement error).
 #'     If unspecified (NULL), a moment estimator will be used assuming equal
 #'     sigma and delta.
+#' @param segment integer vector indicates how to subset the dataset. 0 stands
+#' for discarding, non-0 stands for the labels of segments should be kept.
 #' @param method the method argument to feed \code{optim}.
 #' @param optim.control a list of control that is passed down to \code{optim}.
 #'
@@ -156,28 +157,45 @@ bmme.start <- function(dat) {
 #' On modeling animal movements using Brownian motion with measurement
 #' error. Ecology 95(2): p247--253. doi:doi:10.1890/13-0532.1.
 #' @seealso
-#'   \code{\link{fitMovRes}}
+#'   \code{\link{fitMR}}
 #' @examples
 #' set.seed(123)
 #' tgrid <- seq(0, 500, by = 1)
-#' dat <- rbmme(tgrid, sigma = 1, delta = 0.5)
-#' fit <- fitBmme(dat)
+#' dat <- rBMME(tgrid, sigma = 1, delta = 0.5)
+#' fit <- fitBMME(dat)
 #' fit
 #' @export
-
-fitBmme <- function(data, start = NULL, method = "Nelder-Mead",
+fitBMME <- function(data, start = NULL, segment = NULL,
+                    method = "Nelder-Mead",
                     optim.control = list()) {
-    if (is.null(start)) start <- bmme.start(data)
-    dinc <- apply(data, 2, diff)
-    fit <- optim(start, nllk.bmme, dinc = dinc, hessian = TRUE, method=method, control = optim.control)
-    ## Sigma <- getSparseSigma(data[,1], fit$par)
-    ans <- list(estimate = fit$par,
-                var.est = solve(fit$hessian),
-                loglik = - fit$value,
-                convergence = fit$convergence
-                ## vmat.l = t(chol(Sigma))
-                )
-    ans
+    if (is.null(segment)) {
+
+
+        ## normal process
+        if (is.null(start)) start <- bmme.start(data)
+        dinc <- apply(data, 2, diff)
+        fit <- optim(start, nllk.bmme, dinc = dinc, hessian = TRUE,
+                     method=method, control = optim.control)
+        ## Sigma <- getSparseSigma(data[,1], fit$par)
+        ans <- list(estimate = fit$par,
+                    var.est = solve(fit$hessian),
+                    loglik = - fit$value,
+                    convergence = fit$convergence
+                    ## vmat.l = t(chol(Sigma))
+                    )
+        return(ans)
+
+        
+    } else {
+
+
+        ## seasonal process
+        result <- fitBMME_seasonal(data, segment, start, method,
+                                   control = optim.control)
+        return(result)
+
+        
+    }
 }
 
 ## remind Vladmir to check linear transformation of (B0, ... Bn, xi0, ..., xin)
