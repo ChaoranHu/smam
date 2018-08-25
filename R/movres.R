@@ -567,7 +567,7 @@ fitMR <- function(data, start, segment = NULL,
 #'
 #' Auxiliary function for the numerical integration used in the
 #' likelihood and composite likelihood functions. Typically only
-#' used internally by 'fitMR' and 'fitMRH. 
+#' used internally by 'fitMR' and 'fitMRH'. 
 #'
 #' @param rel.tol relative accuracy requested.
 #' @param abs.tol absolute accuracy requested.

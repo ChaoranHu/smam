@@ -42,8 +42,9 @@ seg2list <- function(data, segment) {
 ## delete the date column in the output of 'seasonFilter'.
 ## convert each element of data list to matrix
 ## generate diff of time and distance
-prepareSeasonalFit <- function(data) {
-    data <- lapply(data, function(x) x[, -4])
+prepareSeasonalFit <- function(data, segment) {
+    seg.col <- which(names(data[[1]]) == segment)
+    data <- lapply(data, function(x) x[, -seg.col])
     data <- lapply(data, as.matrix)
     lapply(data, function(x) apply(x, 2, diff))
 }
@@ -114,7 +115,7 @@ bmme.start.seasonal <- function(dat) {
 fitBMME_seasonal <- function(data, segment, start, method, ...) {
     data <- seg2list(data, segment)
     if (is.null(start)) start <- bmme.start.seasonal(data)
-    dinc <- prepareSeasonalFit(data)
+    dinc <- prepareSeasonalFit(data, segment)
     fit <- optim(start, nllk_bmme_seasonal, data = dinc, method=method, ...)
     
     ## get variance estimate
@@ -181,7 +182,7 @@ fitMR_seasonal <- function(data, segment, start, likelihood,
                            logtr, method, optim.control, integrControl) {
     data <- seg2list(data, segment)
     if (is.null(start)) start <- movres.start.seasonal(data)
-    dinc <- prepareSeasonalFit(data)
+    dinc <- prepareSeasonalFit(data, segment)
     objfun <- switch(likelihood,
                      composite = ncllk_m1_inc_seasonal,
                      full = nllk_inc_seasonal,
@@ -265,7 +266,7 @@ fitMRH_seasonal <- function(data, segment, start,
                             lower, upper,
                             numThreads, integrControl) {
     data <- seg2list(data, segment)
-    dinc <- prepareSeasonalFit(data)
+    dinc <- prepareSeasonalFit(data, segment)
 
     integrControl <- unlist(integrControl)
 

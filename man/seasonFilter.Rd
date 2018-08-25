@@ -14,16 +14,15 @@ as the output from \code{\link{transfData}}.}
 time interval during a year, which has the format "MM-DD".}
 }
 \value{
-A \code{list} with each element is the one-year subset
-of data, which is in the given time interval. For example,
-suppose that we have data cross three years, this function
-will return a list with three elements and each element
-contains the subset of data of certain year.
+A \code{data.frame} with inputted data and additional
+column 'BATCH' indicates which subset of inputted data is located
+within given time interval. In column 'BATCH', different integers
+stands for different segments and 0 stands for outside given time
+interval.
 }
 \description{
 Return subsets of data from each year, which is in given
-time interval. The time interval here is for one year and
-defined by \code{startDate} and \code{endDate}.
+time interval between \code{startDate} and \code{endDate}.
 }
 \author{
 Chaoran Hu

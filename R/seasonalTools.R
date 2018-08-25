@@ -60,32 +60,32 @@ transfData <- function(data, dateFormat, roundValue, lengthUnit = "km") {
 ##        startDate: the begin date of date interval
 ##        endDate:   the end date of date interval
 ## note:  both startDate and endDate follow format "YYYY-MM-DD"
-## output: a data.frame contain only sample points from
-##         given time interval.
+## output: a data.frame contains additional column 'BATCH' indicates
+##         which observation within given time interval.
 dateFilter <- function(data, startDate, endDate) {
     startDate <- as.Date(startDate)
     endDate <- as.Date(endDate)
     time.label <- which((data[, 1] >= startDate) & (data[, 1] <= endDate))
-    data[time.label, ]
+    data[time.label, 'BATCH'] <- as.numeric(format(startDate, "%Y%m"))
+    data
 }
 
 
 ##' Subsetting data during given season for each year (seasonal analysis toolbox)
 ##'
 ##' Return subsets of data from each year, which is in given
-##' time interval. The time interval here is for one year and
-##' defined by \code{startDate} and \code{endDate}.
+##' time interval between \code{startDate} and \code{endDate}.
 ##'
 ##' @param data The data be filtered, which has the same format
 ##' as the output from \code{\link{transfData}}.
 ##' @param startDate,endDate Start point and end point of
 ##' time interval during a year, which has the format "MM-DD".
 ##'
-##' @return A \code{list} with each element is the one-year subset
-##' of data, which is in the given time interval. For example,
-##' suppose that we have data cross three years, this function
-##' will return a list with three elements and each element
-##' contains the subset of data of certain year.
+##' @return A \code{data.frame} with inputted data and additional
+##' column 'BATCH' indicates which subset of inputted data is located
+##' within given time interval. In column 'BATCH', different integers
+##' stands for different segments and 0 stands for outside given time
+##' interval.
 ##'
 ##' @author Chaoran Hu
 ##' @export
@@ -97,28 +97,33 @@ seasonFilter <- function(data, startDate, endDate) {
     endMth <- as.numeric(substr(endDate, 1, 2))
 
     if (startMth > endMth) {
+
+        
         minyear <- min(year)
         maxyear <- max(year)
         myyear <- c(minyear - 1, minyear:maxyear)
         n_myyear <- length(myyear)
-        result <- vector('list', n_myyear)
         
         for(i in 1:n_myyear) {
             startday <- paste(myyear[i], "-", startDate, sep = "")
             endday <- paste(myyear[i] + 1, "-", endDate, sep = "")
-            result[[i]] <- dateFilter(data, startday, endday)
+            data <- dateFilter(data, startday, endday)
         }
-    } else {
-        result <- vector('list', n.year)
 
+        
+    } else {
+
+        
         for(i in 1:n.year) {
             startday <- paste(year[i], "-", startDate, sep = "")
             endday <- paste(year[i], "-", endDate, sep = "")
-            result[[i]] <- dateFilter(data, startday, endday)
+            data <- dateFilter(data, startday, endday)
         }
+
+        
     }
     
-    ## delete list elements with length 0
-    zero.label <- sapply(result, nrow) != 0
-    result[zero.label]
+    data$BATCH[is.na(data$BATCH)] <- 0
+    
+    data[, -1]
 }
