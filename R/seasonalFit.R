@@ -112,11 +112,11 @@ bmme.start.seasonal <- function(dat, segment) {
 ## internal function for fitBMME seasonal
 ##' @importFrom stats optim
 ##' @importFrom methods is
-fitBMME_seasonal <- function(data, segment, start, method, ...) {
+fitBMME_seasonal <- function(data, segment, start, method, optim.control) {
     data <- seg2list(data, segment)
     if (is.null(start)) start <- bmme.start.seasonal(data, segment)
     dinc <- prepareSeasonalFit(data, segment)
-    fit <- optim(start, nllk_bmme_seasonal, data = dinc, method=method, ...)
+    fit <- optim(start, nllk_bmme_seasonal, data = dinc, method=method, control = optim.control)
     
     ## get variance estimate
     varest <- matrix(NA_real_, 2, 2)

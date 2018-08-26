@@ -2,9 +2,12 @@
 % Please edit documentation in R/movres.R
 \name{rMR}
 \alias{rMR}
+\alias{rMovRes}
 \title{Sampling from a Moving-Resting Process with Embedded Brownian Motion}
 \usage{
 rMR(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE)
+
+rMovRes(time, lamM, lamR, sigma, s0, dim = 2)
 }
 \arguments{
 \item{time}{time points at which observations are to be simulated}
@@ -33,6 +36,8 @@ The transition between the two states is modeled by an alternating
 renewal process, with exponentially distributed duration. An animal
 stays at the same location while resting, and moves according to a
 Brownian motion while moving.
+
+'rMovRes' is deprecated. Using new function 'rMR' instead.
 }
 \examples{
 tgrid <- seq(0, 10, length=1001)

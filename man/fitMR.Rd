@@ -2,26 +2,37 @@
 % Please edit documentation in R/movres.R
 \name{fitMR}
 \alias{fitMR}
+\alias{fitMovRes}
 \title{Fit a Moving-Resting Model with Embedded Brownian Motion}
 \usage{
 fitMR(data, start, segment = NULL, likelihood = c("full", "composite"),
   logtr = FALSE, method = "Nelder-Mead", optim.control = list(),
   integrControl = integr.control())
+
+fitMovRes(data, start, likelihood = c("full", "composite"), logtr = FALSE,
+  method = "Nelder-Mead", optim.control = list(),
+  integrControl = integr.control())
 }
 \arguments{
-\item{data}{a \code{data.frame} whose first column is the observation time,
-and other columns are location coordinates.}
+\item{data}{a data.frame whose first column is the observation time, and other
+columns are location coordinates. If \code{segment} is not \code{NULL},
+additional column with the same name given by \code{segment} should be
+included. This additional column is used to indicate which part of
+observations shoule be used to fit model. The value of this column can
+be any integer with 0 means discarding this observation and non-0 means
+using this obversvation. Using different non-zero numbers indicate different
+segments. (See vignette for more details.)}
 
 \item{start}{starting value of the model, a vector of three components
 in the order of rate for moving, rate for resting, and volatility.}
 
-\item{segment}{integer vector indicates how to subset the dataset. 0 stands
-for discarding, non-0 stands for the labels of segments should be kept.}
+\item{segment}{character variable, name of the column which indicates segments,
+in the given \code{data.frame}. The default value, \code{NULL}, means using
+whole dataset to fit the model.}
 
 \item{likelihood}{a character string specifying the likelihood type to
 maximize in estimation. This can be "full" for full likelihood or
-"composite' for composite likelihood.
-full loglikelihood from hidden Markov model approach.}
+"composite' for composite likelihood.}
 
 \item{logtr}{logical, if TRUE parameters are estimated on the log scale.}
 
@@ -44,6 +55,10 @@ evaluated at the estimate}
 Fit a Moving-Resting Model with Embedded Brownian Motion with animal
 movement data at discretely observation times by maximizing a composite
 likelihood constructed from the marginal density of increment.
+Using \code{segment} to fit part of observations to the model. A practical
+application of this feature is seasonal analysis.
+
+'fitMovRes' is deprecated. Using new function 'fitMR' instead.
 }
 \examples{
 tgrid <- seq(0, 10, length=500)
@@ -52,16 +67,20 @@ set.seed(123)
 tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
 dat <- rMR(tgrid, 1, 2, 25, "m")
 
+## fit whole dataset to the MR model
 fit.fl <- fitMR(dat, start=c(2, 2, 20), likelihood = "full")
 fit.fl
 
 fit.cl <- fitMR(dat, start=c(2, 2, 20), likelihood = "composite")
 fit.cl
-\dontrun{
-## old, very slow, unexported R code
-fit.<- smam:::fitMovRes.cl(dat, start=c(2, 2, 2))
-fit.cpp
-}
+
+## fit part of dataset to the MR model
+batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
+dat.segment <- cbind(dat, batch)
+fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
+                     likelihood = "full")
+head(dat.segment)
+fit.segment
 }
 \references{
 Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,

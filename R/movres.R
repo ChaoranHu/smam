@@ -145,6 +145,14 @@ rMR <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
     data.frame(time = time, coord)
 }
 
+#' 'rMovRes' is deprecated. Using new function 'rMR' instead.
+#' @rdname rMR
+#' @export
+rMovRes <- function(time, lamM, lamR, sigma, s0, dim = 2) {
+    .Deprecated("rMR")
+    rMR(time, lamM, lamR, sigma, s0, dim)
+}
+
 
 ## atom at w = t for dtm.m or dtm.r
 dt.atm <- function(t, lam) {
@@ -454,22 +462,30 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' Fit a Moving-Resting Model with Embedded Brownian Motion with animal
 #' movement data at discretely observation times by maximizing a composite
 #' likelihood constructed from the marginal density of increment.
+#' Using \code{segment} to fit part of observations to the model. A practical
+#' application of this feature is seasonal analysis.
 #'
-#' @param data a \code{data.frame} whose first column is the observation time,
-#' and other columns are location coordinates.
+#' @param data a data.frame whose first column is the observation time, and other
+#'     columns are location coordinates. If \code{segment} is not \code{NULL},
+#'     additional column with the same name given by \code{segment} should be
+#'     included. This additional column is used to indicate which part of
+#'     observations shoule be used to fit model. The value of this column can
+#'     be any integer with 0 means discarding this observation and non-0 means
+#'     using this obversvation. Using different non-zero numbers indicate different
+#'     segments. (See vignette for more details.)
 #' @param start starting value of the model, a vector of three components
-#' in the order of rate for moving, rate for resting, and volatility.
-#' @param segment integer vector indicates how to subset the dataset. 0 stands
-#' for discarding, non-0 stands for the labels of segments should be kept.
+#'     in the order of rate for moving, rate for resting, and volatility.
+#' @param segment character variable, name of the column which indicates segments,
+#'     in the given \code{data.frame}. The default value, \code{NULL}, means using
+#'     whole dataset to fit the model.
 #' @param likelihood a character string specifying the likelihood type to
-#' maximize in estimation. This can be "full" for full likelihood or
-#' "composite' for composite likelihood.
-#' full loglikelihood from hidden Markov model approach.
+#'     maximize in estimation. This can be "full" for full likelihood or
+#'     "composite' for composite likelihood.
 #' @param logtr logical, if TRUE parameters are estimated on the log scale.
 #' @param method the method argument to feed \code{optim}.
 #' @param optim.control a list of control to be passed to \code{optim}.
 #' @param integrControl a list of control parameters for the \code{integrate}
-#' function: rel.tol, abs.tol, subdivision.
+#'     function: rel.tol, abs.tol, subdivision.
 #' 
 #' @return
 #' a list of the following components:
@@ -496,19 +512,21 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
 #' dat <- rMR(tgrid, 1, 2, 25, "m")
 #'
+#' ## fit whole dataset to the MR model
 #' fit.fl <- fitMR(dat, start=c(2, 2, 20), likelihood = "full")
 #' fit.fl
 #' 
 #' fit.cl <- fitMR(dat, start=c(2, 2, 20), likelihood = "composite")
 #' fit.cl
-#' \dontrun{
-#' ## old, very slow, unexported R code
-#' fit.<- smam:::fitMovRes.cl(dat, start=c(2, 2, 2))
-#' fit.cpp
-#' }
+#'
+#' ## fit part of dataset to the MR model
+#' batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
+#' dat.segment <- cbind(dat, batch)
+#' fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
+#'                      likelihood = "full")
+#' head(dat.segment)
+#' fit.segment
 #' @export
-
-
 fitMR <- function(data, start, segment = NULL,
                   likelihood = c("full", "composite"),
                   logtr = FALSE,
@@ -561,6 +579,20 @@ fitMR <- function(data, start, segment = NULL,
 
         
     }
+}
+
+#' 'fitMovRes' is deprecated. Using new function 'fitMR' instead.
+#' @rdname fitMR
+#' @export
+fitMovRes <- function(data, start, likelihood = c("full", "composite"),
+                      logtr = FALSE,
+                      method = "Nelder-Mead",
+                      optim.control = list(),
+                      integrControl = integr.control()) {
+    .Deprecated("fitMR")
+    fitMR(data= data, start = start, likelihood = likelihood,
+          logtr = logtr, method = method, optim.control = optim.control,
+          integrControl = integrControl)
 }
 
 #' Auxiliary for Controlling Numerical Integration

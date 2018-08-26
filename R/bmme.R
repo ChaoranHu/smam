@@ -180,9 +180,12 @@ bmme.start <- function(dat) {
 #' set.seed(123)
 #' tgrid <- seq(0, 500, by = 1)
 #' dat <- rBMME(tgrid, sigma = 1, delta = 0.5)
+#'
+#' ## using whole dataset to fit BMME
 #' fit <- fitBMME(dat)
 #' fit
 #'
+#' ## using part of dataset to fit BMME
 #' batch <- c(rep(0, 100), rep(1, 200), rep(0, 50), rep(2, 100), rep(0, 51))
 #' dat.segment <- cbind(dat, batch)
 #' fit.segment <- fitBMME(dat.segment, segment = "batch")
@@ -217,7 +220,7 @@ fitBMME <- function(data, start = NULL, segment = NULL,
         ## seasonal process
         result <- fitBMME_seasonal(data = data, segment = segment,
                                    start = start, method = method,
-                                   control = optim.control)
+                                   optim.control = optim.control)
         return(result)
 
         
@@ -231,7 +234,8 @@ fitBMME <- function(data, start = NULL, segment = NULL,
 fitBmme <- function(data, start = NULL, method = "Nelder-Mead",
                     optim.control = list()) {
     .Deprecated("fitBMME")
-    fitBMME(data, start, segment = NULL, method, optim.control)
+    fitBMME(data = data, start = start, segment = NULL,
+            method = method, optim.control = optim.control)
 }
 
 ## remind Vladmir to check linear transformation of (B0, ... Bn, xi0, ..., xin)
