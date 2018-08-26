@@ -2,9 +2,12 @@
 % Please edit documentation in R/bmme.R
 \name{rBMME}
 \alias{rBMME}
+\alias{rBmme}
 \title{Sampling from Brown Motion with Measurement Error}
 \usage{
 rBMME(time, dim = 2, sigma = 1, delta = 1)
+
+rBmme(time, dim = 2, sigma = 1, delta = 1)
 }
 \arguments{
 \item{time}{vector of time points at which observations are to be sampled}
@@ -23,6 +26,8 @@ A \code{data.frame} whose first column is the time points and whose
 Given the volatility parameters of a Brownian motion and normally
 distributed measurement errors, generate the process at discretely
 observed time points of a given dimension.
+
+'rBmme' is deprecated. Using new function 'rBMME' instead.
 }
 \examples{
 tgrid <- seq(0, 10, length = 1001)

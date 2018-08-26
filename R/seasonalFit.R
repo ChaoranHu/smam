@@ -99,8 +99,8 @@ nllk_inc_seasonal <- function(theta, data,
 ##      dat: list with the same format as the output from 'seasonalFilter'
 ## output:
 ##      a vector containing rough initial value of sigma 
-bmme.start.seasonal <- function(dat) {
-    dif <- prepareSeasonalFit(dat)
+bmme.start.seasonal <- function(dat, segment) {
+    dif <- prepareSeasonalFit(dat, segment)
     dim <- ncol(dif[[1]]) - 1
 
     numerator <- sum(unlist(lapply(dif, function(x) {sum(x[,-1]^2)})))
@@ -114,7 +114,7 @@ bmme.start.seasonal <- function(dat) {
 ##' @importFrom methods is
 fitBMME_seasonal <- function(data, segment, start, method, ...) {
     data <- seg2list(data, segment)
-    if (is.null(start)) start <- bmme.start.seasonal(data)
+    if (is.null(start)) start <- bmme.start.seasonal(data, segment)
     dinc <- prepareSeasonalFit(data, segment)
     fit <- optim(start, nllk_bmme_seasonal, data = dinc, method=method, ...)
     
@@ -163,9 +163,8 @@ glue_list <- function(x) {
 ## output:
 ##      a vector containing rough initial value of sigma
 ##' @importFrom stats coef lm
-movres.start.seasonal <- function(dat) {
-    dat <- lapply(dat, function(x) {x[, -1]})
-    dinc <- lapply(dat, function(x) {apply(x, 2, diff)})
+movres.start.seasonal <- function(dat, segment) {
+    dat <- prepareSeasonalFit(dat, segment)
     dinc <- glue_list(dinc)
     s1 <- coef(lm(dinc[, 2]^2 ~ dinc[, 1] - 1))
     s2 <- coef(lm(dinc[, 3]^2 ~ dinc[, 1] - 1))
@@ -181,7 +180,7 @@ movres.start.seasonal <- function(dat) {
 fitMR_seasonal <- function(data, segment, start, likelihood,
                            logtr, method, optim.control, integrControl) {
     data <- seg2list(data, segment)
-    if (is.null(start)) start <- movres.start.seasonal(data)
+    if (is.null(start)) start <- movres.start.seasonal(data, segment)
     dinc <- prepareSeasonalFit(data, segment)
     objfun <- switch(likelihood,
                      composite = ncllk_m1_inc_seasonal,

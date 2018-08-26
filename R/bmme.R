@@ -50,7 +50,15 @@ rBMME <- function(time, dim = 2,  sigma = 1, delta = 1) {
         err <- rnorm(n, 0, sd = delta[i])
         dat[,i] <- bm + err
     }
-    cbind(time = time, dat)
+    as.data.frame(cbind(time = time, dat))
+}
+
+#' 'rBmme' is deprecated. Using new function 'rBMME' instead.
+#' @rdname rBMME
+#' @export
+rBmme <- function(time, dim = 2,  sigma = 1, delta = 1) {
+    .Deprecated("rBMME")
+    rBMME(time, dim, sigma, delta)
 }
 
 #### generate the covariance matrix in sparse structure
@@ -127,16 +135,26 @@ bmme.start <- function(dat) {
 #' Fit a Brownian Motion with Measurement Error
 #'
 #' Given discretely observed animal movement locations, fit a Brownian
-#' motion model with measurement errors.
+#' motion model with measurement errors. Using \code{segment} to fit
+#' part of observations to the model. A practical application of this
+#' feature is seasonal analysis.
 #'
 #' @param data a data.frame whose first column is the observation time, and other
-#'     columns are location coordinates.
+#'     columns are location coordinates. If \code{segment} is not \code{NULL},
+#'     additional column with the same name given by \code{segment} should be
+#'     included. This additional column is used to indicate which part of
+#'     observations shoule be used to fit model. The value of this column can
+#'     be any integer with 0 means discarding this observation and non-0 means
+#'     using this obversvation. Using different non-zero numbers indicate different
+#'     segments. (See vignette for more details.)
+#'     
 #' @param start starting value of the model, a vector of two component, one for
 #'     sigma (sd of BM) and the other for delta (sd for measurement error).
 #'     If unspecified (NULL), a moment estimator will be used assuming equal
 #'     sigma and delta.
-#' @param segment integer vector indicates how to subset the dataset. 0 stands
-#' for discarding, non-0 stands for the labels of segments should be kept.
+#' @param segment character variable, name of the column which indicates segments,
+#'     in the given \code{data.frame}. The default value, \code{NULL}, means using
+#'     whole dataset to fit the model.
 #' @param method the method argument to feed \code{optim}.
 #' @param optim.control a list of control that is passed down to \code{optim}.
 #'
@@ -164,6 +182,13 @@ bmme.start <- function(dat) {
 #' dat <- rBMME(tgrid, sigma = 1, delta = 0.5)
 #' fit <- fitBMME(dat)
 #' fit
+#'
+#' batch <- c(rep(0, 100), rep(1, 200), rep(0, 50), rep(2, 100), rep(0, 51))
+#' dat.segment <- cbind(dat, batch)
+#' fit.segment <- fitBMME(dat.segment, segment = "batch")
+#' head(dat.segment)
+#' fit.segment
+#' 
 #' @export
 fitBMME <- function(data, start = NULL, segment = NULL,
                     method = "Nelder-Mead",
@@ -190,12 +215,23 @@ fitBMME <- function(data, start = NULL, segment = NULL,
 
 
         ## seasonal process
-        result <- fitBMME_seasonal(data, segment, start, method,
+        result <- fitBMME_seasonal(data = data, segment = segment,
+                                   start = start, method = method,
                                    control = optim.control)
         return(result)
 
         
     }
+}
+
+
+#' 'fitBmme' is deprecated. Using new function 'fitBMME' instead.
+#' @rdname fitBMME
+#' @export
+fitBmme <- function(data, start = NULL, method = "Nelder-Mead",
+                    optim.control = list()) {
+    .Deprecated("fitBMME")
+    fitBMME(data, start, segment = NULL, method, optim.control)
 }
 
 ## remind Vladmir to check linear transformation of (B0, ... Bn, xi0, ..., xin)

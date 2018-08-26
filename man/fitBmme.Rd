@@ -2,22 +2,33 @@
 % Please edit documentation in R/bmme.R
 \name{fitBMME}
 \alias{fitBMME}
+\alias{fitBmme}
 \title{Fit a Brownian Motion with Measurement Error}
 \usage{
 fitBMME(data, start = NULL, segment = NULL, method = "Nelder-Mead",
   optim.control = list())
+
+fitBmme(data, start = NULL, method = "Nelder-Mead",
+  optim.control = list())
 }
 \arguments{
 \item{data}{a data.frame whose first column is the observation time, and other
-columns are location coordinates.}
+columns are location coordinates. If \code{segment} is not \code{NULL},
+additional column with the same name given by \code{segment} should be
+included. This additional column is used to indicate which part of
+observations shoule be used to fit model. The value of this column can
+be any integer with 0 means discarding this observation and non-0 means
+using this obversvation. Using different non-zero numbers indicate different
+segments. (See vignette for more details.)}
 
 \item{start}{starting value of the model, a vector of two component, one for
 sigma (sd of BM) and the other for delta (sd for measurement error).
 If unspecified (NULL), a moment estimator will be used assuming equal
 sigma and delta.}
 
-\item{segment}{integer vector indicates how to subset the dataset. 0 stands
-for discarding, non-0 stands for the labels of segments should be kept.}
+\item{segment}{character variable, name of the column which indicates segments,
+in the given \code{data.frame}. The default value, \code{NULL}, means using
+whole dataset to fit the model.}
 
 \item{method}{the method argument to feed \code{optim}.}
 
@@ -32,7 +43,11 @@ A list of the following components:
 }
 \description{
 Given discretely observed animal movement locations, fit a Brownian
-motion model with measurement errors.
+motion model with measurement errors. Using \code{segment} to fit
+part of observations to the model. A practical application of this
+feature is seasonal analysis.
+
+'fitBmme' is deprecated. Using new function 'fitBMME' instead.
 }
 \details{
 The joint density of the increment data is multivariate normal with a
@@ -45,6 +60,13 @@ tgrid <- seq(0, 500, by = 1)
 dat <- rBMME(tgrid, sigma = 1, delta = 0.5)
 fit <- fitBMME(dat)
 fit
+
+batch <- c(rep(0, 100), rep(1, 200), rep(0, 50), rep(2, 100), rep(0, 51))
+dat.segment <- cbind(dat, batch)
+fit.segment <- fitBMME(dat.segment, segment = "batch")
+head(dat.segment)
+fit.segment
+
 }
 \references{
 Pozdnyakov V., Meyer, TH., Wang, Y., and Yan, J. (2013)
