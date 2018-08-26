@@ -4,13 +4,14 @@
 
 * Added moving-resting-handling model with both full likelihood and composite likelihood.
 
+* Provided option to use only part of dataset to fit BMME model, moving-resting model
+and moving-resting-handling model (in function `fitBMME`, `fitMR`, and `fitMRH`).
+
 * Provided tools for seasonal behavior analysis.
 
 * Parallel code is implemented for moving-resting-handling model to speed code up.
 
-* Added wrapper function which contains all three models.
-
-* Added code for estimating state at given time point in MRH model.
+* Added code for predicting state at given time point under MR model and MRH model (beta version).
 
 ## MINOR CHANGES
 
@@ -18,6 +19,9 @@
 
 * Redocumented whole package.
 
+* Renamed `rBmme -> rBMME`, `fitBmme -> fitBMME`, `rMovRes -> rMR` and `fitMovRes -> fitMR`.
+
+* Provided option to show simulated states in `rMR` and `rMRH`.
 
 
 

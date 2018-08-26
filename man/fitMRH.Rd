@@ -10,18 +10,22 @@ fitMRH(data, start, segment = NULL,
   integrControl = integr.control())
 }
 \arguments{
-\item{data}{a \code{data.frame} whose first column is the observation
-time, and other columns are location coordinates. If seasonal analysis
-is required, additional columns is required to indicate how to subset
-the dataset.}
+\item{data}{a data.frame whose first column is the observation time, and other
+columns are location coordinates. If \code{segment} is not \code{NULL},
+additional column with the same name given by \code{segment} should be
+included. This additional column is used to indicate which part of
+observations shoule be used to fit model. The value of this column can
+be any integer with 0 means discarding this observation and non-0 means
+using this obversvation. Using different non-zero numbers indicate different
+segments. (See vignette for more details.)}
 
 \item{start}{The initial value for optimization, in the order of rate
 of moving, rate of resting, rate of handling, volatility and switching
 probability.}
 
-\item{segment}{name of column which indicates how to subset the dataset.
-This column should be an integer vector with zero
-for discarding and non-zero number for each segments.}
+\item{segment}{character variable, name of the column which indicates segments,
+in the given \code{data.frame}. The default value, \code{NULL}, means using
+whole dataset to fit the model.}
 
 \item{numThreads}{int, the number of threads allocated for parallel
 computation. The default setup is 3/4 available threads. If this parameter
@@ -33,13 +37,17 @@ is less or equal to 1, the serial computation will be processed.}
 abs.tol, and subdivisions.}
 }
 \value{
-A list of estimation result, with estimator, log-likelihood and
-convergence code from \code{nloptr}.
+A list of estimation result with following components:
+\item{estimate}{the estimated parameter vector}
+\item{loglik}{maximized loglikelihood or composite loglikelihood
+evaluated at the estimate}
+\item{convergence}{convergence code from \code{nloptr}}
 }
 \description{
 Fit a Moving-Resting-Handling Model with Embedded Brownian Motion with
 animal movement data at discretely observation times by maximizing
-a full likelihood.
+a full likelihood. Using \code{segment} to fit part of observations to
+the model. A practical application of this feature is seasonal analysis.
 }
 \examples{
 \donttest{
@@ -49,6 +57,13 @@ tgrid <- seq(0, 400, by = 8)
 dat <- rMRH(tgrid, 4, 0.5, 0.1, 5, 0.8, 'm')
 fitMRH(dat, c(4, 0.5, 0.1, 5, 0.8)) ## parallel process
 fitMRH(dat, c(4, 0.5, 0.1, 5, 0.8), numThreads = -1) ## serial process
+
+## fit part of dataset to the MRH model
+batch <- c(rep(0, 10), rep(1, 7), rep(0, 10), rep(2, 10), rep(0, 14))
+dat.segment <- cbind(dat, batch)
+fit.segment <- fitMRH(dat.segment, start = c(4, 0.5, 0.1, 5, 0.8), segment = "batch")
+head(dat.segment)
+fit.segment
 }
 
 }
