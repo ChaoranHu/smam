@@ -506,6 +506,7 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' doi:10.1007/s11009-017-9547-6.
 #'
 #' @examples
+#' \donttest{
 #' tgrid <- seq(0, 10, length=500)
 #' set.seed(123)
 #' ## make it irregularly spaced
@@ -526,6 +527,8 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #'                      likelihood = "full")
 #' head(dat.segment)
 #' fit.segment
+#' }
+#' 
 #' @export
 fitMR <- function(data, start, segment = NULL,
                   likelihood = c("full", "composite"),

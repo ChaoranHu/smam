@@ -61,6 +61,7 @@ application of this feature is seasonal analysis.
 'fitMovRes' is deprecated. Using new function 'fitMR' instead.
 }
 \examples{
+\donttest{
 tgrid <- seq(0, 10, length=500)
 set.seed(123)
 ## make it irregularly spaced
@@ -81,6 +82,8 @@ fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
                      likelihood = "full")
 head(dat.segment)
 fit.segment
+}
+
 }
 \references{
 Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,
