@@ -328,7 +328,7 @@ doccuTime <- function(x, tint, param, dat) {
     if (!is.matrix(x)) x <- as.matrix(x)
     SigmaZ <- getVarObs(dat[,1], param)
     SigmaZ.l <- t(chol(SigmaZ))
-    doccu <- dbmme.x.v(x, param, SigmaZ.l, dat)
+    doccu <- dbmme.x.v(x, tint, param, SigmaZ.l, dat)
     cbind(x, doccu)
 }
 
