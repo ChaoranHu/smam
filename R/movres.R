@@ -134,11 +134,24 @@ rMR <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
     t0moving <- (s0 == "m")
     lam1 <- if (t0moving) lamM else lamR
     lam2 <- if (t0moving) lamR else lamM
+    
+    timeIND <- 0
+    if (length(time) == 1) {
+        timeIND <- 1
+        time <- c(0, time)
+    }
     tmax <- time[length(time)]
     brtimes <- sim1mr.times.bbz(tmax, lam1, lam2)
     coord <- replicate(dim, sim1mr.bbz(tmax, sigma, time, brtimes, t0moving))
 
     stateresult <- simmr.state(time, brtimes, t0moving = t0moving)
+
+    if (timeIND == 1) {
+        if (state) {
+            return(data.frame(time = time, state = stateresult, coord)[-1, ])
+        }
+        return(data.frame(time = time, coord)[-1, ])
+    }
     if (state) {
         return(data.frame(time = time, state = stateresult, coord))
     }

@@ -155,6 +155,12 @@ rMRH <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
     t0moving <- as.integer(s0 == "m")
     lam1 <- lamM
     lam2 <- c(lamR, lamH)
+
+    timeIND <- 0
+    if (length(time) == 1) {
+        timeIND <- 1
+        time <- c(0, time)
+    }
     tmax <- time[length(time)]
     if (t0moving == 1) {
         brtimes <- sim1.times.bbz.mov(tmax, lam1, lam2, p)
@@ -164,6 +170,13 @@ rMRH <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
     coord <- replicate(dim, sim1.bbz(tmax, sigma, time, brtimes[, 1], t0moving))
 
     stateresult <- sim.state(time, brtimes)
+
+    if (timeIND == 1) {
+        if (state) {
+            return(data.frame(time = time, state = stateresult, coord)[-1, ])
+        }
+        return(data.frame(time = time, coord)[-1, ])
+    }
     
     if (state) {
         return(data.frame(time = time, state = stateresult, coord))
