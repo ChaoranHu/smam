@@ -142,7 +142,7 @@ rMR <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
     }
     tmax <- time[length(time)]
     brtimes <- sim1mr.times.bbz(tmax, lam1, lam2)
-    coord <- replicate(dim, sim1mr.bbz(tmax, sigma, time, brtimes, t0moving))
+    coord <- replicate(dim, sim1mr.bbz(tmax, sigma, time, brtimes[, 1], t0moving))
 
     stateresult <- simmr.state(time, brtimes, t0moving = t0moving)
 
