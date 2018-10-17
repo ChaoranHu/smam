@@ -1,6 +1,6 @@
 ## Test enviroments
 
-* local macOS 10.13.4 install, R 3.5.0
+* local macOS 10.14 install, R 3.5.0
 
 * win-builder (devel and release)
 
@@ -13,20 +13,17 @@ There were no ERRORs, WARNINGs.
 There were 2 NOTEs:
 
 * checking CRAN incoming feasibility ... NOTE
+
   Maintainer: ‘Chaoran Hu <chaoran.hu@uconn.edu>’
 
   New maintainer:
     Chaoran Hu <chaoran.hu@uconn.edu>
+    
   Old maintainer(s):
     Jun Yan <jun.yan@uconn.edu>
 
-Possibly mis-spelled words in DESCRIPTION:
-  Pozdnyakov (12:5, 14:5, 16:5)
-  Yan (11:5)
-  al (11:12, 12:19, 14:19, 16:19)
-  et (11:9, 12:16, 14:16, 16:16)
-
 * checking for GNU extensions in Makefiles ... NOTE
+
   GNU make is a SystemRequirements.
 
 
