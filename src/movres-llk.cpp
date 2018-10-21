@@ -611,3 +611,49 @@ NumericMatrix partial_viterbi_mr(NumericVector &theta, NumericMatrix &data,
 
   return result;
 }
+
+
+// [[Rcpp::export]]
+double mrllk_state(NumericVector &theta, NumericMatrix &data,
+	           IntegerVector &state, NumericVector &integrControl){
+  // theta lambdaM (lambda1), lambdaR(lambda0), sigma
+  // state state0 - stateN
+  // data: diff1 - diffN
+  if (is_true( any(theta <= 0.) )) return(NA_REAL);
+  int n = data.nrow(), dim = data.ncol() - 1;
+  double lambda1 = theta[0], lambda0 = theta[1];
+  double pm = 1. / lambda1 / (1. / lambda1 + 1. / lambda0), pr = 1. - pm;
+  NumericVector tt = data.column(0);
+  NumericMatrix x  = data(Range(0, n - 1), Range(1, dim));
+
+
+  NumericVector
+    hmm = h11(x, tt, theta, integrControl),
+    hmr = h10(x, tt, theta, integrControl),
+    hrr = h00(x, tt, theta, integrControl),
+    hrm = h01(x, tt, theta, integrControl);
+
+  for (int i = 0; i < n; i++) {
+    NumericVector crow = x.row(i);
+    if (is_true(all(crow == 0.))) {
+      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hrr[i] = exp( -lambda0 * tt[i]);
+    }
+  }
+
+  double llk = 0;
+  if (state[0] == 0) {
+    llk = log(pr);
+  } else {
+    llk = log(pm);
+  }
+
+  for (int i = 0; i < n; i++) {
+    if (state[i] == 0 && state[i+1] == 0) llk += log(hrr[i]);
+    if (state[i] == 1 && state[i+1] == 0) llk += log(hmr[i]);
+    if (state[i] == 0 && state[i+1] == 1) llk += log(hrm[i]);
+    if (state[i] == 1 && state[i+1] == 1) llk += log(hmm[i]);
+  }
+
+  return llk;
+}

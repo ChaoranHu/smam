@@ -657,6 +657,22 @@ fitMovRes.cl <- function(data, start, logtr = FALSE, method = "Nelder-Mead",
 }
 
 
+### not public function ###
+## llk for moving-resting model with given state
+## param data: time state locations
+llk_mr <- function(data, theta, integrControl = integr.control()) {
+    if (!is.matrix(data)) data <- as.matrix(data)
+    dinc <- apply(data[, -2], 2, diff)
+    integrControl <- unlist(integrControl)
+    mrllk_state(theta, dinc, data[, 2], integrControl)
+}
+
+
+
+
+
+
+
 ## dx <- function(x, t, lamM, lamR, Sigma) {
 ##     pm <- 1 / lamM / (1 / lamM + 1 / lamR)
 ##     pr <- 1 - pm

@@ -489,6 +489,43 @@ RcppExport SEXP _smam_partial_viterbi_mr(SEXP thetaSEXP, SEXP dataSEXP, SEXP int
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// mrllk_state
+double mrllk_state(NumericVector& theta, NumericMatrix& data, IntegerVector& state, NumericVector& integrControl);
+static SEXP _smam_mrllk_state_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP stateSEXP, SEXP integrControlSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericVector& >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerVector& >::type state(stateSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type integrControl(integrControlSEXP);
+    rcpp_result_gen = Rcpp::wrap(mrllk_state(theta, data, state, integrControl));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_mrllk_state(SEXP thetaSEXP, SEXP dataSEXP, SEXP stateSEXP, SEXP integrControlSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_mrllk_state_try(thetaSEXP, dataSEXP, stateSEXP, integrControlSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 // fwd_bwd_ths
 NumericMatrix fwd_bwd_ths(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl);
 static SEXP _smam_fwd_bwd_ths_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
@@ -1784,6 +1821,7 @@ static int _smam_RcppExport_validate(const char* sig) {
         signatures.insert("NumericMatrix(*fwd_bwd_mr)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*viterbi_mr)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*partial_viterbi_mr)(NumericVector&,NumericMatrix&,NumericVector&,int&,int&)");
+        signatures.insert("double(*mrllk_state)(NumericVector&,NumericMatrix&,IntegerVector&,NumericVector&)");
         signatures.insert("NumericMatrix(*fwd_bwd_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*partial_viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&,int&,int&)");
@@ -1837,6 +1875,7 @@ RcppExport SEXP _smam_RcppExport_registerCCallable() {
     R_RegisterCCallable("smam", "_smam_fwd_bwd_mr", (DL_FUNC)_smam_fwd_bwd_mr_try);
     R_RegisterCCallable("smam", "_smam_viterbi_mr", (DL_FUNC)_smam_viterbi_mr_try);
     R_RegisterCCallable("smam", "_smam_partial_viterbi_mr", (DL_FUNC)_smam_partial_viterbi_mr_try);
+    R_RegisterCCallable("smam", "_smam_mrllk_state", (DL_FUNC)_smam_mrllk_state_try);
     R_RegisterCCallable("smam", "_smam_fwd_bwd_ths", (DL_FUNC)_smam_fwd_bwd_ths_try);
     R_RegisterCCallable("smam", "_smam_viterbi_ths", (DL_FUNC)_smam_viterbi_ths_try);
     R_RegisterCCallable("smam", "_smam_partial_viterbi_ths", (DL_FUNC)_smam_partial_viterbi_ths_try);
@@ -1892,6 +1931,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_smam_fwd_bwd_mr", (DL_FUNC) &_smam_fwd_bwd_mr, 3},
     {"_smam_viterbi_mr", (DL_FUNC) &_smam_viterbi_mr, 3},
     {"_smam_partial_viterbi_mr", (DL_FUNC) &_smam_partial_viterbi_mr, 5},
+    {"_smam_mrllk_state", (DL_FUNC) &_smam_mrllk_state, 4},
     {"_smam_fwd_bwd_ths", (DL_FUNC) &_smam_fwd_bwd_ths, 3},
     {"_smam_viterbi_ths", (DL_FUNC) &_smam_viterbi_ths, 3},
     {"_smam_partial_viterbi_ths", (DL_FUNC) &_smam_partial_viterbi_ths, 5},

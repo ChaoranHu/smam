@@ -53,6 +53,10 @@ partial_viterbi_mr <- function(theta, data, integrControl, startpoint, pathlengt
     .Call('_smam_partial_viterbi_mr', PACKAGE = 'smam', theta, data, integrControl, startpoint, pathlength)
 }
 
+mrllk_state <- function(theta, data, state, integrControl) {
+    .Call('_smam_mrllk_state', PACKAGE = 'smam', theta, data, state, integrControl)
+}
+
 fwd_bwd_ths <- function(theta, data, integrControl) {
     .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
 }
