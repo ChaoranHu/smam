@@ -5,13 +5,13 @@ citEntry(entry = "Manual",
          author = personList(as.person("Jun Yan"),
                              as.person("Vladimir Pozdnyakov"),
                              as.person("Chaoran Hu")),
-         note = "R package version 0.4.0",
+         note = "R package version 0.4.0.9000",
          year =	"2018",
          url = "https://github.com/ChaoranHu/smam",
          
          textVersion = paste("Yan, J., Pozdnyakov, V., Hu, C. (2018). smam:",
                              "Statistical Modeling of Animal Movement.",
-                             "R package version 0.4.0",
+                             "R package version 0.4.0.9000",
                              "https://github.com/ChaoranHu/smam")
 )
 
