@@ -6,11 +6,11 @@
 \alias{fitPartialViterbiMR}
 \title{Estimation of states at each time point with Moving-Resting Process}
 \usage{
-fitStateMR(data, theta, integrControl = integr.control())
+fitStateMR(data, theta, cutoff = 0.5, integrControl = integr.control())
 
-fitViterbiMR(data, theta, integrControl = integr.control())
+fitViterbiMR(data, theta, cutoff = 0.5, integrControl = integr.control())
 
-fitPartialViterbiMR(data, theta, startpoint, pathlength,
+fitPartialViterbiMR(data, theta, cutoff = 0.5, startpoint, pathlength,
   integrControl = integr.control())
 }
 \arguments{
@@ -19,6 +19,8 @@ time, and other columns are location coordinates.}
 
 \item{theta}{the parameters for Moving-Resting model, in the
 order of rate of moving, rate of resting, volatility.}
+
+\item{cutoff}{the cut-off point for prediction.}
 
 \item{integrControl}{Integration control vector includes rel.tol,
 abs.tol, and subdivisions.}
@@ -66,9 +68,9 @@ time interval.
 set.seed(06269)
 tgrid <- seq(0, 400, by = 8)
 dat <- rMR(tgrid, 4, 3.8, 5, 'm')
-fitStateMR(dat, c(4, 3.8, 5))
-fitViterbiMR(dat, c(4, 3.8, 5))
-fitPartialViterbiMR(dat, c(4, 3.8, 5), 20, 10)
+fitStateMR(dat, c(4, 3.8, 5), cutoff = 0.5)
+fitViterbiMR(dat, c(4, 3.8, 5), cutoff = 0.5)
+fitPartialViterbiMR(dat, c(4, 3.8, 5), cutoff = 0.5, 20, 10)
 
 }
 \seealso{
