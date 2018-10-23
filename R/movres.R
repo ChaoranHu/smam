@@ -661,6 +661,7 @@ fitMovRes.cl <- function(data, start, logtr = FALSE, method = "Nelder-Mead",
 ## llk for moving-resting model with given state
 ## param data: time state locations
 llk_mr <- function(data, theta, integrControl = integr.control()) {
+    if (!all(data[, 2] == 0 | data[, 2] == 1)) stop("state must be 0 or 1")
     if (!is.matrix(data)) data <- as.matrix(data)
     dinc <- apply(data[, -2], 2, diff)
     integrControl <- unlist(integrControl)
