@@ -368,7 +368,7 @@ double nllk_inc(NumericVector &theta, NumericMatrix &data,
   for (int i = 0; i < n; i++) {
     NumericVector crow = x.row(i);
     if (is_true( all(crow == 0.) )) { // resting
-      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hmm[i] = 0.; hmr[i] = 0; hrm[i] = 0.;
       hrr[i] = exp( -lambda0 * tt[i]); 
     }
     // ending with resting
@@ -411,7 +411,7 @@ NumericMatrix fwd_bwd_mr(NumericVector &theta, NumericMatrix &data,
   for (int i = 0; i < n; i++) {
     NumericVector crow = x.row(i);
     if (is_true(all(crow == 0.))) {
-      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hmm[i] = 0.; hmr[i] = 0; hrm[i] = 0.;
       hrr[i] = exp( -lambda0 * tt[i]);
     }
   }
@@ -479,7 +479,7 @@ NumericMatrix viterbi_mr(NumericVector &theta, NumericMatrix &data,
   for (int i = 0; i < n; i++) {
     NumericVector crow = x.row(i);
     if (is_true(all(crow == 0.))) {
-      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hmm[i] = 0.; hmr[i] = 0; hrm[i] = 0.;
       hrr[i] = exp( -lambda0 * tt[i]);
     }
   }
@@ -552,7 +552,7 @@ NumericMatrix partial_viterbi_mr(NumericVector &theta, NumericMatrix &data,
   for (int i = 0; i < n; i++) {
     NumericVector crow = x.row(i);
     if (is_true(all(crow == 0.))) {
-      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hmm[i] = 0.; hmr[i] = 0; hrm[i] = 0.;
       hrr[i] = exp( -lambda0 * tt[i]);
     }
   }
@@ -636,7 +636,7 @@ double mrllk_state(NumericVector &theta, NumericMatrix &data,
   for (int i = 0; i < n; i++) {
     NumericVector crow = x.row(i);
     if (is_true(all(crow == 0.))) {
-      hmm[i] = 0.; hrr[i] = 0; hrm[i] = 0.;
+      hmm[i] = 0.; hmr[i] = 0; hrm[i] = 0.;
       hrr[i] = exp( -lambda0 * tt[i]);
     }
   }
