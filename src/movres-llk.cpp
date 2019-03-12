@@ -1,9 +1,6 @@
 // [[Rcpp::interfaces(r, cpp)]]
 
-#include <Rcpp.h>
-#include <R_ext/Applic.h>
-
-using namespace Rcpp;
+#include "movres.h"
 
 /******************************************************************
  Densities for time spent in 1-cycle or 0-cycle in interval (0, t]

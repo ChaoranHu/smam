@@ -57,6 +57,10 @@ mrllk_state <- function(theta, data, state, integrControl) {
     .Call('_smam_mrllk_state', PACKAGE = 'smam', theta, data, state, integrControl)
 }
 
+test <- function(x) {
+    .Call('_smam_test', PACKAGE = 'smam', x)
+}
+
 fwd_bwd_ths <- function(theta, data, integrControl) {
     .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
 }

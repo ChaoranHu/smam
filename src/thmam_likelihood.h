@@ -10,6 +10,12 @@
 using namespace Rcpp;
 using namespace RcppParallel;
 
+double dcoga2dim(double x, double shape1, double shape2,
+		 double rate1, double rate2);
+
+double pcoga2dim_diff_shape(double x, double shape1, double shape2,
+			    double rate1, double rate2);
+
 
 NumericVector ths_h00(NumericMatrix x, NumericVector t, NumericVector theta,
 		      NumericVector integrControl);
