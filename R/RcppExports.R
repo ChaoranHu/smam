@@ -57,8 +57,20 @@ mrllk_state <- function(theta, data, state, integrControl) {
     .Call('_smam_mrllk_state', PACKAGE = 'smam', theta, data, state, integrControl)
 }
 
-test <- function(x) {
-    .Call('_smam_test', PACKAGE = 'smam', x)
+g11_mrme <- function(z, t, theta, integrControl) {
+    .Call('_smam_g11_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
+}
+
+g10_mrme <- function(z, t, theta, integrControl) {
+    .Call('_smam_g10_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
+}
+
+g01_mrme <- function(z, t, theta, integrControl) {
+    .Call('_smam_g01_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
+}
+
+g00_mrme <- function(z, t, theta, integrControl) {
+    .Call('_smam_g00_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
 }
 
 fwd_bwd_ths <- function(theta, data, integrControl) {

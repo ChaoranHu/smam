@@ -102,7 +102,7 @@ NumericVector vp01(NumericVector vw, double t, double lambda1, double lambda0) {
 
 // integrand for the h.. functions; has to be of type integr_fn.
 // pointer *ex carryies a double vector of
-// (t, signa, lambda0, lambda1, dim, x)
+// (t, sigma, lambda1, lambda0, dim, x)
 
 void f11(double *w, int n, void *ex) {
   double *ptr = (double *) ex;
