@@ -291,3 +291,6 @@ NumericVector g00_mrme(NumericMatrix z, NumericVector t,
   Free(ex); Free(iwork); Free(work);
   return(value);
 }
+
+
+// test git
