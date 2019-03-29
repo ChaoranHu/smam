@@ -674,6 +674,146 @@ RcppExport SEXP _smam_g00_mrme(SEXP zSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP inte
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// t11_mrme
+NumericVector t11_mrme(NumericVector t, NumericVector theta);
+static SEXP _smam_t11_mrme_try(SEXP tSEXP, SEXP thetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(t11_mrme(t, theta));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_t11_mrme(SEXP tSEXP, SEXP thetaSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_t11_mrme_try(tSEXP, thetaSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// t00_mrme
+NumericVector t00_mrme(NumericVector t, NumericVector theta);
+static SEXP _smam_t00_mrme_try(SEXP tSEXP, SEXP thetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(t00_mrme(t, theta));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_t00_mrme(SEXP tSEXP, SEXP thetaSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_t00_mrme_try(tSEXP, thetaSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// t10_mrme
+NumericVector t10_mrme(NumericVector t, NumericVector theta);
+static SEXP _smam_t10_mrme_try(SEXP tSEXP, SEXP thetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(t10_mrme(t, theta));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_t10_mrme(SEXP tSEXP, SEXP thetaSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_t10_mrme_try(tSEXP, thetaSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// t01_mrme
+NumericVector t01_mrme(NumericVector t, NumericVector theta);
+static SEXP _smam_t01_mrme_try(SEXP tSEXP, SEXP thetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(t01_mrme(t, theta));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_t01_mrme(SEXP tSEXP, SEXP thetaSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_t01_mrme_try(tSEXP, thetaSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 // fwd_bwd_ths
 NumericMatrix fwd_bwd_ths(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl);
 static SEXP _smam_fwd_bwd_ths_try(SEXP thetaSEXP, SEXP dataSEXP, SEXP integrControlSEXP) {
@@ -765,6 +905,44 @@ RcppExport SEXP _smam_partial_viterbi_ths(SEXP thetaSEXP, SEXP dataSEXP, SEXP in
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
         rcpp_result_gen = PROTECT(_smam_partial_viterbi_ths_try(thetaSEXP, dataSEXP, integrControlSEXP, startpointSEXP, pathlengthSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// pcoga2dim_diff_shape
+double pcoga2dim_diff_shape(double x, double shape1, double shape2, double rate1, double rate2);
+static SEXP _smam_pcoga2dim_diff_shape_try(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    Rcpp::traits::input_parameter< double >::type rate1(rate1SEXP);
+    Rcpp::traits::input_parameter< double >::type rate2(rate2SEXP);
+    rcpp_result_gen = Rcpp::wrap(pcoga2dim_diff_shape(x, shape1, shape2, rate1, rate2));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_pcoga2dim_diff_shape(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_pcoga2dim_diff_shape_try(xSEXP, shape1SEXP, shape2SEXP, rate1SEXP, rate2SEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -1974,9 +2152,14 @@ static int _smam_RcppExport_validate(const char* sig) {
         signatures.insert("NumericVector(*g10_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
         signatures.insert("NumericVector(*g01_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
         signatures.insert("NumericVector(*g00_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
+        signatures.insert("NumericVector(*t11_mrme)(NumericVector,NumericVector)");
+        signatures.insert("NumericVector(*t00_mrme)(NumericVector,NumericVector)");
+        signatures.insert("NumericVector(*t10_mrme)(NumericVector,NumericVector)");
+        signatures.insert("NumericVector(*t01_mrme)(NumericVector,NumericVector)");
         signatures.insert("NumericMatrix(*fwd_bwd_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*partial_viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&,int&,int&)");
+        signatures.insert("double(*pcoga2dim_diff_shape)(double,double,double,double,double)");
         signatures.insert("NumericVector(*ths_vp00)(NumericVector,double,double,double,double,double)");
         signatures.insert("NumericVector(*ths_vp01)(NumericVector,double,double,double,double,double)");
         signatures.insert("NumericVector(*ths_vp02)(NumericVector,double,double,double,double,double)");
@@ -2032,9 +2215,14 @@ RcppExport SEXP _smam_RcppExport_registerCCallable() {
     R_RegisterCCallable("smam", "_smam_g10_mrme", (DL_FUNC)_smam_g10_mrme_try);
     R_RegisterCCallable("smam", "_smam_g01_mrme", (DL_FUNC)_smam_g01_mrme_try);
     R_RegisterCCallable("smam", "_smam_g00_mrme", (DL_FUNC)_smam_g00_mrme_try);
+    R_RegisterCCallable("smam", "_smam_t11_mrme", (DL_FUNC)_smam_t11_mrme_try);
+    R_RegisterCCallable("smam", "_smam_t00_mrme", (DL_FUNC)_smam_t00_mrme_try);
+    R_RegisterCCallable("smam", "_smam_t10_mrme", (DL_FUNC)_smam_t10_mrme_try);
+    R_RegisterCCallable("smam", "_smam_t01_mrme", (DL_FUNC)_smam_t01_mrme_try);
     R_RegisterCCallable("smam", "_smam_fwd_bwd_ths", (DL_FUNC)_smam_fwd_bwd_ths_try);
     R_RegisterCCallable("smam", "_smam_viterbi_ths", (DL_FUNC)_smam_viterbi_ths_try);
     R_RegisterCCallable("smam", "_smam_partial_viterbi_ths", (DL_FUNC)_smam_partial_viterbi_ths_try);
+    R_RegisterCCallable("smam", "_smam_pcoga2dim_diff_shape", (DL_FUNC)_smam_pcoga2dim_diff_shape_try);
     R_RegisterCCallable("smam", "_smam_ths_vp00", (DL_FUNC)_smam_ths_vp00_try);
     R_RegisterCCallable("smam", "_smam_ths_vp01", (DL_FUNC)_smam_ths_vp01_try);
     R_RegisterCCallable("smam", "_smam_ths_vp02", (DL_FUNC)_smam_ths_vp02_try);
@@ -2092,9 +2280,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_smam_g10_mrme", (DL_FUNC) &_smam_g10_mrme, 4},
     {"_smam_g01_mrme", (DL_FUNC) &_smam_g01_mrme, 4},
     {"_smam_g00_mrme", (DL_FUNC) &_smam_g00_mrme, 4},
+    {"_smam_t11_mrme", (DL_FUNC) &_smam_t11_mrme, 2},
+    {"_smam_t00_mrme", (DL_FUNC) &_smam_t00_mrme, 2},
+    {"_smam_t10_mrme", (DL_FUNC) &_smam_t10_mrme, 2},
+    {"_smam_t01_mrme", (DL_FUNC) &_smam_t01_mrme, 2},
     {"_smam_fwd_bwd_ths", (DL_FUNC) &_smam_fwd_bwd_ths, 3},
     {"_smam_viterbi_ths", (DL_FUNC) &_smam_viterbi_ths, 3},
     {"_smam_partial_viterbi_ths", (DL_FUNC) &_smam_partial_viterbi_ths, 5},
+    {"_smam_pcoga2dim_diff_shape", (DL_FUNC) &_smam_pcoga2dim_diff_shape, 5},
     {"_smam_ths_vp00", (DL_FUNC) &_smam_ths_vp00, 6},
     {"_smam_ths_vp01", (DL_FUNC) &_smam_ths_vp01, 6},
     {"_smam_ths_vp02", (DL_FUNC) &_smam_ths_vp02, 6},

@@ -292,5 +292,117 @@ NumericVector g00_mrme(NumericMatrix z, NumericVector t,
   return(value);
 }
 
+// evaluation of t function
+// t_{ij}(t) = P_i(S(t) = j)
+// param: t: time diff; theta: (lam1, lam0, sigma, sig_err).
+// [[Rcpp::export]]
+NumericVector t11_mrme(NumericVector t, NumericVector theta) {
+  double lam1 = theta[0], lam0 = theta[1];
+  int n = t.length();
+  NumericVector result(n);
+  double cartA, cartB, cartlast;
+  int j;
 
-// test git
+  for (int i = 0; i < n; i++) {
+    j = 1;
+    cartA = 1 - R::pgamma(t[i], 1, 1/lam1, 1, 0);
+    cartB = 0; cartlast = 0;
+    while(TRUE) {
+      cartB = pcoga2dim_diff_shape(t[i], j, j, lam1, lam0);
+      if (cartB == R_PosInf || R_IsNaN(cartB)) {
+	warning("Inf or NaN happened, not converge!");
+	break;
+      }
+      cartA += cartB;
+      if (cartB == 0 && cartlast >= cartB && j > 1) break;
+      cartlast = cartB;
+      j++;
+    }
+    result[i] = cartA;
+  }
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericVector t00_mrme(NumericVector t, NumericVector theta) {
+  double lam1 = theta[0], lam0 = theta[1];
+  int n = t.length();
+  NumericVector result(n);
+  double cartA, cartB, cartlast;
+  int j;
+
+  for (int i = 0; i < n; i++) {
+    j = 1;
+    cartA = 1 - R::pgamma(t[i], 1, 1/lam0, 1, 0);
+    cartB = 0; cartlast = 0;
+    while(TRUE) {
+      cartB = pcoga2dim_diff_shape(t[i], j, j, lam0, lam1);
+      if (cartB == R_PosInf || R_IsNaN(cartB)) {
+	warning("Inf or NaN happened, not converge!");
+	break;
+      }
+      cartA += cartB;
+      if (cartB == 0 && cartlast >= cartB && j > 1) break;
+      cartlast = cartB;
+      j++;
+    }
+    result[i] = cartA;
+  }
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericVector t10_mrme(NumericVector t, NumericVector theta) {
+  double lam1 = theta[0], lam0 = theta[1];
+  int n = t.length();
+  NumericVector result(n);
+  double cartA, cartB, cartlast;
+  int j;
+
+  for (int i = 0; i < n; i++) {
+    j = 0;
+    cartA = 0;
+    cartB = 0; cartlast = 0;
+    while(TRUE) {
+      cartB = pcoga2dim_diff_shape(t[i], j, j+1, lam0, lam1);
+      if (cartB == R_PosInf || R_IsNaN(cartB)) {
+	warning("Inf or NaN happened, not converge!");
+	break;
+      }
+      cartA += cartB;
+      if (cartB == 0 && cartlast >= cartB && j > 1) break;
+      cartlast = cartB;
+      j++;
+    }
+    result[i] = cartA;
+  }
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericVector t01_mrme(NumericVector t, NumericVector theta) {
+  double lam1 = theta[0], lam0 = theta[1];
+  int n = t.length();
+  NumericVector result(n);
+  double cartA, cartB, cartlast;
+  int j;
+
+  for (int i = 0; i < n; i++) {
+    j = 0;
+    cartA = 0;
+    cartB = 0; cartlast = 0;
+    while(TRUE) {
+      cartB = pcoga2dim_diff_shape(t[i], j, j+1, lam1, lam0);
+      if (cartB == R_PosInf || R_IsNaN(cartB)) {
+	warning("Inf or NaN happened, not converge!");
+	break;
+      }
+      cartA += cartB;
+      if (cartB == 0 && cartlast >= cartB && j > 1) break;
+      cartlast = cartB;
+      j++;
+    }
+    result[i] = cartA;
+  }
+  return result;
+}

@@ -73,6 +73,22 @@ g00_mrme <- function(z, t, theta, integrControl) {
     .Call('_smam_g00_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
 }
 
+t11_mrme <- function(t, theta) {
+    .Call('_smam_t11_mrme', PACKAGE = 'smam', t, theta)
+}
+
+t00_mrme <- function(t, theta) {
+    .Call('_smam_t00_mrme', PACKAGE = 'smam', t, theta)
+}
+
+t10_mrme <- function(t, theta) {
+    .Call('_smam_t10_mrme', PACKAGE = 'smam', t, theta)
+}
+
+t01_mrme <- function(t, theta) {
+    .Call('_smam_t01_mrme', PACKAGE = 'smam', t, theta)
+}
+
 fwd_bwd_ths <- function(theta, data, integrControl) {
     .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
 }
@@ -83,6 +99,10 @@ viterbi_ths <- function(theta, data, integrControl) {
 
 partial_viterbi_ths <- function(theta, data, integrControl, startpoint, pathlength) {
     .Call('_smam_partial_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl, startpoint, pathlength)
+}
+
+pcoga2dim_diff_shape <- function(x, shape1, shape2, rate1, rate2) {
+    .Call('_smam_pcoga2dim_diff_shape', PACKAGE = 'smam', x, shape1, shape2, rate1, rate2)
 }
 
 ths_vp00 <- function(vs, t, lambda0, lambda1, lambda2, p) {

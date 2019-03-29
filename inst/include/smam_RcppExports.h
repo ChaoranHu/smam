@@ -403,6 +403,90 @@ namespace smam {
         return Rcpp::as<NumericVector >(rcpp_result_gen);
     }
 
+    inline NumericVector t11_mrme(NumericVector t, NumericVector theta) {
+        typedef SEXP(*Ptr_t11_mrme)(SEXP,SEXP);
+        static Ptr_t11_mrme p_t11_mrme = NULL;
+        if (p_t11_mrme == NULL) {
+            validateSignature("NumericVector(*t11_mrme)(NumericVector,NumericVector)");
+            p_t11_mrme = (Ptr_t11_mrme)R_GetCCallable("smam", "_smam_t11_mrme");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_t11_mrme(Shield<SEXP>(Rcpp::wrap(t)), Shield<SEXP>(Rcpp::wrap(theta)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<NumericVector >(rcpp_result_gen);
+    }
+
+    inline NumericVector t00_mrme(NumericVector t, NumericVector theta) {
+        typedef SEXP(*Ptr_t00_mrme)(SEXP,SEXP);
+        static Ptr_t00_mrme p_t00_mrme = NULL;
+        if (p_t00_mrme == NULL) {
+            validateSignature("NumericVector(*t00_mrme)(NumericVector,NumericVector)");
+            p_t00_mrme = (Ptr_t00_mrme)R_GetCCallable("smam", "_smam_t00_mrme");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_t00_mrme(Shield<SEXP>(Rcpp::wrap(t)), Shield<SEXP>(Rcpp::wrap(theta)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<NumericVector >(rcpp_result_gen);
+    }
+
+    inline NumericVector t10_mrme(NumericVector t, NumericVector theta) {
+        typedef SEXP(*Ptr_t10_mrme)(SEXP,SEXP);
+        static Ptr_t10_mrme p_t10_mrme = NULL;
+        if (p_t10_mrme == NULL) {
+            validateSignature("NumericVector(*t10_mrme)(NumericVector,NumericVector)");
+            p_t10_mrme = (Ptr_t10_mrme)R_GetCCallable("smam", "_smam_t10_mrme");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_t10_mrme(Shield<SEXP>(Rcpp::wrap(t)), Shield<SEXP>(Rcpp::wrap(theta)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<NumericVector >(rcpp_result_gen);
+    }
+
+    inline NumericVector t01_mrme(NumericVector t, NumericVector theta) {
+        typedef SEXP(*Ptr_t01_mrme)(SEXP,SEXP);
+        static Ptr_t01_mrme p_t01_mrme = NULL;
+        if (p_t01_mrme == NULL) {
+            validateSignature("NumericVector(*t01_mrme)(NumericVector,NumericVector)");
+            p_t01_mrme = (Ptr_t01_mrme)R_GetCCallable("smam", "_smam_t01_mrme");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_t01_mrme(Shield<SEXP>(Rcpp::wrap(t)), Shield<SEXP>(Rcpp::wrap(theta)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<NumericVector >(rcpp_result_gen);
+    }
+
     inline NumericMatrix fwd_bwd_ths(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl) {
         typedef SEXP(*Ptr_fwd_bwd_ths)(SEXP,SEXP,SEXP);
         static Ptr_fwd_bwd_ths p_fwd_bwd_ths = NULL;
@@ -464,6 +548,27 @@ namespace smam {
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
         return Rcpp::as<NumericMatrix >(rcpp_result_gen);
+    }
+
+    inline double pcoga2dim_diff_shape(double x, double shape1, double shape2, double rate1, double rate2) {
+        typedef SEXP(*Ptr_pcoga2dim_diff_shape)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_pcoga2dim_diff_shape p_pcoga2dim_diff_shape = NULL;
+        if (p_pcoga2dim_diff_shape == NULL) {
+            validateSignature("double(*pcoga2dim_diff_shape)(double,double,double,double,double)");
+            p_pcoga2dim_diff_shape = (Ptr_pcoga2dim_diff_shape)R_GetCCallable("smam", "_smam_pcoga2dim_diff_shape");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_pcoga2dim_diff_shape(Shield<SEXP>(Rcpp::wrap(x)), Shield<SEXP>(Rcpp::wrap(shape1)), Shield<SEXP>(Rcpp::wrap(shape2)), Shield<SEXP>(Rcpp::wrap(rate1)), Shield<SEXP>(Rcpp::wrap(rate2)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<double >(rcpp_result_gen);
     }
 
     inline NumericVector ths_vp00(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p) {

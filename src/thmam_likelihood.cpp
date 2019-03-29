@@ -27,7 +27,7 @@ double dcoga2dim(double x, double shape1, double shape2,
   result *= pow(beta1 / beta2, shape2);
   return result;
 }
-
+// [[Rcpp::export]]
 double pcoga2dim_diff_shape (double x,
 			     double shape1, double shape2,
 			     double rate1, double rate2) {
