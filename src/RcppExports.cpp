@@ -924,44 +924,6 @@ RcppExport SEXP _smam_partial_viterbi_ths(SEXP thetaSEXP, SEXP dataSEXP, SEXP in
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// pcoga2dim_diff_shape
-double pcoga2dim_diff_shape(double x, double shape1, double shape2, double rate1, double rate2);
-static SEXP _smam_pcoga2dim_diff_shape_try(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
-    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
-    Rcpp::traits::input_parameter< double >::type rate1(rate1SEXP);
-    Rcpp::traits::input_parameter< double >::type rate2(rate2SEXP);
-    rcpp_result_gen = Rcpp::wrap(pcoga2dim_diff_shape(x, shape1, shape2, rate1, rate2));
-    return rcpp_result_gen;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP _smam_pcoga2dim_diff_shape(SEXP xSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rate1SEXP, SEXP rate2SEXP) {
-    SEXP rcpp_result_gen;
-    {
-        Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_smam_pcoga2dim_diff_shape_try(xSEXP, shape1SEXP, shape2SEXP, rate1SEXP, rate2SEXP));
-    }
-    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
-    if (rcpp_isInterrupt_gen) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
-    if (rcpp_isLongjump_gen) {
-        Rcpp::internal::resumeJump(rcpp_result_gen);
-    }
-    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
-    if (rcpp_isError_gen) {
-        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
-        UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
-    }
-    UNPROTECT(1);
-    return rcpp_result_gen;
-}
 // ths_vp00
 NumericVector ths_vp00(NumericVector vs, double t, double lambda0, double lambda1, double lambda2, double p);
 static SEXP _smam_ths_vp00_try(SEXP vsSEXP, SEXP tSEXP, SEXP lambda0SEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP pSEXP) {
@@ -2159,7 +2121,6 @@ static int _smam_RcppExport_validate(const char* sig) {
         signatures.insert("NumericMatrix(*fwd_bwd_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*partial_viterbi_ths)(NumericVector&,NumericMatrix&,NumericVector&,int&,int&)");
-        signatures.insert("double(*pcoga2dim_diff_shape)(double,double,double,double,double)");
         signatures.insert("NumericVector(*ths_vp00)(NumericVector,double,double,double,double,double)");
         signatures.insert("NumericVector(*ths_vp01)(NumericVector,double,double,double,double,double)");
         signatures.insert("NumericVector(*ths_vp02)(NumericVector,double,double,double,double,double)");
@@ -2222,7 +2183,6 @@ RcppExport SEXP _smam_RcppExport_registerCCallable() {
     R_RegisterCCallable("smam", "_smam_fwd_bwd_ths", (DL_FUNC)_smam_fwd_bwd_ths_try);
     R_RegisterCCallable("smam", "_smam_viterbi_ths", (DL_FUNC)_smam_viterbi_ths_try);
     R_RegisterCCallable("smam", "_smam_partial_viterbi_ths", (DL_FUNC)_smam_partial_viterbi_ths_try);
-    R_RegisterCCallable("smam", "_smam_pcoga2dim_diff_shape", (DL_FUNC)_smam_pcoga2dim_diff_shape_try);
     R_RegisterCCallable("smam", "_smam_ths_vp00", (DL_FUNC)_smam_ths_vp00_try);
     R_RegisterCCallable("smam", "_smam_ths_vp01", (DL_FUNC)_smam_ths_vp01_try);
     R_RegisterCCallable("smam", "_smam_ths_vp02", (DL_FUNC)_smam_ths_vp02_try);
@@ -2287,7 +2247,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_smam_fwd_bwd_ths", (DL_FUNC) &_smam_fwd_bwd_ths, 3},
     {"_smam_viterbi_ths", (DL_FUNC) &_smam_viterbi_ths, 3},
     {"_smam_partial_viterbi_ths", (DL_FUNC) &_smam_partial_viterbi_ths, 5},
-    {"_smam_pcoga2dim_diff_shape", (DL_FUNC) &_smam_pcoga2dim_diff_shape, 5},
     {"_smam_ths_vp00", (DL_FUNC) &_smam_ths_vp00, 6},
     {"_smam_ths_vp01", (DL_FUNC) &_smam_ths_vp01, 6},
     {"_smam_ths_vp02", (DL_FUNC) &_smam_ths_vp02, 6},

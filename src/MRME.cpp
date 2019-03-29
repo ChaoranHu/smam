@@ -406,3 +406,14 @@ NumericVector t01_mrme(NumericVector t, NumericVector theta) {
   }
   return result;
 }
+
+
+// negative log-likelihood of MVME
+// theta: c(lam1, lam0, sigma, sig_err)
+// data: diff time locations
+
+/*
+// [[Rcpp::export]]
+double nllk_mrme(NumericVector &theta, NumericMatrix &data,
+		 NumericVector &integrControl)
+*/

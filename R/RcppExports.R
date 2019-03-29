@@ -101,10 +101,6 @@ partial_viterbi_ths <- function(theta, data, integrControl, startpoint, pathleng
     .Call('_smam_partial_viterbi_ths', PACKAGE = 'smam', theta, data, integrControl, startpoint, pathlength)
 }
 
-pcoga2dim_diff_shape <- function(x, shape1, shape2, rate1, rate2) {
-    .Call('_smam_pcoga2dim_diff_shape', PACKAGE = 'smam', x, shape1, shape2, rate1, rate2)
-}
-
 ths_vp00 <- function(vs, t, lambda0, lambda1, lambda2, p) {
     .Call('_smam_ths_vp00', PACKAGE = 'smam', vs, t, lambda0, lambda1, lambda2, p)
 }
