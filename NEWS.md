@@ -1,5 +1,8 @@
 # CHANGES IN smam VERSION 0.4.0.9000
 
+## MAJOR CHANGES
+
+* Added moving-resting model with measurement error is modeled as Gaussian noise as `fitMRME`.
 
 
 

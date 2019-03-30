@@ -1,6 +1,7 @@
 ## nllk_bmme_seasonal:     nllk for seasonal analysis with bmme process.
 ## ncllk_m1_inc_seasonal:  composite nllk for seasonal analysis for MR model.
 ## nllk_inc_seasonal:      full nllk for seasonal analysis for MR model.
+## nllk_mrme_seasonal:     nllk for seasonal analysis for MRME model.
 ## nllk_seasonal_parallel: full nllk for seasonal analysis for MRH model.
 ## fitBMME_seasonal:       fit bmme model for seasonal analysis.
 ## fitMR_seasonal:         fit a moving-resting model for seasonal analysis.
@@ -49,9 +50,7 @@ prepareSeasonalFit <- function(data, segment) {
     lapply(data, function(x) apply(x, 2, diff))
 }
 
-####################################
-### BMME Model seasonal analysis ###
-####################################
+
 
 ## The negative log-likelihood of bmme for seasonal analysis data.
 ## input:
@@ -66,8 +65,7 @@ nllk_bmme_seasonal <- function(param, data) {
     sum(unlist(result))
 }
 
-## The composite and forward algorithm nllk of two-states model
-## for seasonal analysis data.
+## The nllk of moving-resting model for seasonal analysis data.
 ## input:
 ##        theta: vector of (lambda1, lambda0, sigma)
 ##        data:  list have the *similar* format as the output from
@@ -75,6 +73,8 @@ nllk_bmme_seasonal <- function(param, data) {
 ##        integrControl, logtr: see ncllk_m1_inc
 ## output:
 ##        negative log-likelihood of seasonal filtered data
+
+## composite nllk
 ncllk_m1_inc_seasonal <- function(theta, data,
                                   integrControl, logtr) {
     n.year <- length(data)
@@ -84,6 +84,7 @@ ncllk_m1_inc_seasonal <- function(theta, data,
     sum(unlist(result))
 }
 
+## forward nllk
 nllk_inc_seasonal <- function(theta, data,
                               integrControl, logtr) {
     n.year <- length(data)
@@ -92,6 +93,36 @@ nllk_inc_seasonal <- function(theta, data,
                      logtr = logtr)
     sum(unlist(result))
 }
+
+
+## The nllk of moving-resting model with measurement error
+## for seasonal analysis data.
+## input:
+##        theta: vector of (lambda1, lambda0, sigma, sig_err)
+##        data:  list have the *similar* format as the output from
+##               'seasonFilter' after 'prepareSeasonalFit'
+##        integrControl, logtr: see ncllk_m1_inc
+## output:
+##        negative log-likelihood of seasonal filtered data
+nllk_mrme_seasonal <- function(theta, data, integrControl) {
+    n.year <- length(data)
+    result <- lapply(data, nllk_mrme,
+                     theta = theta, integrControl = integrControl)
+    sum(unlist(result))
+}
+
+
+
+
+
+
+
+
+
+
+####################################
+### BMME Model seasonal analysis ###
+####################################
 
 ## obtain initial value for sigma and delta by method of moment
 ## (the wrapper of 'bmme.start' for seasonal analysis data.)
@@ -174,7 +205,7 @@ movres.start.seasonal <- function(dat, segment) {
 
 
 
-## internal function for fitBMME seasonal
+## internal function for fitMR seasonal
 ##' @importFrom stats optim
 ##' @importFrom methods is
 fitMR_seasonal <- function(data, segment, start, likelihood,
@@ -210,6 +241,30 @@ fitMR_seasonal <- function(data, segment, start, likelihood,
          loglik      = -fit$value,
          convergence = fit$convergence,
          likelihood  = likelihood)
+}
+
+
+#####################################################################
+### Moving-Resting with Measurement Error Model seasonal analysis ###
+#####################################################################
+## internal function for fitMR seasonal
+##' @importFrom stats optim
+##' @importFrom methods is
+fitMRME_seasonal <- function(data, segment, start,
+                             method, optim.control, integrControl) {
+    data <- seg2list(data, segment)
+    if (is.null(start)) start <- movres.start.seasonal(data, segment)
+    dinc <- prepareSeasonalFit(data, segment)
+    integrControl <- unlist(integrControl)
+    
+    fit <- optim(start, nllk_mrme_seasonal, data = dinc, method = method,
+                 control = optim.control, integrControl = integrControl)
+    
+    estimate <- fit$par
+    
+    list(estimate    = estimate,
+         loglik      = -fit$value,
+         convergence = fit$convergence)
 }
 
 

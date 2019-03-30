@@ -420,7 +420,10 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
 		 NumericVector &integrControl) {
   if (is_true(any(theta <= 0))) return(NA_REAL);
   int n = data.nrow(), dim = data.ncol() - 1;
-  if (n < 2) stop("Sample size is too small to process, should be at least 3.");
+  if (n < 2) {
+    warning("Sample size is too small to process, should be at least 3. Return nllk as 0.");
+    return(0);
+  }
   double lam1 = theta[0], lam0 = theta[1];
   double pm = 1. / lam1 / (1. / lam1 + 1. / lam0), pr = 1. - pm;
   NumericVector tt = data.column(0);

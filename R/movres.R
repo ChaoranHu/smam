@@ -611,6 +611,101 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
           integrControl = integrControl)
 }
 
+
+#' Fit a Moving-Resting Model with Measurement Error
+#'
+#' Fit a Moving-Resting Model with Measurement Error. The measurement
+#' error is modeled by Guassian noise. Using \code{segment} to fit part
+#' of observations to the model. A practical application of this feature
+#' is seasonal analysis.
+#'
+#' @param data a data.frame whose first column is the observation time, and other
+#'     columns are location coordinates. If \code{segment} is not \code{NULL},
+#'     additional column with the same name given by \code{segment} should be
+#'     included. This additional column is used to indicate which part of
+#'     observations shoule be used to fit model. The value of this column can
+#'     be any integer with 0 means discarding this observation and non-0 means
+#'     using this obversvation. Using different non-zero numbers indicate different
+#'     segments. (See vignette for more details.)
+#' @param start starting value of the model, a vector of four components
+#'     in the order of rate for moving, rate for resting, volatility, and
+#'     s.d. of Guassian measurement error.
+#' @param segment character variable, name of the column which indicates segments,
+#'     in the given \code{data.frame}. The default value, \code{NULL}, means using
+#'     whole dataset to fit the model.
+#' @param method the method argument to feed \code{optim}.
+#' @param optim.control a list of control to be passed to \code{optim}.
+#' @param integrControl a list of control parameters for the \code{integrate}
+#'     function: rel.tol, abs.tol, subdivision.
+#' 
+#' @return
+#' a list of the following components:
+#' \item{estimate}{the esimated parameter vector}
+#' \item{loglik}{maximized loglikelihood or composite loglikelihood
+#' evaluated at the estimate}
+#' \item{convergence}{convergence code from \code{optim}}
+#' 
+#' @references
+#' Hu, C., Pozdnyakov, V., and Yan, J. Moving-resting model with measurement
+#' error. In process.
+#'
+#' @examples
+#' \donttest{
+#' tgrid <- seq(0, 10, length=500)
+#' set.seed(123)
+#' ## make it irregularly spaced
+#' tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
+#' dat <- rMR(tgrid, 1, 0.5, 1, "m")
+#' dat$X1 <- dat$X1 + rnorm(nrow(dat), 0, 0.01)
+#' dat$X2 <- dat$X2 + rnorm(nrow(dat), 0, 0.01)
+#'
+#' ## fit whole dataset to the MR model
+#' fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
+#' fit
+#' 
+#'
+#' ## fit part of dataset to the MR model
+#' batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
+#' dat.segment <- cbind(dat, batch)
+#' fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
+#' head(dat.segment)
+#' fit.segment
+#' }
+#' 
+#' @export
+fitMRME <- function(data, start, segment = NULL,
+                    method = "Nelder-Mead",
+                    optim.control = list(),
+                    integrControl = integr.control()) {
+    if (is.null(segment)) {
+
+        
+        if (!is.matrix(data)) data <- as.matrix(data)
+        dinc <- apply(data, 2, diff)
+        integrControl <- unlist(integrControl)
+        
+        fit <- optim(start, nllk_mrme, data = dinc, method = method,
+                     control = optim.control, integrControl = integrControl)
+
+        estimate <- fit$par
+        
+        return(list(estimate    = estimate,
+                    loglik      = -fit$value,
+                    convergence = fit$convergence))
+
+        
+    } else {
+
+        
+        ## seasonal process
+        result <- fitMRME_seasonal(data, segment, start,
+                                   method, optim.control, integrControl)
+        return(result)
+
+        
+    }
+}
+
 #' Auxiliary for Controlling Numerical Integration
 #'
 #' Auxiliary function for the numerical integration used in the
