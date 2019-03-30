@@ -89,6 +89,10 @@ t01_mrme <- function(t, theta) {
     .Call('_smam_t01_mrme', PACKAGE = 'smam', t, theta)
 }
 
+nllk_mrme <- function(theta, data, integrControl) {
+    .Call('_smam_nllk_mrme', PACKAGE = 'smam', theta, data, integrControl)
+}
+
 fwd_bwd_ths <- function(theta, data, integrControl) {
     .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
 }

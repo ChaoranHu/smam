@@ -487,6 +487,27 @@ namespace smam {
         return Rcpp::as<NumericVector >(rcpp_result_gen);
     }
 
+    inline double nllk_mrme(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl) {
+        typedef SEXP(*Ptr_nllk_mrme)(SEXP,SEXP,SEXP);
+        static Ptr_nllk_mrme p_nllk_mrme = NULL;
+        if (p_nllk_mrme == NULL) {
+            validateSignature("double(*nllk_mrme)(NumericVector&,NumericMatrix&,NumericVector&)");
+            p_nllk_mrme = (Ptr_nllk_mrme)R_GetCCallable("smam", "_smam_nllk_mrme");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_nllk_mrme(Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(data)), Shield<SEXP>(Rcpp::wrap(integrControl)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<double >(rcpp_result_gen);
+    }
+
     inline NumericMatrix fwd_bwd_ths(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl) {
         typedef SEXP(*Ptr_fwd_bwd_ths)(SEXP,SEXP,SEXP);
         static Ptr_fwd_bwd_ths p_fwd_bwd_ths = NULL;
