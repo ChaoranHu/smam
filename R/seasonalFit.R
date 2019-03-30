@@ -5,6 +5,7 @@
 ## nllk_seasonal_parallel: full nllk for seasonal analysis for MRH model.
 ## fitBMME_seasonal:       fit bmme model for seasonal analysis.
 ## fitMR_seasonal:         fit a moving-resting model for seasonal analysis.
+## fitMRME_seasonal:       fit a moving-resting model with measurement error for seasonal analysis.
 ## fitMRH_seasonal:        fit a moving-resting-handling model for seasonal analysis.
 
 
