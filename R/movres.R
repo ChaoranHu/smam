@@ -651,10 +651,8 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #'
 #' @examples
 #' \donttest{
-#' tgrid <- seq(0, 10, length=500)
+#' tgrid <- seq(0, 10*100, length=100)
 #' set.seed(123)
-#' ## make it irregularly spaced
-#' tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
 #' dat <- rMR(tgrid, 1, 0.5, 1, "m")
 #' dat$X1 <- dat$X1 + rnorm(nrow(dat), 0, 0.01)
 #' dat$X2 <- dat$X2 + rnorm(nrow(dat), 0, 0.01)

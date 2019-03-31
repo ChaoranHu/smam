@@ -419,6 +419,7 @@ NumericVector t01_mrme(NumericVector t, NumericVector theta) {
 double nllk_mrme(NumericVector &theta, NumericMatrix &data,
 		 NumericVector &integrControl) {
   if (is_true(any(theta <= 0))) return(NA_REAL);
+  if (theta[3] <= theta[4]) return(NA_REAL);
   int n = data.nrow(), dim = data.ncol() - 1;
   if (n < 2) {
     warning("Sample size is too small to process, should be at least 3. Return nllk as 0.");
