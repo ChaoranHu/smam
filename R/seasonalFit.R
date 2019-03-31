@@ -22,23 +22,69 @@
 ##       should be used for indicate segments.
 ## return: a list with each element is a segment.
 seg2list <- function(data, segment) {
-  if (segment %in% names(data) != TRUE) {
-    stop("Cannot find segment variable in data.frame.")
-  }
-  
-  seg.col <- which(names(data) == segment)
-  segs    <- unique(data[, seg.col])
-  segs    <- segs[-which(segs == 0)]
-  n.segs  <- length(segs)
-  
-  result  <- vector('list', n.segs)
-  
-  for (i in 1:n.segs) {
-    result[[i]] <- data[which(data[, seg.col] == segs[i]), ]
-  }
-  
-  result
+    if (segment %in% names(data) != TRUE) {
+        stop("Cannot find segment variable in data.frame.")
+    }
+
+    seg.ncol <- which(names(data) == segment)
+    seg.col <- data[, seg.ncol]
+    seg.col2 <- rep(0, length(seg.col))
+
+    j <- 0
+
+    if (seg.col[1] != 0) {
+        j <- j + 1
+        seg.col2 <- 1
+    }else{
+        seg.col2 <- 0
+    }
+    
+    for (i in 2:length(seg.col)) {
+        if (seg.col[i] == 0) {
+            seg.col2[i] <- 0
+        } else {
+            if(seg.col[i-1] != 0) {
+                seg.col2[i] <- j
+            } else {
+                j <- j + 1
+                seg.col2[i] <- j
+            }
+        }
+    }
+    
+    data <- cbind(data, seg.col2)
+    new.seg <- unique(seg.col2)
+    new.seg <- new.seg[-which(new.seg == 0)]
+
+    result <- vector('list', length(new.seg))
+
+    for (i in 1:length(new.seg)) {
+        result[[i]] <- data[which(seg.col2 == new.seg[i]), ]
+    }
+
+    lapply(result, function(x) x[, -ncol(data)])    
 }
+
+### old version seg2list, just for reference
+## seg2list <- function(data, segment) {
+##   if (segment %in% names(data) != TRUE) {
+##     stop("Cannot find segment variable in data.frame.")
+##   }
+  
+##   seg.col <- which(names(data) == segment)
+##   segs    <- unique(data[, seg.col])
+##   segs    <- segs[-which(segs == 0)]
+##   n.segs  <- length(segs)
+  
+##   result  <- vector('list', n.segs)
+  
+##   for (i in 1:n.segs) {
+##     result[[i]] <- data[which(data[, seg.col] == segs[i]), ]
+##   }
+  
+##   result
+## }
+
 
 
 ## delete the date column in the output of 'seasonFilter'.

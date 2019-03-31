@@ -663,7 +663,7 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' 
 #'
 #' ## fit part of dataset to the MR model
-#' batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
+#' batch <- c(rep(0, 5), rep(1, 17), rep(0, 4), rep(2, 30), rep(0, 4), rep(3, 40))
 #' dat.segment <- cbind(dat, batch)
 #' fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
 #' head(dat.segment)
