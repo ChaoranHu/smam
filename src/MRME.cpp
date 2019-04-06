@@ -481,3 +481,14 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
 
   return(-llk1-llk2);
 }
+
+
+// the following code is for testing purpose only
+// [[Rcpp::export]]
+double nllk_mrme_fixed_sig_err(NumericVector &theta, double sig_err,
+			       NumericMatrix &data,
+			       NumericVector &integrControl){
+  // the theta here only contains lam1, lam0, sigma
+  theta.push_back(sig_err);
+  return(nllk_mrme(theta, data, integrControl));
+}
