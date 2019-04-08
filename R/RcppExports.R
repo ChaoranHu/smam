@@ -97,6 +97,14 @@ nllk_mrme_fixed_sig_err <- function(theta, sig_err, data, integrControl) {
     .Call('_smam_nllk_mrme_fixed_sig_err', PACKAGE = 'smam', theta, sig_err, data, integrControl)
 }
 
+nllk_mrme_one_chain <- function(theta, data, integrControl) {
+    .Call('_smam_nllk_mrme_one_chain', PACKAGE = 'smam', theta, data, integrControl)
+}
+
+nllk_mrme_one_chain_fixed_sig_err <- function(theta, sig_err, data, integrControl) {
+    .Call('_smam_nllk_mrme_one_chain_fixed_sig_err', PACKAGE = 'smam', theta, sig_err, data, integrControl)
+}
+
 fwd_bwd_ths <- function(theta, data, integrControl) {
     .Call('_smam_fwd_bwd_ths', PACKAGE = 'smam', theta, data, integrControl)
 }

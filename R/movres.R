@@ -704,12 +704,12 @@ fitMRME <- function(data, start, segment = NULL,
     }
 }
 
-## the following code is for testing purpose only
+## the following code is for testing purpose only ############
 fitMRME_fixed_sig_err <- function(data, start, sig_err,
                                   method = "Nelder-Mead",
                                   optim.control = list(),
                                   integrControl = integr.control()){
-    ## start here contains lam1, lam0,m sigma
+    ## start here contains lam1, lam0, sigma
     ## sig_err should be given as known
     if (!is.matrix(data)) data <- as.matrix(data)
     dinc <- apply(data, 2, diff)
@@ -727,8 +727,51 @@ fitMRME_fixed_sig_err <- function(data, start, sig_err,
 }
 
 
+fitMRME_one_chain <- function(data, start,
+                              method = "Nelder-Mead",
+                              optim.control = list(),
+                              integrControl = integr.control()){
+    ## start here contains lam1, lam0, sigma, sig_err
+    if (!is.matrix(data)) data <- as.matrix(data)
+    dinc <- apply(data, 2, diff)
+    integrControl <- unlist(integrControl)
+    
+    fit <- optim(start, nllk_mrme_one_chain,
+                 data = dinc, method = method,
+                 control = optim.control, integrControl = integrControl)
 
-## test code ends here
+    estimate <- fit$par
+    
+    return(list(estimate    = estimate,
+                loglik      = -fit$value,
+                convergence = fit$convergence))
+}
+
+fitMRME_one_chain_fixed_sig_err <- function(data, start, sig_err,
+                                            method = "Nelder-Mead",
+                                            optim.control = list(),
+                                            integrControl = integr.control()){
+    ## start here contains lam1, lam0,m sigma
+    ## sig_err should be given as known
+    if (!is.matrix(data)) data <- as.matrix(data)
+    dinc <- apply(data, 2, diff)
+    integrControl <- unlist(integrControl)
+    
+    fit <- optim(start, nllk_mrme_one_chain_fixed_sig_err,
+                 sig_err = sig_err,
+                 data = dinc, method = method,
+                 control = optim.control, integrControl = integrControl)
+
+    estimate <- fit$par
+    
+    return(list(estimate    = estimate,
+                loglik      = -fit$value,
+                convergence = fit$convergence))
+}
+
+
+
+## test code ends here #####################################
 
 
 

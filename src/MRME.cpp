@@ -492,3 +492,62 @@ double nllk_mrme_fixed_sig_err(NumericVector &theta, double sig_err,
   theta.push_back(sig_err);
   return(nllk_mrme(theta, data, integrControl));
 }
+
+
+// [[Rcpp::export]]
+double nllk_mrme_one_chain(NumericVector &theta, NumericMatrix &data,
+			   NumericVector &integrControl) {
+  if (is_true(any(theta <= 0))) return(NA_REAL);
+  if (theta[3] <= theta[4]) return(NA_REAL);
+  int n = data.nrow(), dim = data.ncol() - 1;
+  if (n < 2) {
+    warning("Sample size is too small to process, should be at least 3. Return nllk as 0.");
+    return(0);
+  }
+  double lam1 = theta[0], lam0 = theta[1];
+  double pm = 1. / lam1 / (1. / lam1 + 1. / lam0), pr = 1. - pm;
+  NumericVector tt = data.column(0);
+  NumericMatrix z  = data(Range(0, n - 1), Range(1, dim));
+  NumericVector
+    gmm = g11_mrme(z, tt, theta, integrControl),
+    grr = g00_mrme(z, tt, theta, integrControl),
+    grm = g01_mrme(z, tt, theta, integrControl),
+    gmr = g10_mrme(z, tt, theta, integrControl);
+  NumericVector
+    tmm = t11_mrme(z, theta),
+    trr = t00_mrme(z, theta),
+    trm = t01_mrme(z, theta),
+    tmr = t10_mrme(z, theta);
+
+  // forward algorithm for the first chain
+  // start from Z_0
+  double alpha0 = pr, alpha1 = pm;//alpha's are normalized forward variable
+  double llk1 = 0;
+  double cartrr = 0, cartrm = 0, cartmm = 0, cartmr = 0;
+  double dx = 0, sumfr = 0, sumfm = 0;
+  for (int i = 0; i < floor(n/2); i++) {
+    cartrr = trm[2*i]*gmr[2*i+1] + trr[2*i]*grr[2*i+1];
+    cartmr = tmm[2*i]*gmr[2*i+1] + tmr[2*i]*grr[2*i+1];
+    cartrm = trm[2*i]*gmm[2*i+1] + trr[2*i]*grm[2*i+1];
+    cartmr = tmr[2*i]*grr[2*i+1] + tmm[2*i]*gmr[2*i+1];
+    sumfr = cartrr * alpha0 + cartmr * alpha1;
+    sumfm = cartrm * alpha0 + cartmm * alpha1;
+    dx = sumfr + sumfm;
+    alpha0 = sumfr / dx;
+    alpha1 = sumfm / dx;
+    llk1 += log(dx);
+  }
+
+  return(-llk1);
+}
+
+
+// [[Rcpp::export]]
+double nllk_mrme_one_chain_fixed_sig_err(NumericVector &theta,
+					 double sig_err,
+					 NumericMatrix &data,
+					 NumericVector &integrControl){
+  // the theta here only contains lam1, lam0, sigma
+  theta.push_back(sig_err);
+  return(nllk_mrme_one_chain(theta, data, integrControl));
+}
