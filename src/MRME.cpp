@@ -68,7 +68,7 @@ void g11_integrand_mrme(double *w, int n, void *ex) {
 
   for (int i = 0; i < n; i++) {
     double temp = h11_mrme(z-w[i], t, theta, integrControl);
-    temp *= R::dnorm(w[i], 0.0, 2*pow(sig_err, 2), 0);
+    temp *= R::dnorm(w[i], 0.0, sqrt(2*pow(sig_err, 2)), 0);
     w[i] = temp;
   }
 }
@@ -83,7 +83,7 @@ void g10_integrand_mrme(double *w, int n, void *ex) {
 
   for (int i = 0; i < n; i++) {
     double temp = h10_mrme(z-w[i], t, theta, integrControl);
-    temp *= R::dnorm(w[i], 0.0, 2*pow(sig_err, 2), 0);
+    temp *= R::dnorm(w[i], 0.0, sqrt(2*pow(sig_err, 2)), 0);
     w[i] = temp;
   }
 }
@@ -98,7 +98,7 @@ void g01_integrand_mrme(double *w, int n, void *ex) {
 
   for (int i = 0; i < n; i++) {
     double temp = h01_mrme(z-w[i], t, theta, integrControl);
-    temp *= R::dnorm(w[i], 0.0, 2*pow(sig_err, 2), 0);
+    temp *= R::dnorm(w[i], 0.0, sqrt(2*pow(sig_err, 2)), 0);
     w[i] = temp;
   }
 }
@@ -113,7 +113,7 @@ void g00_integrand_mrme(double *w, int n, void *ex) {
 
   for (int i = 0; i < n; i++) {
     double temp = h00_mrme(z-w[i], t, theta, integrControl);
-    temp *= R::dnorm(w[i], 0.0, 2*pow(sig_err, 2), 0);
+    temp *= R::dnorm(w[i], 0.0, sqrt(2*pow(sig_err, 2)), 0);
     w[i] = temp;
   }
 }
@@ -282,7 +282,7 @@ NumericVector g00_mrme(NumericMatrix z, NumericVector t,
       Rdqagi(g00_integrand_mrme, ex, &bound, &inf, &epsabs, &epsrel,
 	     &result, &abserr, &neval, &ier, &limit, &lenw, &last,
 	     iwork, work);
-      result += exp(-lambda0*ex[0])*R::dnorm(ex[8], 0.0, 2*pow(sig_err, 2), 0);
+      result += exp(-lambda0*ex[0])*R::dnorm(ex[8], 0.0, sqrt(2*pow(sig_err, 2)), 0);
       cart *= result;
     }
     value[i] = cart;
