@@ -42,6 +42,7 @@ double norm_mrme(double z, double b, double d,
   Rdqagi(norm_integrand_mrme, ex, &bound, &inf, &epsabs, &epsrel,
 	 &result, &abserr, &neval, &ier, &limit, &lenw, &last,
 	 iwork, work);
+  Free(ex); Free(iwork); Free(work);
   return(result);
 }
 
