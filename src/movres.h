@@ -6,6 +6,14 @@
 
 using namespace Rcpp;
 
+double p11(double w, double t, double lambda1, double lambda0);
+
+double p10(double w, double t, double lambda1, double lambda0);
+
+double p01(double w, double t, double lambda1, double lambda0);
+
+double p00(double w, double t, double lambda1, double lambda0);
+
 NumericVector h11(NumericMatrix x, NumericVector t, NumericVector theta,
 		  NumericVector integrControl);
 

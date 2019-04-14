@@ -319,17 +319,17 @@ namespace smam {
         return Rcpp::as<double >(rcpp_result_gen);
     }
 
-    inline NumericVector g11_mrme(NumericMatrix z, NumericVector t, NumericVector theta, NumericVector integrControl) {
-        typedef SEXP(*Ptr_g11_mrme)(SEXP,SEXP,SEXP,SEXP);
-        static Ptr_g11_mrme p_g11_mrme = NULL;
-        if (p_g11_mrme == NULL) {
-            validateSignature("NumericVector(*g11_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
-            p_g11_mrme = (Ptr_g11_mrme)R_GetCCallable("smam", "_smam_g11_mrme");
+    inline double norm_mrme(double z, double b, double d, NumericVector integrControl) {
+        typedef SEXP(*Ptr_norm_mrme)(SEXP,SEXP,SEXP,SEXP);
+        static Ptr_norm_mrme p_norm_mrme = NULL;
+        if (p_norm_mrme == NULL) {
+            validateSignature("double(*norm_mrme)(double,double,double,NumericVector)");
+            p_norm_mrme = (Ptr_norm_mrme)R_GetCCallable("smam", "_smam_norm_mrme");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_g11_mrme(Shield<SEXP>(Rcpp::wrap(z)), Shield<SEXP>(Rcpp::wrap(t)), Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(integrControl)));
+            rcpp_result_gen = p_norm_mrme(Shield<SEXP>(Rcpp::wrap(z)), Shield<SEXP>(Rcpp::wrap(b)), Shield<SEXP>(Rcpp::wrap(d)), Shield<SEXP>(Rcpp::wrap(integrControl)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -337,7 +337,7 @@ namespace smam {
             throw Rcpp::LongjumpException(rcpp_result_gen);
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<NumericVector >(rcpp_result_gen);
+        return Rcpp::as<double >(rcpp_result_gen);
     }
 
     inline NumericVector g10_mrme(NumericMatrix z, NumericVector t, NumericVector theta, NumericVector integrControl) {
@@ -393,6 +393,27 @@ namespace smam {
         {
             RNGScope RCPP_rngScope_gen;
             rcpp_result_gen = p_g00_mrme(Shield<SEXP>(Rcpp::wrap(z)), Shield<SEXP>(Rcpp::wrap(t)), Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(integrControl)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<NumericVector >(rcpp_result_gen);
+    }
+
+    inline NumericVector g11_mrme(NumericMatrix z, NumericVector t, NumericVector theta, NumericVector integrControl) {
+        typedef SEXP(*Ptr_g11_mrme)(SEXP,SEXP,SEXP,SEXP);
+        static Ptr_g11_mrme p_g11_mrme = NULL;
+        if (p_g11_mrme == NULL) {
+            validateSignature("NumericVector(*g11_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
+            p_g11_mrme = (Ptr_g11_mrme)R_GetCCallable("smam", "_smam_g11_mrme");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_g11_mrme(Shield<SEXP>(Rcpp::wrap(z)), Shield<SEXP>(Rcpp::wrap(t)), Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(integrControl)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

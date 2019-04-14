@@ -526,24 +526,24 @@ RcppExport SEXP _smam_mrllk_state(SEXP thetaSEXP, SEXP dataSEXP, SEXP stateSEXP,
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// g11_mrme
-NumericVector g11_mrme(NumericMatrix z, NumericVector t, NumericVector theta, NumericVector integrControl);
-static SEXP _smam_g11_mrme_try(SEXP zSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+// norm_mrme
+double norm_mrme(double z, double b, double d, NumericVector integrControl);
+static SEXP _smam_norm_mrme_try(SEXP zSEXP, SEXP bSEXP, SEXP dSEXP, SEXP integrControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type z(zSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< double >::type z(zSEXP);
+    Rcpp::traits::input_parameter< double >::type b(bSEXP);
+    Rcpp::traits::input_parameter< double >::type d(dSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type integrControl(integrControlSEXP);
-    rcpp_result_gen = Rcpp::wrap(g11_mrme(z, t, theta, integrControl));
+    rcpp_result_gen = Rcpp::wrap(norm_mrme(z, b, d, integrControl));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _smam_g11_mrme(SEXP zSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+RcppExport SEXP _smam_norm_mrme(SEXP zSEXP, SEXP bSEXP, SEXP dSEXP, SEXP integrControlSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_smam_g11_mrme_try(zSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+        rcpp_result_gen = PROTECT(_smam_norm_mrme_try(zSEXP, bSEXP, dSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -655,6 +655,43 @@ RcppExport SEXP _smam_g00_mrme(SEXP zSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP inte
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
         rcpp_result_gen = PROTECT(_smam_g00_mrme_try(zSEXP, tSEXP, thetaSEXP, integrControlSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// g11_mrme
+NumericVector g11_mrme(NumericMatrix z, NumericVector t, NumericVector theta, NumericVector integrControl);
+static SEXP _smam_g11_mrme_try(SEXP zSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type z(zSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type integrControl(integrControlSEXP);
+    rcpp_result_gen = Rcpp::wrap(g11_mrme(z, t, theta, integrControl));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _smam_g11_mrme(SEXP zSEXP, SEXP tSEXP, SEXP thetaSEXP, SEXP integrControlSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_smam_g11_mrme_try(zSEXP, tSEXP, thetaSEXP, integrControlSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -2256,10 +2293,11 @@ static int _smam_RcppExport_validate(const char* sig) {
         signatures.insert("NumericMatrix(*viterbi_mr)(NumericVector&,NumericMatrix&,NumericVector&)");
         signatures.insert("NumericMatrix(*partial_viterbi_mr)(NumericVector&,NumericMatrix&,NumericVector&,int&,int&)");
         signatures.insert("double(*mrllk_state)(NumericVector&,NumericMatrix&,IntegerVector&,NumericVector&)");
-        signatures.insert("NumericVector(*g11_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
+        signatures.insert("double(*norm_mrme)(double,double,double,NumericVector)");
         signatures.insert("NumericVector(*g10_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
         signatures.insert("NumericVector(*g01_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
         signatures.insert("NumericVector(*g00_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
+        signatures.insert("NumericVector(*g11_mrme)(NumericMatrix,NumericVector,NumericVector,NumericVector)");
         signatures.insert("NumericVector(*t11_mrme)(NumericVector,NumericVector)");
         signatures.insert("NumericVector(*t00_mrme)(NumericVector,NumericVector)");
         signatures.insert("NumericVector(*t10_mrme)(NumericVector,NumericVector)");
@@ -2322,10 +2360,11 @@ RcppExport SEXP _smam_RcppExport_registerCCallable() {
     R_RegisterCCallable("smam", "_smam_viterbi_mr", (DL_FUNC)_smam_viterbi_mr_try);
     R_RegisterCCallable("smam", "_smam_partial_viterbi_mr", (DL_FUNC)_smam_partial_viterbi_mr_try);
     R_RegisterCCallable("smam", "_smam_mrllk_state", (DL_FUNC)_smam_mrllk_state_try);
-    R_RegisterCCallable("smam", "_smam_g11_mrme", (DL_FUNC)_smam_g11_mrme_try);
+    R_RegisterCCallable("smam", "_smam_norm_mrme", (DL_FUNC)_smam_norm_mrme_try);
     R_RegisterCCallable("smam", "_smam_g10_mrme", (DL_FUNC)_smam_g10_mrme_try);
     R_RegisterCCallable("smam", "_smam_g01_mrme", (DL_FUNC)_smam_g01_mrme_try);
     R_RegisterCCallable("smam", "_smam_g00_mrme", (DL_FUNC)_smam_g00_mrme_try);
+    R_RegisterCCallable("smam", "_smam_g11_mrme", (DL_FUNC)_smam_g11_mrme_try);
     R_RegisterCCallable("smam", "_smam_t11_mrme", (DL_FUNC)_smam_t11_mrme_try);
     R_RegisterCCallable("smam", "_smam_t00_mrme", (DL_FUNC)_smam_t00_mrme_try);
     R_RegisterCCallable("smam", "_smam_t10_mrme", (DL_FUNC)_smam_t10_mrme_try);
@@ -2390,10 +2429,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_smam_viterbi_mr", (DL_FUNC) &_smam_viterbi_mr, 3},
     {"_smam_partial_viterbi_mr", (DL_FUNC) &_smam_partial_viterbi_mr, 5},
     {"_smam_mrllk_state", (DL_FUNC) &_smam_mrllk_state, 4},
-    {"_smam_g11_mrme", (DL_FUNC) &_smam_g11_mrme, 4},
+    {"_smam_norm_mrme", (DL_FUNC) &_smam_norm_mrme, 4},
     {"_smam_g10_mrme", (DL_FUNC) &_smam_g10_mrme, 4},
     {"_smam_g01_mrme", (DL_FUNC) &_smam_g01_mrme, 4},
     {"_smam_g00_mrme", (DL_FUNC) &_smam_g00_mrme, 4},
+    {"_smam_g11_mrme", (DL_FUNC) &_smam_g11_mrme, 4},
     {"_smam_t11_mrme", (DL_FUNC) &_smam_t11_mrme, 2},
     {"_smam_t00_mrme", (DL_FUNC) &_smam_t00_mrme, 2},
     {"_smam_t10_mrme", (DL_FUNC) &_smam_t10_mrme, 2},

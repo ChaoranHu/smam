@@ -57,8 +57,8 @@ mrllk_state <- function(theta, data, state, integrControl) {
     .Call('_smam_mrllk_state', PACKAGE = 'smam', theta, data, state, integrControl)
 }
 
-g11_mrme <- function(z, t, theta, integrControl) {
-    .Call('_smam_g11_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
+norm_mrme <- function(z, b, d, integrControl) {
+    .Call('_smam_norm_mrme', PACKAGE = 'smam', z, b, d, integrControl)
 }
 
 g10_mrme <- function(z, t, theta, integrControl) {
@@ -71,6 +71,10 @@ g01_mrme <- function(z, t, theta, integrControl) {
 
 g00_mrme <- function(z, t, theta, integrControl) {
     .Call('_smam_g00_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
+}
+
+g11_mrme <- function(z, t, theta, integrControl) {
+    .Call('_smam_g11_mrme', PACKAGE = 'smam', z, t, theta, integrControl)
 }
 
 t11_mrme <- function(t, theta) {
