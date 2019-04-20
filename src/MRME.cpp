@@ -126,7 +126,7 @@ void g01_integrand_mrme(double *w, int n, void *ex) {
   double *z         = ptr + 9;
   for (int i = 0; i < n; i++) {
     double temp = p01(w[i], t, lambda1, lambda0);
-    double sd1 = sqrt(t - w[i] * pow(sigma, 2));
+    double sd1 = sqrt((t - w[i]) * pow(sigma, 2));
     double sd2 = sqrt(2    * pow(sig_err, 2));
     for (int j = 0; j < dim; j++){
       temp *= norm_mrme(z[j], sd1, sd2, integrControl);
@@ -184,7 +184,7 @@ void g00_integrand_mrme(double *w, int n, void *ex) {
   double *z         = ptr + 9;
   for (int i = 0; i < n; i++) {
     double temp = p00(w[i], t, lambda1, lambda0);
-    double sd1 = sqrt(t - w[i] * pow(sigma, 2));
+    double sd1 = sqrt((t - w[i]) * pow(sigma, 2));
     double sd2 = sqrt(2    * pow(sig_err, 2));
     for (int j = 0; j < dim; j++){
       temp *= norm_mrme(z[j], sd1, sd2, integrControl);
