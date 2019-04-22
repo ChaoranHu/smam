@@ -458,7 +458,7 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
     cartrr = trm[2*i]*gmr[2*i+1] + trr[2*i]*grr[2*i+1];
     cartmr = tmm[2*i]*gmr[2*i+1] + tmr[2*i]*grr[2*i+1];
     cartrm = trm[2*i]*gmm[2*i+1] + trr[2*i]*grm[2*i+1];
-    cartmr = tmr[2*i]*grr[2*i+1] + tmm[2*i]*gmr[2*i+1];
+    cartmm = tmr[2*i]*grm[2*i+1] + tmm[2*i]*gmm[2*i+1];
     sumfr = cartrr * alpha0 + cartmr * alpha1;
     sumfm = cartrm * alpha0 + cartmm * alpha1;
     dx = sumfr + sumfm;
@@ -478,7 +478,7 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
     cartrr = trm[2*i+1]*gmr[2*i+2] + trr[2*i+1]*grr[2*i+2];
     cartmr = tmm[2*i+1]*gmr[2*i+2] + tmr[2*i+1]*grr[2*i+2];
     cartrm = trm[2*i+1]*gmm[2*i+2] + trr[2*i+1]*grm[2*i+2];
-    cartmr = tmr[2*i+1]*grr[2*i+2] + tmm[2*i+1]*gmr[2*i+2];
+    cartmm = tmr[2*i+1]*grm[2*i+2] + tmm[2*i+1]*gmm[2*i+2];
     sumfr = cartrr * alpha0 + cartmr * alpha1;
     sumfm = cartrm * alpha0 + cartmm * alpha1;
     dx = sumfr + sumfm;
@@ -537,7 +537,7 @@ double nllk_mrme_one_chain(NumericVector &theta, NumericMatrix &data,
     cartrr = trm[2*i]*gmr[2*i+1] + trr[2*i]*grr[2*i+1];
     cartmr = tmm[2*i]*gmr[2*i+1] + tmr[2*i]*grr[2*i+1];
     cartrm = trm[2*i]*gmm[2*i+1] + trr[2*i]*grm[2*i+1];
-    cartmr = tmr[2*i]*grr[2*i+1] + tmm[2*i]*gmr[2*i+1];
+    cartmm = tmr[2*i]*grm[2*i+1] + tmm[2*i]*gmm[2*i+1];
     sumfr = cartrr * alpha0 + cartmr * alpha1;
     sumfm = cartrm * alpha0 + cartmm * alpha1;
     dx = sumfr + sumfm;
