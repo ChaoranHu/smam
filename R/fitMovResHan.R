@@ -140,6 +140,26 @@ fitMRH_parallel <- function(data, start, lower, upper,
 
 
 
+##### testing code for getting hessian matrix of nllk
+hessMRH <- function(estimate, data, integrControl) {
+    if (!is.matrix(data)) data <- as.matrix(data)
+    dinc <- apply(data, 2, diff)
+    integrControl <- unlist(integrControl)
+    hess <- tryCatch(numDeriv::hessian(nllk_fwd_ths,
+                                       x = estimate,
+                                       data = dinc,
+                                       integrControl = integrControl),
+                     error = function(e) {
+                         print(e)
+                         matrix(NA, ncol = 5, nrow = 5)
+                     })
+    hess
+}
+
+
+##### ending of testing code
+
+
 ##### do not export composite llk for MovResHan,
 ##### because it is more time consuming.
 
