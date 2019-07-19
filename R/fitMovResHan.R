@@ -73,30 +73,30 @@ fitMRH <- function(data, start, segment = NULL,
             dinc <- apply(data, 2, diff)
             integrControl <- unlist(integrControl)
 
-            ## fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths,
-            ##                       data = dinc,
-            ##                       integrControl = integrControl,
-            ##                       lb = lower,
-            ##                       ub = upper,
-            ##                       opts = list("algorithm"   = "NLOPT_LN_COBYLA",
-            ##                                   "print_level" = 3,
-            ##                                   "maxeval" = 0))
+            fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths,
+                                  data = dinc,
+                                  integrControl = integrControl,
+                                  lb = lower,
+                                  ub = upper,
+                                  opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+                                              "print_level" = 3,
+                                              "maxeval" = 0))
 
-            ## result <- list(estimate    =  fit[[18]],
-            ##                loglik      = -fit[[17]],
-            ##                convergence =  fit[[13]])
+            result <- list(estimate    =  fit[[18]],
+                           loglik      = -fit[[17]],
+                           convergence =  fit[[13]])
 
-            fit <- optim(par = start, fn = nllk_fwd_ths,
-                         data = dinc,
-                         integrControl = integrControl,
-                         method = "L-BFGS-B",
-                         lower  = lower,
-                         upper = upper,
-                         control = list(maxit =  1000))
+            ## fit <- optim(par = start, fn = nllk_fwd_ths,
+            ##              data = dinc,
+            ##              integrControl = integrControl,
+            ##              method = "L-BFGS-B",
+            ##              lower  = lower,
+            ##              upper = upper,
+            ##              control = list(maxit =  1000))
 
-            result <- list(estimate = fit$par,
-                           loglik = -fit$value,
-                           convergence = fit$convergence)
+            ## result <- list(estimate = fit$par,
+            ##                loglik = -fit$value,
+            ##                convergence = fit$convergence)
             
             return(result)
 
