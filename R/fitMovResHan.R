@@ -135,19 +135,34 @@ fitMRH_parallel <- function(data, start, lower, upper,
     ## allocate threads
     RcppParallel::setThreadOptions(numThreads = numThreads)
 
-    fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths_parallel,
-                          data = dinc,
-                          integrControl = integrControl,
-                          grainSize = grainSize,
-                          lb = lower,
-                          ub = upper,
-                          opts = list("algorithm"   = "NLOPT_LN_COBYLA",
-                                      "print_level" = 3,
-                                      "maxeval" = 0))
+    ## fit <- nloptr::nloptr(x0 = start, eval_f = nllk_fwd_ths_parallel,
+    ##                       data = dinc,
+    ##                       integrControl = integrControl,
+    ##                       grainSize = grainSize,
+    ##                       lb = lower,
+    ##                       ub = upper,
+    ##                       opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+    ##                                   "print_level" = 3,
+    ##                                   "maxeval" = 0))
 
-    result <- list(estimate    =  fit[[18]],
-                   loglik      = -fit[[17]],
-                   convergence =  fit[[13]])
+    ## result <- list(estimate    =  fit[[18]],
+    ##                loglik      = -fit[[17]],
+    ##                convergence =  fit[[13]])
+
+
+    fit <- optim(par = start, fn = nllk_fwd_ths_parallel,
+                 data = dinc,
+                 integrControl = integrControl,
+                 grainSize = grainSize,
+                 method = "L-BFGS-B",
+                 lower  = lower,
+                 upper = upper,
+                 control = list(maxit =  1000))
+
+    result <- list(estimate = fit$par,
+                   loglik = -fit$value,
+                   convergence = fit$convergence)
+    
     result
 }
 
