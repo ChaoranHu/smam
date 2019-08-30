@@ -169,18 +169,36 @@ fitMRH_parallel <- function(data, start, lower, upper,
 
 
 ##### testing code for getting hessian matrix of nllk
-hessMRH <- function(estimate, data, integrControl) {
+hessMRH <- function(estimate, data, integrControl, numThreads) {
     if (!is.matrix(data)) data <- as.matrix(data)
     dinc <- apply(data, 2, diff)
     integrControl <- unlist(integrControl)
-    hess <- tryCatch(numDeriv::hessian(nllk_fwd_ths,
-                                       x = estimate,
-                                       data = dinc,
-                                       integrControl = integrControl),
-                     error = function(e) {
-                         print(e)
-                         matrix(NA, ncol = 5, nrow = 5)
-                     })
+    if (numThreads <= 1) {
+        hess <- tryCatch(numDeriv::hessian(nllk_fwd_ths,
+                                           x = estimate,
+                                           data = dinc,
+                                           integrControl = integrControl),
+                         error = function(e) {
+                             print(e)
+                             matrix(NA, ncol = 5, nrow = 5)
+                         })
+    } else {
+        grainSize <- ceiling(nrow(dinc) / numThreads)
+
+        ## allocate threads
+        RcppParallel::setThreadOptions(numThreads = numThreads)
+
+        hess <- tryCatch(numDeriv::hessian(nllk_fwd_ths_parallel,
+                                           x = estimate,
+                                           data = dinc,
+                                           integrControl = integrControl,
+                                           grainSize = grainSize),
+                         error = function(e) {
+                             print(e)
+                             matrix(NA, ncol = 5, nrow = 5)
+                         })
+    }
+    
     hess
 }
 
