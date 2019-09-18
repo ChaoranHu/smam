@@ -379,7 +379,7 @@ fitMRH_seasonal <- function(data, segment, start,
                           ub = upper,
                           opts = list("algorithm"   = "NLOPT_LN_COBYLA",
                                       "print_level" = 3,
-                                      "maxeval" = 0))
+                                      "maxeval" = -5))
 
     result <- list(estimate    =  fit[[18]],
                    loglik      = -fit[[17]],
