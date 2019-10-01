@@ -2,9 +2,15 @@
 % Please edit documentation in R/movres.R
 \name{fitMRME}
 \alias{fitMRME}
+\alias{fitMRMEapprox}
 \title{Fit a Moving-Resting Model with Measurement Error}
 \usage{
 fitMRME(data, start, segment = NULL, method = "Nelder-Mead",
+  optim.control = list(), integrControl = integr.control())
+
+fitMRMEapprox(data, start, segment = NULL,
+  approx_norm_even = approxNormalOrder(5),
+  approx_norm_odd = approxNormalOrder(6), method = "Nelder-Mead",
   optim.control = list(), integrControl = integr.control())
 }
 \arguments{
@@ -31,6 +37,14 @@ whole dataset to fit the model.}
 
 \item{integrControl}{a list of control parameters for the \code{integrate}
 function: rel.tol, abs.tol, subdivision.}
+
+\item{approx_norm_even, approx_norm_odd}{numeric matrixes specify the
+discrete distributions used to approximate standard normal distribution.
+The first column is support of discrete distribution and the second
+column is probability mass function. \code{approx_norm_even} is used to
+approximate even step error and \code{approx_norm_odd} is used to
+approximate odd step error. We mention that the supports of these two
+discrete distributions should not have any common elements.}
 }
 \value{
 a list of the following components:
@@ -40,10 +54,13 @@ evaluated at the estimate}
 \item{convergence}{convergence code from \code{optim}}
 }
 \description{
-Fit a Moving-Resting Model with Measurement Error. The measurement
+'fitMRME' fits a Moving-Resting Model with Measurement Error. The measurement
 error is modeled by Guassian noise. Using \code{segment} to fit part
 of observations to the model. A practical application of this feature
 is seasonal analysis.
+
+'fitMRMEapprox' also fits moving-resting model. However, in this function,
+the gaussian error is approximated with two discrete distributions.
 }
 \examples{
 \donttest{
@@ -53,15 +70,19 @@ dat <- rMR(tgrid, 1, 0.5, 1, "m")
 dat$X1 <- dat$X1 + rnorm(nrow(dat), 0, 0.01)
 dat$X2 <- dat$X2 + rnorm(nrow(dat), 0, 0.01)
 
-## fit whole dataset to the MR model
+## fit whole dataset to the MRME model
 fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
 fit
 
+## fit whole dataset to the MRME model with approximate error
+fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))
+fit.approx
 
 ## fit part of dataset to the MR model
 batch <- c(rep(0, 5), rep(1, 17), rep(0, 4), rep(2, 30), rep(0, 4), rep(3, 40))
 dat.segment <- cbind(dat, batch)
 fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
+fit.segment.approx <- fitMRMEapprox(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
 head(dat.segment)
 fit.segment
 }
@@ -70,4 +91,7 @@ fit.segment
 \references{
 Hu, C., Pozdnyakov, V., and Yan, J. Moving-resting model with measurement
 error. In process.
+}
+\author{
+Chaoran Hu
 }

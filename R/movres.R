@@ -614,7 +614,7 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 
 #' Fit a Moving-Resting Model with Measurement Error
 #'
-#' Fit a Moving-Resting Model with Measurement Error. The measurement
+#' 'fitMRME' fits a Moving-Resting Model with Measurement Error. The measurement
 #' error is modeled by Guassian noise. Using \code{segment} to fit part
 #' of observations to the model. A practical application of this feature
 #' is seasonal analysis.
@@ -633,6 +633,13 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' @param segment character variable, name of the column which indicates segments,
 #'     in the given \code{data.frame}. The default value, \code{NULL}, means using
 #'     whole dataset to fit the model.
+#' @param approx_norm_even,approx_norm_odd numeric matrixes specify the
+#'     discrete distributions used to approximate standard normal distribution.
+#'     The first column is support of discrete distribution and the second
+#'     column is probability mass function. \code{approx_norm_even} is used to
+#'     approximate even step error and \code{approx_norm_odd} is used to
+#'     approximate odd step error. We mention that the supports of these two
+#'     discrete distributions should not have any common elements.
 #' @param method the method argument to feed \code{optim}.
 #' @param optim.control a list of control to be passed to \code{optim}.
 #' @param integrControl a list of control parameters for the \code{integrate}
@@ -649,6 +656,8 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' Hu, C., Pozdnyakov, V., and Yan, J. Moving-resting model with measurement
 #' error. In process.
 #'
+#' @author Chaoran Hu
+#' 
 #' @examples
 #' \donttest{
 #' tgrid <- seq(0, 10*100, length=100)
@@ -657,15 +666,19 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' dat$X1 <- dat$X1 + rnorm(nrow(dat), 0, 0.01)
 #' dat$X2 <- dat$X2 + rnorm(nrow(dat), 0, 0.01)
 #'
-#' ## fit whole dataset to the MR model
+#' ## fit whole dataset to the MRME model
 #' fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
 #' fit
-#' 
+#'
+#' ## fit whole dataset to the MRME model with approximate error
+#' fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))
+#' fit.approx
 #'
 #' ## fit part of dataset to the MR model
 #' batch <- c(rep(0, 5), rep(1, 17), rep(0, 4), rep(2, 30), rep(0, 4), rep(3, 40))
 #' dat.segment <- cbind(dat, batch)
 #' fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
+#' fit.segment.approx <- fitMRMEapprox(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
 #' head(dat.segment)
 #' fit.segment
 #' }
@@ -704,75 +717,125 @@ fitMRME <- function(data, start, segment = NULL,
     }
 }
 
+
+#' 'fitMRMEapprox' also fits moving-resting model. However, in this function,
+#' the gaussian error is approximated with two discrete distributions.
+#'
+#' @rdname fitMRME
+#' @export
+fitMRMEapprox <- function(data, start, segment = NULL,
+                          approx_norm_even = approxNormalOrder(5),
+                          approx_norm_odd  = approxNormalOrder(6),
+                          method = "Nelder-Mead",
+                          optim.control = list(),
+                          integrControl = integr.control()) {
+    if (is.null(segment)) {
+
+        
+        if (!is.matrix(data)) data <- as.matrix(data)
+        dinc <- apply(data, 2, diff)
+        integrControl <- unlist(integrControl)
+        
+        fit <- optim(start, nllk_mrme_approx, data = dinc, method = method,
+                     approx_norm_odd = approx_norm_odd,
+                     approx_norm_even = approx_norm_even,
+                     control = optim.control, integrControl = integrControl)
+        
+        return(list(estimate    = fit$par ,
+                    loglik      = -fit$value,
+                    convergence = fit$convergence))
+
+        
+    } else {
+
+        
+        ## seasonal process
+        result <- fitMRMEapprox_seasonal(data, segment, start,
+                                         approx_norm_odd, approx_norm_even,
+                                         method, optim.control, integrControl)
+        return(result)
+
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+##############################################################
 ## the following code is for testing purpose only ############
-fitMRME_fixed_sig_err <- function(data, start, sig_err,
-                                  method = "Nelder-Mead",
-                                  optim.control = list(),
-                                  integrControl = integr.control()){
-    ## start here contains lam1, lam0, sigma
-    ## sig_err should be given as known
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    integrControl <- unlist(integrControl)
+## fitMRME_fixed_sig_err <- function(data, start, sig_err,
+##                                   method = "Nelder-Mead",
+##                                   optim.control = list(),
+##                                   integrControl = integr.control()){
+##     ## start here contains lam1, lam0, sigma
+##     ## sig_err should be given as known
+##     if (!is.matrix(data)) data <- as.matrix(data)
+##     dinc <- apply(data, 2, diff)
+##     integrControl <- unlist(integrControl)
     
-    fit <- optim(start, nllk_mrme_fixed_sig_err, sig_err = sig_err,
-                 data = dinc, method = method,
-                 control = optim.control, integrControl = integrControl)
+##     fit <- optim(start, nllk_mrme_fixed_sig_err, sig_err = sig_err,
+##                  data = dinc, method = method,
+##                  control = optim.control, integrControl = integrControl)
 
-    estimate <- fit$par
+##     estimate <- fit$par
     
-    return(list(estimate    = estimate,
-                loglik      = -fit$value,
-                convergence = fit$convergence))
-}
+##     return(list(estimate    = estimate,
+##                 loglik      = -fit$value,
+##                 convergence = fit$convergence))
+## }
 
 
-fitMRME_one_chain <- function(data, start,
-                              method = "Nelder-Mead",
-                              optim.control = list(),
-                              integrControl = integr.control()){
-    ## start here contains lam1, lam0, sigma, sig_err
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    integrControl <- unlist(integrControl)
+## fitMRME_one_chain <- function(data, start,
+##                               method = "Nelder-Mead",
+##                               optim.control = list(),
+##                               integrControl = integr.control()){
+##     ## start here contains lam1, lam0, sigma, sig_err
+##     if (!is.matrix(data)) data <- as.matrix(data)
+##     dinc <- apply(data, 2, diff)
+##     integrControl <- unlist(integrControl)
     
-    fit <- optim(start, nllk_mrme_one_chain,
-                 data = dinc, method = method,
-                 control = optim.control, integrControl = integrControl)
+##     fit <- optim(start, nllk_mrme_one_chain,
+##                  data = dinc, method = method,
+##                  control = optim.control, integrControl = integrControl)
 
-    estimate <- fit$par
+##     estimate <- fit$par
     
-    return(list(estimate    = estimate,
-                loglik      = -fit$value,
-                convergence = fit$convergence))
-}
+##     return(list(estimate    = estimate,
+##                 loglik      = -fit$value,
+##                 convergence = fit$convergence))
+## }
 
-fitMRME_one_chain_fixed_sig_err <- function(data, start, sig_err,
-                                            method = "Nelder-Mead",
-                                            optim.control = list(),
-                                            integrControl = integr.control()){
-    ## start here contains lam1, lam0,m sigma
-    ## sig_err should be given as known
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    integrControl <- unlist(integrControl)
+## fitMRME_one_chain_fixed_sig_err <- function(data, start, sig_err,
+##                                             method = "Nelder-Mead",
+##                                             optim.control = list(),
+##                                             integrControl = integr.control()){
+##     ## start here contains lam1, lam0,m sigma
+##     ## sig_err should be given as known
+##     if (!is.matrix(data)) data <- as.matrix(data)
+##     dinc <- apply(data, 2, diff)
+##     integrControl <- unlist(integrControl)
     
-    fit <- optim(start, nllk_mrme_one_chain_fixed_sig_err,
-                 sig_err = sig_err,
-                 data = dinc, method = method,
-                 control = optim.control, integrControl = integrControl)
+##     fit <- optim(start, nllk_mrme_one_chain_fixed_sig_err,
+##                  sig_err = sig_err,
+##                  data = dinc, method = method,
+##                  control = optim.control, integrControl = integrControl)
 
-    estimate <- fit$par
+##     estimate <- fit$par
     
-    return(list(estimate    = estimate,
-                loglik      = -fit$value,
-                convergence = fit$convergence))
-}
-
-
-
+##     return(list(estimate    = estimate,
+##                 loglik      = -fit$value,
+##                 convergence = fit$convergence))
+## }
 ## test code ends here #####################################
-
+############################################################
 
 
 
@@ -794,7 +857,6 @@ fitMRME_one_chain_fixed_sig_err <- function(data, start, sig_err,
 #' A list with components named as the arguments.
 #'
 #' @export
-
 integr.control <- function(rel.tol = .Machine$double.eps^.25,
                            abs.tol = rel.tol, subdivisions = 100L) {
     if (!is.numeric(rel.tol) || rel.tol <= 0) 
@@ -805,9 +867,52 @@ integr.control <- function(rel.tol = .Machine$double.eps^.25,
         stop("maximum number of subintervals must be > 0")
     list(rel.tol = rel.tol, abs.tol = abs.tol, subdivisions = subdivisions)
 }
-    
 
 
+
+
+#' Auxiliary for Preparing Discrete Distribution
+#' used to approximating Standard Normal Distribution
+#'
+#' Auxiliary for preparing discrete distribution used to
+#' approximate standard normal. This function generate
+#' order statistics of standard normal with same probability
+#' assigned.
+#'
+#' @param m int, the number of order statistics used
+#'
+#' @details
+#' This function use \code{EnvStats::evNormOrdStats} to get
+#' the order statisics of standard normal distribution. The
+#' same probability is assigned for each order statistics.
+#'
+#'
+#' @return
+#' A numeric matrix with first column is support of discrete
+#' distribution and second column is corresponding p.m.f..
+#'
+#' @seealso \code{EnvStats::evNormOrdStats} for order
+#' statisics of standard normal. \code{\link{fitMRMEapprox}}
+#' for fit MRME with approximated measurement error.
+#'
+#' @author Chaoran Hu
+#'
+#' @export
+approxNormalOrder <- function(m){
+    result <- matrix(1/m, ncol = 2, nrow = m)
+    result[, 1] <- EnvStats::evNormOrdStats(m)
+    result
+}
+
+
+
+
+
+
+
+
+##############################################################
+## the following code is for testing purpose only ############
 ## The R version of composite likelihood estimation
 ## Kept only for comparison check with fitMR using cl = TRUE
 fitMovRes.cl <- function(data, start, logtr = FALSE, method = "Nelder-Mead",
@@ -832,7 +937,8 @@ llk_mr <- function(data, theta, integrControl = integr.control()) {
     integrControl <- unlist(integrControl)
     mrllk_state(theta, dinc, data[, 2], integrControl)
 }
-
+## test code ends here #####################################
+############################################################
 
 
 

@@ -27,7 +27,8 @@ Imports: nloptr,
     foreach,
     parallel,
     methods,
-    numDeriv
+    numDeriv,
+    EnvStats
 Suggests: R.rsp
 LinkingTo: Rcpp, RcppGSL, RcppParallel
 SystemRequirements: GNU GSL, GNU make, C++11

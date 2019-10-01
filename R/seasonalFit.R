@@ -1,12 +1,14 @@
-## nllk_bmme_seasonal:     nllk for seasonal analysis with bmme process.
-## ncllk_m1_inc_seasonal:  composite nllk for seasonal analysis for MR model.
-## nllk_inc_seasonal:      full nllk for seasonal analysis for MR model.
-## nllk_mrme_seasonal:     nllk for seasonal analysis for MRME model.
-## nllk_seasonal_parallel: full nllk for seasonal analysis for MRH model.
-## fitBMME_seasonal:       fit bmme model for seasonal analysis.
-## fitMR_seasonal:         fit a moving-resting model for seasonal analysis.
-## fitMRME_seasonal:       fit a moving-resting model with measurement error for seasonal analysis.
-## fitMRH_seasonal:        fit a moving-resting-handling model for seasonal analysis.
+## nllk_bmme_seasonal:          nllk for seasonal analysis with bmme process.
+## ncllk_m1_inc_seasonal:       composite nllk for seasonal analysis for MR model.
+## nllk_inc_seasonal:           full nllk for seasonal analysis for MR model.
+## nllk_mrme_seasonal:          nllk for seasonal analysis for MRME model.
+## nllk_mrme_approx_seasonal:   nllk for seasonal analysis for MRME approx model.
+## nllk_seasonal_parallel:      full nllk for seasonal analysis for MRH model.
+## fitBMME_seasonal:            fit bmme model for seasonal analysis.
+## fitMR_seasonal:              fit a moving-resting model for seasonal analysis.
+## fitMRME_seasonal:            fit a moving-resting model with measurement error for seasonal analysis.
+## fitMRMEapprox_seasonal:      fit approximate moving-resting model with measurement error for seasonal analyis.
+## fitMRH_seasonal:             fit a moving-resting-handling model for seasonal analysis.
 
 
 
@@ -159,7 +161,24 @@ nllk_mrme_seasonal <- function(theta, data, integrControl) {
 }
 
 
-
+## The nllk of moving-resting model with approximate measurement
+## error for seasonal analysis data.
+## input:
+##        theta: vector of (lambda1, lambda0, sigma, sig_err)
+##        data:  list have the *similar* format as the output from
+##               'seasonFilter' after 'prepareSeasonalFit'
+##        integrControl: see ncllk_m1_inc
+##        approx_norm_even, approx_norm_odd: see comment in MRME_approx.cpp
+## output:
+##        negative log-likelihood of seasonal filtered data
+nllk_mrme_approx_seasonal <- function(theta, data, integrControl,
+                                      approx_norm_even, approx_norm_odd) {
+    n.year <- length(data)
+    result <- lapply(data, nllk_mrme_approx,
+                     theta = theta, integrControl = integrControl,
+                     approx_norm_even = approx_norm_even, approx_norm_odd = approx_norm_odd)
+    sum(unlist(result))
+}
 
 
 
@@ -313,6 +332,26 @@ fitMRME_seasonal <- function(data, segment, start,
          loglik      = -fit$value,
          convergence = fit$convergence)
 }
+
+fitMRMEapprox_seasonal <- function(data, segment, start,
+                                   approx_norm_even, approx_norm_odd,
+                                   method, optim.control, integrControl) {
+    data <- seg2list(data, segment)
+    if (is.null(start)) start <- movres.start.seasonal(data, segment)
+    dinc <- prepareSeasonalFit(data, segment)
+    integrControl <- unlist(integrControl)
+    
+    fit <- optim(start, nllk_mrme_approx_seasonal, data = dinc, method = method,
+                 control = optim.control, integrControl = integrControl,
+                 approx_norm_even = approx_norm_even, approx_norm_odd = approx_norm_odd)
+    
+    
+    list(estimate    = fit$par,
+         loglik      = -fit$value,
+         convergence = fit$convergence)
+}
+
+
 
 
 

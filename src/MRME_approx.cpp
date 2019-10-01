@@ -288,6 +288,3 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
   return(-llk);
 }
 
-
-
-// smam:::nllk_mrme_approx(c(4, .4, 1, 0.1), matrix(1:9, ncol = 3), c(1, 1, 1), cbind(1:3, c(0.3, 0.3, 0.4)), cbind(4:6, c(0.3, 0.2, 0.5)))
