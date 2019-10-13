@@ -73,6 +73,26 @@ nllk_mrme_approx <- function(theta, data, integrControl, approx_norm_even, appro
     .Call('_smam_nllk_mrme_approx', PACKAGE = 'smam', theta, data, integrControl, approx_norm_even, approx_norm_odd)
 }
 
+q10_mrme_approx_1dim <- function(z, t, theta, integrControl, err_start, err_end, err_end_prob) {
+    .Call('_smam_q10_mrme_approx_1dim', PACKAGE = 'smam', z, t, theta, integrControl, err_start, err_end, err_end_prob)
+}
+
+q01_mrme_approx_1dim <- function(z, t, theta, integrControl, err_start, err_end, err_end_prob) {
+    .Call('_smam_q01_mrme_approx_1dim', PACKAGE = 'smam', z, t, theta, integrControl, err_start, err_end, err_end_prob)
+}
+
+q00_mrme_approx_1dim <- function(z, t, theta, integrControl, err_start, err_end, err_end_prob) {
+    .Call('_smam_q00_mrme_approx_1dim', PACKAGE = 'smam', z, t, theta, integrControl, err_start, err_end, err_end_prob)
+}
+
+q11_mrme_approx_1dim <- function(z, t, theta, integrControl, err_start, err_end, err_end_prob) {
+    .Call('_smam_q11_mrme_approx_1dim', PACKAGE = 'smam', z, t, theta, integrControl, err_start, err_end, err_end_prob)
+}
+
+nllk_mrme_approx_1dim <- function(theta, data, integrControl, approx_norm_even, approx_norm_odd) {
+    .Call('_smam_nllk_mrme_approx_1dim', PACKAGE = 'smam', theta, data, integrControl, approx_norm_even, approx_norm_odd)
+}
+
 vp11 <- function(vw, t, lambda1, lambda0) {
     .Call('_smam_vp11', PACKAGE = 'smam', vw, t, lambda1, lambda0)
 }

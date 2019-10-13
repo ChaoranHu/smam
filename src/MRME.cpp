@@ -416,7 +416,7 @@ NumericVector t01_mrme(NumericVector t, NumericVector theta) {
 }
 
 
-// negative log-likelihood of MVME
+// negative log-likelihood of MRME
 // theta: c(lam1, lam0, sigma, sig_err)
 // data: diff time locations
 // nllk_mrme = nllk_chain1 + nllk_chain2
@@ -427,7 +427,7 @@ NumericVector t01_mrme(NumericVector t, NumericVector theta) {
 double nllk_mrme(NumericVector &theta, NumericMatrix &data,
 		 NumericVector &integrControl) {
   if (is_true(any(theta <= 0))) return(NA_REAL);
-  if (theta[3] <= theta[4]) return(NA_REAL);
+  if (theta[2] <= theta[3]) return(NA_REAL);
   int n = data.nrow(), dim = data.ncol() - 1;
   if (n < 2) {
     warning("Sample size is too small to process, should be at least 3. Return nllk as 0.");
@@ -506,7 +506,7 @@ double nllk_mrme_fixed_sig_err(NumericVector &theta, double sig_err,
 double nllk_mrme_one_chain(NumericVector &theta, NumericMatrix &data,
 			   NumericVector &integrControl) {
   if (is_true(any(theta <= 0))) return(NA_REAL);
-  if (theta[3] <= theta[4]) return(NA_REAL);
+  if (theta[2] <= theta[3]) return(NA_REAL);
   int n = data.nrow(), dim = data.ncol() - 1;
   if (n < 2) {
     warning("Sample size is too small to process, should be at least 3. Return nllk as 0.");

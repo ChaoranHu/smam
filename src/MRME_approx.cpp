@@ -114,7 +114,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 			NumericMatrix &approx_norm_even,
 			NumericMatrix &approx_norm_odd) {
   if (is_true(any(theta <= 0))) return(NA_REAL);
-  if (theta[3] <= theta[4]) return(NA_REAL);
+  if (theta[2] <= theta[3]) return(NA_REAL);
   int n = data.nrow(), dim = data.ncol() - 1;
   int m_even = approx_norm_even.nrow(), m_odd = approx_norm_odd.nrow();
   NumericVector tt = data.column(0);
@@ -288,3 +288,215 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
   return(-llk);
 }
 
+
+
+/******************************************
+
+   calculate nllk of one dimentional mrme
+   model with approximated error
+
+*******************************************/
+
+// q function for 1dim case
+
+// [[Rcpp::export]]
+double q10_mrme_approx_1dim(double z, double t, NumericVector theta,
+			    NumericVector integrControl,
+			    double err_start, double err_end,
+			    double err_end_prob) {
+  double h_w = z + err_start - err_end;
+  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+  NumericVector t_vec   = scale2vector(t);
+
+  NumericVector h_result = h10(h_w_mat, t_vec, theta[Range(0, 2)],
+			       integrControl);
+  return(h_result[0] * err_end_prob);
+}
+
+// [[Rcpp::export]]
+double q01_mrme_approx_1dim(double z, double t, NumericVector theta,
+			    NumericVector integrControl,
+			    double err_start, double err_end,
+			    double err_end_prob) {
+  double h_w = z + err_start - err_end;
+  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+  NumericVector t_vec   = scale2vector(t);
+
+  NumericVector h_result = h01(h_w_mat, t_vec, theta[Range(0, 2)],
+			       integrControl);
+  return(h_result[0] * err_end_prob);
+}
+
+// [[Rcpp::export]]
+double q00_mrme_approx_1dim(double z, double t, NumericVector theta,
+			    NumericVector integrControl,
+			    double err_start, double err_end,
+			    double err_end_prob) {
+  double h_w = z + err_start - err_end;
+  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+  NumericVector t_vec   = scale2vector(t);
+
+  NumericVector h_result = h00(h_w_mat, t_vec, theta[Range(0, 2)],
+			       integrControl);
+  return(h_result[0] * err_end_prob);
+}
+
+// [[Rcpp::export]]
+double q11_mrme_approx_1dim(double z, double t, NumericVector theta,
+			    NumericVector integrControl,
+			    double err_start, double err_end,
+			    double err_end_prob) {
+  double h_w = z + err_start - err_end;
+  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+  NumericVector t_vec   = scale2vector(t);
+
+  NumericVector h_result = h11(h_w_mat, t_vec, theta[Range(0, 2)],
+			       integrControl);
+  return(h_result[0] * err_end_prob);
+}
+
+
+
+// [[Rcpp::export]]
+double nllk_mrme_approx_1dim(NumericVector &theta, NumericMatrix &data,
+			     NumericVector &integrControl,
+			     NumericMatrix &approx_norm_even,
+			     NumericMatrix &approx_norm_odd) {
+  if (is_true(any(theta <= 0))) return(NA_REAL);
+  if (theta[2] <= theta[3]) return(NA_REAL);
+  int n = data.nrow(); // dim = 1;
+  int m_even = approx_norm_even.nrow(), m_odd = approx_norm_odd.nrow();
+  NumericVector tt = data.column(0);
+  NumericVector x  = data.column(1);
+
+  NumericVector approx_norm_even_value = approx_norm_even(_, 0) * theta[3];
+  NumericVector approx_norm_odd_value  = approx_norm_odd(_, 0)  * theta[3];
+  NumericVector approx_norm_even_prob  = approx_norm_even(_, 1);
+  NumericVector approx_norm_odd_prob   = approx_norm_odd(_, 1);
+
+  // initial forward variable matrix
+  NumericMatrix fwd_mov_even(m_even, 2);
+  NumericMatrix fwd_res_even(m_even, 2);
+  NumericMatrix fwd_mov_odd(m_odd, 2);
+  NumericMatrix fwd_res_odd(m_odd, 2);
+
+  fwd_mov_even(_, 0) = Range(1, m_even);
+  fwd_res_even(_, 0) = Range(1, m_even);
+  fwd_mov_odd(_, 0)  = Range(1, m_odd);
+  fwd_res_odd(_, 0)  = Range(1, m_odd);
+
+  double lam1 = theta[0], lam0 = theta[1];
+  double pm = 1. / lam1 / (1. / lam1 + 1. / lam0), pr = 1. - pm;
+
+  for (int i = 0; i < m_even; i++) {
+    fwd_mov_even(i, 1) = pm * approx_norm_even_prob[i];
+    fwd_res_even(i, 1) = pr * approx_norm_even_prob[i];
+  }
+
+  // END initial forward variable matrix
+
+  double dx = 0, llk = 0;
+
+  // PROCESS forward algorithm
+  for (int k = 0; k < n; k++) { // k = row num of data
+
+    // Rcout << "k is :" << k << "\n";
+    
+    double this_x = x[k];
+
+    if (k % 2 == 0) {
+      // Rcout << "even to odd" << "\n";
+      for (int i = 0; i < m_odd; i++) { // i = end point ind
+
+	double end_error = approx_norm_odd_value[i];
+	double end_prob  = approx_norm_odd_prob[i];
+
+	double cart2 = 0;
+	for (int j = 0; j < m_even; j++) { // j = start point ind
+	  
+	  double start_error = approx_norm_even_value[j];
+	  cart2 += fwd_mov_even(j, 1) * q11_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  cart2 += fwd_res_even(j, 1) * q01_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
+	}
+	fwd_mov_odd(i, 1) = cart2;
+	
+      }
+
+      for (int i = 0; i < m_odd; i++) { // i = end point ind
+
+	double end_error = approx_norm_odd_value[i];
+	double end_prob  = approx_norm_odd_prob[i];
+
+	double cart2 = 0;
+	for (int j = 0; j < m_even; j++) { // j = start point ind
+	  
+	  double start_error = approx_norm_even_value[j];
+	  cart2 += fwd_mov_even(j, 1) * q10_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  cart2 += fwd_res_even(j, 1) * q00_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
+	}
+	fwd_res_odd(i, 1) = cart2;
+	
+      }
+
+      dx = sum(fwd_mov_odd(_, 1)) + sum(fwd_res_odd(_, 1));
+      fwd_mov_odd(_, 1) = fwd_mov_odd(_, 1) / dx;
+      fwd_res_odd(_, 1) = fwd_res_odd(_, 1) / dx;
+      llk += log(dx);
+
+    } else {
+
+      // Rcout << "odd to even" << "\n";
+      for (int i = 0; i < m_even; i++) { // i = end point ind
+
+	double end_error = approx_norm_even_value[i];
+	double end_prob  = approx_norm_even_prob[i];
+
+	double cart2 = 0;
+	for (int j = 0; j < m_odd; j++) { // j = start point ind
+
+	  double start_error = approx_norm_odd_value[j];
+	  cart2 += fwd_mov_odd(j, 1) * q11_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  cart2 += fwd_res_odd(j, 1) * q01_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
+	}
+	fwd_mov_even(i, 1) = cart2;
+      }
+
+
+      for (int i = 0; i < m_even; i++) { // i = end point ind
+
+	double end_error = approx_norm_even_value[i];
+	double end_prob  = approx_norm_even_prob[i];
+
+	double cart2 = 0;
+	for (int j = 0; j < m_odd; j++) { // j = start point ind
+
+	  double start_error = approx_norm_odd_value[j];
+	  cart2 += fwd_mov_odd(j, 1) * q10_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  cart2 += fwd_res_odd(j, 1) * q00_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
+	}
+	fwd_res_even(i, 1) = cart2;
+      }
+
+      dx = sum(fwd_mov_even(_, 1)) + sum(fwd_res_even(_, 1));
+      fwd_mov_even(_, 1) = fwd_mov_even(_, 1) / dx;
+      fwd_res_even(_, 1) = fwd_res_even(_, 1) / dx;
+      llk += log(dx);
+    }
+  }
+
+  return(-llk);
+}
+
+/*
+
+Check whether nllk_mrme_approx and nllk_mrme_approx_1dim are consistent.
+
+smam:::nllk_mrme_approx_1dim(c(1,1,1,0.1), matrix(1:8, ncol = 2), c(1,1,1), cbind(c(-1, 0, 1), c(0.3, 0.4, 0.3)), cbind(c(-5, -2.5, 2.5, 5), c(0.25, 0.25, 0.25, 0.25)))
+
+smam:::nllk_mrme_approx(c(1,1,1,0.1), matrix(1:8, ncol = 2), c(1,1,1), cbind(c(-1, 0, 1), c(0.3, 0.4, 0.3)), cbind(c(-5, -2.5, 2.5, 5), c(0.25, 0.25, 0.25, 0.25)))
+
+*/
