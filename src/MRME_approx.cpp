@@ -139,16 +139,16 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 
 
   /*
-     fwd_mov_even matrix holds the current forward variables
-     that are moving part and even step (t0, t2, t4, ...)
-     Suppose we have 2 dimensional data and the discrete
-     distribution take m possible values, this matrix is
-     m^2 by 3. It looks like following
-     1stDimInd  2ndDimInd  fwdValue
-             1          1         x
-             1          2         x
-           ...        ...         x
-             m          m         x
+    fwd_mov_even matrix holds the current forward variables
+    that are moving part and even step (t0, t2, t4, ...)
+    Suppose we have 2 dimensional data and the discrete
+    distribution take m possible values, this matrix is
+    m^2 by 3. It looks like following
+    1stDimInd  2ndDimInd  fwdValue
+    1          1         x
+    1          2         x
+    ...        ...         x
+    m          m         x
   */
 
   
@@ -199,6 +199,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 	  cart2 += fwd_mov_even(j, dim) * q11_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 
 	  cart2 += fwd_res_even(j, dim) * q01_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
 	}
 
 	fwd_mov_odd(i, dim) = cart2;
@@ -221,6 +222,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 	  cart2 += fwd_mov_even(j, dim) * q10_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 
 	  cart2 += fwd_res_even(j, dim) * q00_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
 	}
 
 	fwd_res_odd(i, dim) = cart2;
@@ -250,6 +252,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 	  cart2 += fwd_mov_odd(j, dim) * q11_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 
 	  cart2 += fwd_res_odd(j, dim) * q01_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
 	}
 
 	fwd_mov_even(i, dim) = cart2;
@@ -272,6 +275,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 	  cart2 += fwd_mov_odd(j, dim) * q10_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 
 	  cart2 += fwd_res_odd(j, dim) * q00_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
+	  
 	}
 
 	fwd_res_even(i, dim) = cart2;
