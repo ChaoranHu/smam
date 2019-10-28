@@ -905,6 +905,21 @@ approxNormalOrder <- function(m){
 }
 
 
+#' 'approxNormalOrder2' also generate order statistics
+#' of standard normal first. However, the probability
+#' is calculated as normal kernal.
+#'
+#' @rdname approxNormalOrder
+#' @export
+approxNormalOrder2 <- function(m) {
+    result <- matrix(NA, ncol = 2, nrow = m)
+    result[, 1] <- EnvStats::evNormOrdStats(m)
+    prob <- dnorm(result[, 1])
+    prob <- prob / sum(prob)
+    result[, 2] <- prob
+    result
+}
+
 
 
 

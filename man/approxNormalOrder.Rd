@@ -2,10 +2,13 @@
 % Please edit documentation in R/movres.R
 \name{approxNormalOrder}
 \alias{approxNormalOrder}
+\alias{approxNormalOrder2}
 \title{Auxiliary for Preparing Discrete Distribution
 used to approximating Standard Normal Distribution}
 \usage{
 approxNormalOrder(m)
+
+approxNormalOrder2(m)
 }
 \arguments{
 \item{m}{int, the number of order statistics used}
@@ -19,6 +22,10 @@ Auxiliary for preparing discrete distribution used to
 approximate standard normal. This function generate
 order statistics of standard normal with same probability
 assigned.
+
+'approxNormalOrder2' also generate order statistics
+of standard normal first. However, the probability
+is calculated as normal kernal.
 }
 \details{
 This function use \code{EnvStats::evNormOrdStats} to get
