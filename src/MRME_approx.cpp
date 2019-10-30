@@ -325,12 +325,16 @@ double q10_mrme_approx_1dim(double z, double t, NumericVector theta,
 			    double err_start, double err_end,
 			    double err_end_prob) {
   double h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
-  NumericVector t_vec   = scale2vector(t);
+  if (h_w == 0.) {
+    return(0.);
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+    NumericVector t_vec   = scale2vector(t);
 
-  NumericVector h_result = h10(h_w_mat, t_vec, theta[Range(0, 2)],
-			       integrControl);
-  return(h_result[0] * err_end_prob);
+    NumericVector h_result = h10(h_w_mat, t_vec, theta[Range(0, 2)],
+				 integrControl);
+    return(h_result[0] * err_end_prob);
+  }
 }
 
 // [[Rcpp::export]]
@@ -339,12 +343,16 @@ double q01_mrme_approx_1dim(double z, double t, NumericVector theta,
 			    double err_start, double err_end,
 			    double err_end_prob) {
   double h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
-  NumericVector t_vec   = scale2vector(t);
+  if (h_w == 0.) {
+    return(0.);
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+    NumericVector t_vec   = scale2vector(t);
 
-  NumericVector h_result = h01(h_w_mat, t_vec, theta[Range(0, 2)],
-			       integrControl);
-  return(h_result[0] * err_end_prob);
+    NumericVector h_result = h01(h_w_mat, t_vec, theta[Range(0, 2)],
+				 integrControl);
+    return(h_result[0] * err_end_prob);
+  }
 }
 
 // [[Rcpp::export]]
@@ -353,12 +361,16 @@ double q00_mrme_approx_1dim(double z, double t, NumericVector theta,
 			    double err_start, double err_end,
 			    double err_end_prob) {
   double h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
-  NumericVector t_vec   = scale2vector(t);
+  if (h_w == 0.) {
+    return(exp(-theta[1] * t) * err_end_prob);
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+    NumericVector t_vec   = scale2vector(t);
 
-  NumericVector h_result = h00(h_w_mat, t_vec, theta[Range(0, 2)],
-			       integrControl);
-  return(h_result[0] * err_end_prob);
+    NumericVector h_result = h00(h_w_mat, t_vec, theta[Range(0, 2)],
+				 integrControl);
+    return(h_result[0] * err_end_prob);
+  }
 }
 
 // [[Rcpp::export]]
@@ -367,12 +379,16 @@ double q11_mrme_approx_1dim(double z, double t, NumericVector theta,
 			    double err_start, double err_end,
 			    double err_end_prob) {
   double h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
-  NumericVector t_vec   = scale2vector(t);
+  if (h_w == 0.) {
+    return(0.);
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(scale2vector(h_w));
+    NumericVector t_vec   = scale2vector(t);
 
-  NumericVector h_result = h11(h_w_mat, t_vec, theta[Range(0, 2)],
-			       integrControl);
-  return(h_result[0] * err_end_prob);
+    NumericVector h_result = h11(h_w_mat, t_vec, theta[Range(0, 2)],
+				 integrControl);
+    return(h_result[0] * err_end_prob);
+  }
 }
 
 
