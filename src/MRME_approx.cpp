@@ -54,10 +54,14 @@ double q10_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(h_w);
-  NumericVector t_vec = scale2vector(t);
-  NumericVector h_result = h10(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
-  return(h_result[0] * myProd(err_end_prob));
+  if (is_true(all(h_w == 0.))) {
+    return(0.);
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(h_w);
+    NumericVector t_vec = scale2vector(t);
+    NumericVector h_result = h10(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
+    return(h_result[0] * myProd(err_end_prob)); 
+  }
 }
 
 
@@ -67,10 +71,14 @@ double q01_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(h_w);
-  NumericVector t_vec = scale2vector(t);
-  NumericVector h_result = h01(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
-  return(h_result[0] * myProd(err_end_prob));
+  if (is_true(all(h_w == 0.))) {
+    return(0.);
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(h_w);
+    NumericVector t_vec = scale2vector(t);
+    NumericVector h_result = h01(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
+    return(h_result[0] * myProd(err_end_prob));
+  }
 }
 
 
@@ -80,10 +88,14 @@ double q00_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(h_w);
-  NumericVector t_vec = scale2vector(t);
-  NumericVector h_result = h00(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
-  return(h_result[0] * myProd(err_end_prob));
+  if (is_true(all(h_w == 0.))) {
+    return(exp(-theta[1] * t) * myProd(err_end_prob));
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(h_w);
+    NumericVector t_vec = scale2vector(t);
+    NumericVector h_result = h00(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
+    return(h_result[0] * myProd(err_end_prob));
+  }
 }
 
 
@@ -93,10 +105,14 @@ double q11_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  NumericMatrix h_w_mat = vector2matrix(h_w);
-  NumericVector t_vec = scale2vector(t);
-  NumericVector h_result = h11(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
-  return(h_result[0] * myProd(err_end_prob));
+  if (is_true(all(h_w == 0.))) {
+    return(0.);
+  } else {
+    NumericMatrix h_w_mat = vector2matrix(h_w);
+    NumericVector t_vec = scale2vector(t);
+    NumericVector h_result = h11(h_w_mat, t_vec, theta[Range(0, 2)], integrControl);
+    return(h_result[0] * myProd(err_end_prob));
+  }
 }
 
 
