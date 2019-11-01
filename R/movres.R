@@ -764,10 +764,39 @@ fitMRMEapprox <- function(data, start, segment = NULL,
 
 
 
+##############################################################
+## the following code is for testing purpose only ############
+nllk_mrme_approx_fixed_sig_err <- function(theta, sig_err, data, integrControl,
+                                           approx_norm_even, approx_norm_odd) {
+    nllk_mrme_approx(c(theta, sig_err), data, integrControl,
+                     approx_norm_even, approx_norm_odd)
+}
 
+fitMRMEapprox_fixedSigErr <- function(data, start, sig_err,
+                                      approx_norm_even = approxNormalOrder(5),
+                                      approx_norm_odd  = approxNormalOrder(6),
+                                      method = "Nelder-Mead",
+                                      optim.control = list(),
+                                      integrControl = integr.control()) {
+    
+    if (!is.matrix(data)) data <- as.matrix(data)
+    dinc <- apply(data, 2, diff)
+    integrControl <- unlist(integrControl)
+    
+    fit <- optim(start, nllk_mrme_approx_fixed_sig_err,
+                 data = dinc, sig_err = sig_err, method = method,
+                 approx_norm_odd = approx_norm_odd,
+                 approx_norm_even = approx_norm_even,
+                 control = optim.control, integrControl = integrControl)
+    
+    return(list(estimate    = fit$par ,
+                loglik      = -fit$value,
+                convergence = fit$convergence))
+    
+}
 
-
-
+## test code ends here #####################################
+############################################################
 
 ##############################################################
 ## the following code is for testing purpose only ############
@@ -875,9 +904,10 @@ integr.control <- function(rel.tol = .Machine$double.eps^.25,
 #' used to approximating Standard Normal Distribution
 #'
 #' Auxiliary for preparing discrete distribution used to
-#' approximate standard normal. This function generate
+#' approximate standard normal. This function generates
 #' order statistics of standard normal with same probability
-#' assigned.
+#' assigned. Then, the discrete distribution is standardized
+#' to variance one and mean zero.
 #'
 #' @param m int, the number of order statistics used
 #'
@@ -901,22 +931,35 @@ integr.control <- function(rel.tol = .Machine$double.eps^.25,
 approxNormalOrder <- function(m){
     result <- matrix(1/m, ncol = 2, nrow = m)
     result[, 1] <- EnvStats::evNormOrdStats(m)
+    var <- sum((result[,1]-mean(result[,1]))^2)/m
+    result[, 1] <- result[, 1] / sqrt(var)
     result
 }
 
 
-#' 'approxNormalOrder2' also generate order statistics
-#' of standard normal first. However, the probability
-#' is calculated as normal kernal.
+#' 'approxNormalOrder2' generates a even space grid first.
+#' Then, the probability is calculated as normal kernal.
+#' Finally, it is also standardized to variance one and
+#' mean zero.
+#'
+#' @param width the width between two consecutive grid points.
 #'
 #' @rdname approxNormalOrder
 #' @export
-approxNormalOrder2 <- function(m) {
-    result <- matrix(NA, ncol = 2, nrow = m)
-    result[, 1] <- EnvStats::evNormOrdStats(m)
-    prob <- dnorm(result[, 1])
-    prob <- prob / sum(prob)
-    result[, 2] <- prob
+approxNormalOrder2 <- function(m, width) {
+    ## generate grid with even space
+    if (m %% 2 == 0) {
+        grid <- seq(width/2, (m/2-1)*width + width/2, by = width)
+        grid <- c(-rev(grid), grid)
+    } else {
+        grid <- seq(0, ((m-1)/2)*width, by = width)
+        grid <- c(-rev(grid), grid[-1])
+    }
+    ## generate probability with norm kernel
+    result <- cbind(grid, dnorm(grid)/sum(dnorm(grid)))
+    ## standardize it to var 1 and mean 0
+    var <- sum(((result[,1]-mean(result[,1]))^2) * result[, 2])
+    result[, 1] <- result[, 1] / sqrt(var)
     result
 }
 
@@ -930,28 +973,28 @@ approxNormalOrder2 <- function(m) {
 ## the following code is for testing purpose only ############
 ## The R version of composite likelihood estimation
 ## Kept only for comparison check with fitMR using cl = TRUE
-fitMovRes.cl <- function(data, start, logtr = FALSE, method = "Nelder-Mead",
-                         optim.control = list()) {
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data, 2, diff)
-    fit <- optim(start, ncllk.m1.inc, data = dinc, method = method,
-                 control = optim.control, logtr = logtr)
-    list(estimate    = fit$par,
-         loglik      = -fit$value,
-         convergence = fit$convergence)
-}
+## fitMovRes.cl <- function(data, start, logtr = FALSE, method = "Nelder-Mead",
+##                          optim.control = list()) {
+##     if (!is.matrix(data)) data <- as.matrix(data)
+##     dinc <- apply(data, 2, diff)
+##     fit <- optim(start, ncllk.m1.inc, data = dinc, method = method,
+##                  control = optim.control, logtr = logtr)
+##     list(estimate    = fit$par,
+##          loglik      = -fit$value,
+##          convergence = fit$convergence)
+## }
 
 
-### not public function ###
-## llk for moving-resting model with given state
-## param data: time state locations
-llk_mr <- function(data, theta, integrControl = integr.control()) {
-    if (!all(data[, 2] == 0 | data[, 2] == 1)) stop("state must be 0 or 1")
-    if (!is.matrix(data)) data <- as.matrix(data)
-    dinc <- apply(data[, -2], 2, diff)
-    integrControl <- unlist(integrControl)
-    mrllk_state(theta, dinc, data[, 2], integrControl)
-}
+## ### not public function ###
+## ## llk for moving-resting model with given state
+## ## param data: time state locations
+## llk_mr <- function(data, theta, integrControl = integr.control()) {
+##     if (!all(data[, 2] == 0 | data[, 2] == 1)) stop("state must be 0 or 1")
+##     if (!is.matrix(data)) data <- as.matrix(data)
+##     dinc <- apply(data[, -2], 2, diff)
+##     integrControl <- unlist(integrControl)
+##     mrllk_state(theta, dinc, data[, 2], integrControl)
+## }
 ## test code ends here #####################################
 ############################################################
 

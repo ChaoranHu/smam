@@ -8,10 +8,12 @@ used to approximating Standard Normal Distribution}
 \usage{
 approxNormalOrder(m)
 
-approxNormalOrder2(m)
+approxNormalOrder2(m, width)
 }
 \arguments{
 \item{m}{int, the number of order statistics used}
+
+\item{width}{the width between two consecutive grid points.}
 }
 \value{
 A numeric matrix with first column is support of discrete
@@ -19,13 +21,15 @@ distribution and second column is corresponding p.m.f..
 }
 \description{
 Auxiliary for preparing discrete distribution used to
-approximate standard normal. This function generate
+approximate standard normal. This function generates
 order statistics of standard normal with same probability
-assigned.
+assigned. Then, the discrete distribution is standardized
+to variance one and mean zero.
 
-'approxNormalOrder2' also generate order statistics
-of standard normal first. However, the probability
-is calculated as normal kernal.
+'approxNormalOrder2' generates a even space grid first.
+Then, the probability is calculated as normal kernal.
+Finally, it is also standardized to variance one and
+mean zero.
 }
 \details{
 This function use \code{EnvStats::evNormOrdStats} to get
