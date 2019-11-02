@@ -453,7 +453,6 @@ double nllk_mrme_approx_1dim(NumericVector &theta, NumericMatrix &data,
 	  double start_error = approx_norm_even_value[j];
 	  cart2 += fwd_mov_even(j, 1) * q11_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 	  cart2 += fwd_res_even(j, 1) * q01_mrme_approx_1dim(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
-	  
 	}
 	fwd_mov_odd(i, 1) = cart2;
 	
