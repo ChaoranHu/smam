@@ -38,7 +38,11 @@ NumericMatrix generate_grid(int m, int dim) {
   return(result);
 }
 
-
+LogicalVector weak_equal (NumericVector x, NumericVector y) {
+  NumericVector diff = x - y;
+  diff = abs(diff);
+  return(diff < 0.00000000001);
+}
 
 
 // q function: Pr(Z, S(t)=j, \epsilon*_t = x_l | S(0) = i, \epsilon*_0 = y_k)
@@ -54,7 +58,11 @@ double q10_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  if (is_true(all(h_w == 0.))) {
+  NumericVector zero_cart(z.length());
+  LogicalVector zero_ind = weak_equal(h_w, zero_cart);
+  
+  if (is_true(all(zero_ind))) {
+    // Rcout << "I am zero !!!!!!!!!!!" << "\n";
     return(0.);
   } else {
     NumericMatrix h_w_mat = vector2matrix(h_w);
@@ -71,7 +79,10 @@ double q01_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  if (is_true(all(h_w == 0.))) {
+  NumericVector zero_cart(z.length());
+  LogicalVector zero_ind = weak_equal(h_w, zero_cart);
+  
+  if (is_true(all(zero_ind))) {
     return(0.);
   } else {
     NumericMatrix h_w_mat = vector2matrix(h_w);
@@ -88,7 +99,10 @@ double q00_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  if (is_true(all(h_w == 0.))) {
+  NumericVector zero_cart(z.length());
+  LogicalVector zero_ind = weak_equal(h_w, zero_cart);
+  
+  if (is_true(all(zero_ind))) {
     return(exp(-theta[1] * t) * myProd(err_end_prob));
   } else {
     NumericMatrix h_w_mat = vector2matrix(h_w);
@@ -105,7 +119,10 @@ double q11_mrme_approx(NumericVector z, double t, NumericVector theta,
 		       NumericVector err_start, NumericVector err_end,
 		       NumericVector err_end_prob) {
   NumericVector h_w = z + err_start - err_end;
-  if (is_true(all(h_w == 0.))) {
+  NumericVector zero_cart(z.length());
+  LogicalVector zero_ind = weak_equal(h_w, zero_cart);
+  
+  if (is_true(all(zero_ind))) {
     return(0.);
   } else {
     NumericMatrix h_w_mat = vector2matrix(h_w);
@@ -239,8 +256,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 	  // Rcout << "i, j is" << i << j <<"\n";
 	  // NumericVector test;
 	  // test = this_x + start_error - end_error;
-	  // Rcout << test << "\
-n";
+	  // Rcout << test << "\n";
 	
 	  cart2 += fwd_mov_even(j, dim) * q10_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 
@@ -328,6 +344,13 @@ n";
    model with approximated error
 
 *******************************************/
+
+/******************************************
+   TODO: use weak equal to check zero!!!
+ ******************************************/
+
+
+
 
 // q function for 1dim case
 
