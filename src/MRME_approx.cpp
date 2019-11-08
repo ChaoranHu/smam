@@ -195,6 +195,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
   for (int k = 0; k < n; k++) { // k = row num of data
 
     NumericVector this_x = x(k, _);
+    // Rcout << "k is :" << k << "\n";
 
     if (k % 2 == 0) {
     
@@ -234,6 +235,12 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 	  NumericVector start_ind = fwd_mov_even(j, _);
 	  start_ind = start_ind[Range(0, dim-1)] - 1;
 	  NumericVector start_error = approx_norm_even_value[start_ind];
+
+	  // Rcout << "i, j is" << i << j <<"\n";
+	  // NumericVector test;
+	  // test = this_x + start_error - end_error;
+	  // Rcout << test << "\
+n";
 	
 	  cart2 += fwd_mov_even(j, dim) * q10_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 
@@ -287,6 +294,11 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 	  NumericVector start_ind = fwd_mov_odd(j, _);
 	  start_ind = start_ind[Range(0, dim-1)] - 1;
 	  NumericVector start_error = approx_norm_odd_value[start_ind];
+
+	  // Rcout << "i, j is" << i << j <<"\n";
+	  // NumericVector test;
+	  // test = this_x + start_error - end_error;
+	  // Rcout << test << "\n";
 	
 	  cart2 += fwd_mov_odd(j, dim) * q10_mrme_approx(this_x, tt[k], theta, integrControl, start_error, end_error, end_prob);
 
