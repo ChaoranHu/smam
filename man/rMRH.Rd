@@ -20,7 +20,7 @@ rMRH(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE)
 \item{p}{probability of choosing resting,
 and 1-p is probability of choosing handling}
 
-\item{s0}{the state at time 0, must be one of "m" (moving) or "r" (resting/handling).}
+\item{s0}{the state at time 0, must be one of "m" (moving), "r" (resting) or "h" (handling).}
 
 \item{dim}{(integer) dimension of the Brownian motion}
 

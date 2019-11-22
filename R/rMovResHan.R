@@ -24,22 +24,35 @@ sim1.times.bbz.mov <- function(s, lam1, lam2, p) {
 ## simulation of breaking time points
 ## for a 3 states telegraph process
 ## the start state is stay or rest
-sim1.times.bbz.sta <- function(s, lam1, lam2, p) {
-    tsum <- 0
-    tt <- NULL
-    state <- NULL
+## ini.state = 1 or 2
+sim1.times.bbz.sta <- function(s, lam1, lam2, p, ini.state) {
+    if (ini.state == 1) {
+        tsum <- rexp(1, rate = lam2[1])
+        tt <- tsum
+        state <- 1
+        if (tsum > s) return(cbind(tt, state))
+    } else {
+        tsum <- rexp(1, rate = lam2[2])
+        tt <- tsum
+        state <- 2
+        if (tsum > s) return(cbind(tt, state))
+    }
+    
     while (TRUE) {
+        
+        tnew <- stats::rexp(1, rate=lam1)
+        tsum <- tsum + tnew
+        tt <- c(tt, tsum)
+        state <- c(state, 0)
+        if (tsum > s) break
+
         ind <- stats::rbinom(1, size=1, prob=p) ## the prob of choosing lam2 is p
         tnew <- stats::rexp(1, rate=lam2[1])*ind + stats::rexp(1, rate=lam2[2])*(1-ind)
         tsum <- tsum + tnew
         tt <- c(tt, tsum)
         state <- c(state, (2 - ind))
         if (tsum > s) break
-        tnew <- stats::rexp(1, rate=lam1)
-        tsum <- tsum + tnew
-        tt <- c(tt, tsum)
-        state <- c(state, 0)
-        if (tsum > s) break
+        
     }
     cbind(tt, state)
 }
@@ -116,7 +129,7 @@ sim.state <- function(time, brtimes) {
 ##' @param sigma volatility parameter of the Brownian motion while moving
 ##' @param p probability of choosing resting,
 ##' and 1-p is probability of choosing handling
-##' @param s0 the state at time 0, must be one of "m" (moving) or "r" (resting/handling).
+##' @param s0 the state at time 0, must be one of "m" (moving), "r" (resting) or "h" (handling).
 ##' @param dim (integer) dimension of the Brownian motion
 ##' @param state indicates whether the simulation show the states at given
 ##' time points.
@@ -151,7 +164,7 @@ sim.state <- function(time, brtimes) {
 ##' @author Chaoran Hu
 ##' @export
 rMRH <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
-    stopifnot(s0 %in% c("m", "r"))
+    stopifnot(s0 %in% c("m", "r", "h"))
     t0moving <- as.integer(s0 == "m")
     lam1 <- lamM
     lam2 <- c(lamR, lamH)
@@ -165,7 +178,11 @@ rMRH <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
     if (t0moving == 1) {
         brtimes <- sim1.times.bbz.mov(tmax, lam1, lam2, p)
     } else {
-        brtimes <- sim1.times.bbz.sta(tmax, lam1, lam2, p)
+        if (s0 == "r") {
+            brtimes <- sim1.times.bbz.sta(tmax, lam1, lam2, p, ini.state = 1)
+        } else {
+            brtimes <- sim1.times.bbz.sta(tmax, lam1, lam2, p, ini.state = 2)
+        }
     }
     coord <- replicate(dim, sim1.bbz(tmax, sigma, time, brtimes[, 1], t0moving))
 
