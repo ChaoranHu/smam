@@ -126,6 +126,10 @@ simmr.state <- function(time, brtimes, t0moving) {
 #'
 #' dat2 <- rMR(tgrid, 1, 1, 1, "m", state = TRUE)
 #' head(dat2)
+#'
+#' dat3 <- rMRME(tgrid, 1, 1, 1, 0.01, "m", state = TRUE)
+#' head(dat3)
+#' plot(dat3[,1], dat3[,3], xlab="t", ylab="Z(t)=X(t)+GWN(0.01)", type="l")
 #' 
 #' @export
 
@@ -164,6 +168,25 @@ rMR <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
 rMovRes <- function(time, lamM, lamR, sigma, s0, dim = 2) {
     .Deprecated("rMR")
     rMR(time, lamM, lamR, sigma, s0, dim)
+}
+
+
+#' 'rMRME' samples from moving-resting process with Guassian measurement error
+#' @param sig_err s.d. of Gaussian white noise
+#' @rdname rMR
+#' @export
+rMRME <- function(time, lamM, lamR, sigma, sig_err, s0, dim = 2, state = FALSE){
+    dat <- rMR(time, lamM, lamR, sigma, s0, dim = 2, state)
+    if (state) {
+        for (i in 1:dim) {
+            dat[, i+2] <- dat[, i+2] + rnorm(length(time), mean = 0, sd = sig_err)
+        }
+    } else {
+        for (i in 1:dim) {
+            dat[, i+1] <- dat[, i+1] + rnorm(length(time), mean = 0, sd = sig_err)
+        }
+    }
+    dat
 }
 
 
@@ -633,13 +656,6 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' @param segment character variable, name of the column which indicates segments,
 #'     in the given \code{data.frame}. The default value, \code{NULL}, means using
 #'     whole dataset to fit the model.
-#' @param approx_norm_even,approx_norm_odd numeric matrixes specify the
-#'     discrete distributions used to approximate standard normal distribution.
-#'     The first column is support of discrete distribution and the second
-#'     column is probability mass function. \code{approx_norm_even} is used to
-#'     approximate even step error and \code{approx_norm_odd} is used to
-#'     approximate odd step error. We mention that the supports of these two
-#'     discrete distributions should not have any common elements.
 #' @param method the method argument to feed \code{optim}.
 #' @param optim.control a list of control to be passed to \code{optim}.
 #' @param integrControl a list of control parameters for the \code{integrate}
@@ -662,13 +678,15 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' \donttest{
 #' tgrid <- seq(0, 10*100, length=100)
 #' set.seed(123)
-#' dat <- rMR(tgrid, 1, 0.5, 1, "m")
-#' dat$X1 <- dat$X1 + rnorm(nrow(dat), 0, 0.01)
-#' dat$X2 <- dat$X2 + rnorm(nrow(dat), 0, 0.01)
+#' dat <- rMRME(tgird, 1, 0.5, 1, 0.01, "m")
 #'
 #' ## fit whole dataset to the MRME model
 #' fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
 #' fit
+#'
+#' ## fit whole dataset to the MRME model with naive composite likelihood
+#' fit.naive <- fitMRME_naive(dat, start=c(1, 0.5, 1, 0.01))
+#' fit.naive
 #'
 #' ## fit whole dataset to the MRME model with approximate error
 #' fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))
@@ -717,10 +735,59 @@ fitMRME <- function(data, start, segment = NULL,
     }
 }
 
+##############################################################
+## the following code is for testing purpose only ############
+#' 'fitMRME_naive' fits moving-resting model with measurement error
+#' by MLE with a naive composite llk, that pretend two consecutive
+#' increments are independent.
+#' @rdname fitMRME
+#' @export
+fitMRME_naive <- function(data, start, segment = NULL,
+                          method = "Nelder-Mead",
+                          optim.control = list(),
+                          integrControl = integr.control()) {
+    if (is.null(segment)) {
+
+        
+        if (!is.matrix(data)) data <- as.matrix(data)
+        dinc <- apply(data, 2, diff)
+        integrControl <- unlist(integrControl)
+        
+        fit <- optim(start, nllk_mrme_naive_cmp, data = dinc, method = method,
+                     control = optim.control, integrControl = integrControl)
+
+        estimate <- fit$par
+        
+        return(list(estimate    = estimate,
+                    loglik      = -fit$value,
+                    convergence = fit$convergence))
+
+        
+    } else {
+
+        
+        ## seasonal process
+        result <- fitMRME_naive_seasonal(data, segment, start,
+                                         method, optim.control, integrControl)
+        return(result)
+
+        
+    }
+}
+## test code ends here #####################################
+############################################################
+
 
 #' 'fitMRMEapprox' also fits moving-resting model. However, in this function,
 #' the gaussian error is approximated with two discrete distributions.
 #'
+#' @param approx_norm_even,approx_norm_odd numeric matrixes specify the
+#'     discrete distributions used to approximate standard normal distribution.
+#'     The first column is support of discrete distribution and the second
+#'     column is probability mass function. \code{approx_norm_even} is used to
+#'     approximate even step error and \code{approx_norm_odd} is used to
+#'     approximate odd step error. We mention that the supports of these two
+#'     discrete distributions should not have any common elements.
 #' @rdname fitMRME
 #' @export
 fitMRMEapprox <- function(data, start, segment = NULL,

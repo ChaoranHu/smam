@@ -159,6 +159,13 @@ nllk_mrme_seasonal <- function(theta, data, integrControl) {
                      theta = theta, integrControl = integrControl)
     sum(unlist(result))
 }
+## naive composite llk for MRME
+nllk_mrme_naive_cmp_seasonal <- function(theta, data, integrControl) {
+    n.year <- length(data)
+    result <- lapply(data, nllk_mrme_naive_cmp,
+                     theta = theta, integrControl = integrControl)
+    sum(unlist(result))
+}
 
 
 ## The nllk of moving-resting model with approximate measurement
@@ -332,6 +339,25 @@ fitMRME_seasonal <- function(data, segment, start,
          loglik      = -fit$value,
          convergence = fit$convergence)
 }
+
+
+fitMRME_naive_seasonal <- function(data, segment, start,
+                             method, optim.control, integrControl) {
+    data <- seg2list(data, segment)
+    if (is.null(start)) start <- movres.start.seasonal(data, segment)
+    dinc <- prepareSeasonalFit(data, segment)
+    integrControl <- unlist(integrControl)
+    
+    fit <- optim(start, nllk_mrme_naive_cmp_seasonal, data = dinc, method = method,
+                 control = optim.control, integrControl = integrControl)
+    
+    estimate <- fit$par
+    
+    list(estimate    = estimate,
+         loglik      = -fit$value,
+         convergence = fit$convergence)
+}
+
 
 fitMRMEapprox_seasonal <- function(data, segment, start,
                                    approx_norm_even, approx_norm_odd,

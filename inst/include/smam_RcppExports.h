@@ -235,6 +235,27 @@ namespace smam {
         return Rcpp::as<double >(rcpp_result_gen);
     }
 
+    inline double nllk_mrme_naive_cmp(NumericVector& theta, NumericMatrix& data, NumericVector& integrControl) {
+        typedef SEXP(*Ptr_nllk_mrme_naive_cmp)(SEXP,SEXP,SEXP);
+        static Ptr_nllk_mrme_naive_cmp p_nllk_mrme_naive_cmp = NULL;
+        if (p_nllk_mrme_naive_cmp == NULL) {
+            validateSignature("double(*nllk_mrme_naive_cmp)(NumericVector&,NumericMatrix&,NumericVector&)");
+            p_nllk_mrme_naive_cmp = (Ptr_nllk_mrme_naive_cmp)R_GetCCallable("smam", "_smam_nllk_mrme_naive_cmp");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_nllk_mrme_naive_cmp(Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(data)), Shield<SEXP>(Rcpp::wrap(integrControl)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<double >(rcpp_result_gen);
+    }
+
     inline double nllk_mrme_fixed_sig_err(NumericVector& theta, double sig_err, NumericMatrix& data, NumericVector& integrControl) {
         typedef SEXP(*Ptr_nllk_mrme_fixed_sig_err)(SEXP,SEXP,SEXP,SEXP);
         static Ptr_nllk_mrme_fixed_sig_err p_nllk_mrme_fixed_sig_err = NULL;

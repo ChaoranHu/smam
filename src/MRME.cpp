@@ -491,7 +491,43 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
 }
 
 
-// the following code is for testing purpose only
+// negative naive composite log-likelihood
+// [[Rcpp::export]]
+double nllk_mrme_naive_cmp(NumericVector &theta, NumericMatrix &data,
+			   NumericVector &integrControl) {
+  if (is_true(any(theta <= 0))) return(NA_REAL);
+  if (theta[2] <= theta[3]) return(NA_REAL);
+  int n = data.nrow(), dim = data.ncol() - 1;
+  double lam1 = theta[0], lam0 = theta[1];
+  double pm = 1. / lam1 / (1. / lam1 + 1. / lam0), pr = 1. - pm;
+  NumericVector tt = data.column(0);
+  NumericMatrix z  = data(Range(0, n - 1), Range(1, dim));
+  NumericVector
+    gmm = g11_mrme(z, tt, theta, integrControl),
+    grr = g00_mrme(z, tt, theta, integrControl),
+    grm = g01_mrme(z, tt, theta, integrControl),
+    gmr = g10_mrme(z, tt, theta, integrControl);
+
+  double llk = 0;
+
+  for(int i = 0; i < n; i++) {
+    llk += log(pm * gmm[i] + pm * gmr[i] + pr * grm[i] + pr * grr[i]);
+  }
+
+  return(-llk);
+}
+
+
+
+
+
+
+
+
+/***********************************************************
+      Following code is for testing purpose only
+***********************************************************/
+
 // [[Rcpp::export]]
 double nllk_mrme_fixed_sig_err(NumericVector &theta, double sig_err,
 			       NumericMatrix &data,

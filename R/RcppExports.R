@@ -41,6 +41,10 @@ nllk_mrme <- function(theta, data, integrControl) {
     .Call('_smam_nllk_mrme', PACKAGE = 'smam', theta, data, integrControl)
 }
 
+nllk_mrme_naive_cmp <- function(theta, data, integrControl) {
+    .Call('_smam_nllk_mrme_naive_cmp', PACKAGE = 'smam', theta, data, integrControl)
+}
+
 nllk_mrme_fixed_sig_err <- function(theta, sig_err, data, integrControl) {
     .Call('_smam_nllk_mrme_fixed_sig_err', PACKAGE = 'smam', theta, sig_err, data, integrControl)
 }

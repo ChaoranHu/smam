@@ -2,10 +2,14 @@
 % Please edit documentation in R/movres.R
 \name{fitMRME}
 \alias{fitMRME}
+\alias{fitMRME_naive}
 \alias{fitMRMEapprox}
 \title{Fit a Moving-Resting Model with Measurement Error}
 \usage{
 fitMRME(data, start, segment = NULL, method = "Nelder-Mead",
+  optim.control = list(), integrControl = integr.control())
+
+fitMRME_naive(data, start, segment = NULL, method = "Nelder-Mead",
   optim.control = list(), integrControl = integr.control())
 
 fitMRMEapprox(data, start, segment = NULL,
@@ -59,6 +63,10 @@ error is modeled by Guassian noise. Using \code{segment} to fit part
 of observations to the model. A practical application of this feature
 is seasonal analysis.
 
+'fitMRME_naive' fits moving-resting model with measurement error
+by MLE with a naive composite llk, that pretend two consecutive
+increments are independent.
+
 'fitMRMEapprox' also fits moving-resting model. However, in this function,
 the gaussian error is approximated with two discrete distributions.
 }
@@ -66,13 +74,15 @@ the gaussian error is approximated with two discrete distributions.
 \donttest{
 tgrid <- seq(0, 10*100, length=100)
 set.seed(123)
-dat <- rMR(tgrid, 1, 0.5, 1, "m")
-dat$X1 <- dat$X1 + rnorm(nrow(dat), 0, 0.01)
-dat$X2 <- dat$X2 + rnorm(nrow(dat), 0, 0.01)
+dat <- rMRME(tgird, 1, 0.5, 1, 0.01, "m")
 
 ## fit whole dataset to the MRME model
 fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
 fit
+
+## fit whole dataset to the MRME model with naive composite likelihood
+fit.naive <- fitMRME_naive(dat, start=c(1, 0.5, 1, 0.01))
+fit.naive
 
 ## fit whole dataset to the MRME model with approximate error
 fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))

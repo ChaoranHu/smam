@@ -3,11 +3,14 @@
 \name{rMR}
 \alias{rMR}
 \alias{rMovRes}
+\alias{rMRME}
 \title{Sampling from a Moving-Resting Process with Embedded Brownian Motion}
 \usage{
 rMR(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE)
 
 rMovRes(time, lamM, lamR, sigma, s0, dim = 2)
+
+rMRME(time, lamM, lamR, sigma, sig_err, s0, dim = 2, state = FALSE)
 }
 \arguments{
 \item{time}{time points at which observations are to be simulated}
@@ -25,6 +28,8 @@ resting, respectively}
 
 \item{state}{indicates whether the simulation show the states at given
 time points.}
+
+\item{sig_err}{s.d. of Gaussian white noise}
 }
 \value{
 A \code{data.frame} whose first column is the time points and whose
@@ -38,6 +43,8 @@ stays at the same location while resting, and moves according to a
 Brownian motion while moving.
 
 'rMovRes' is deprecated. Using new function 'rMR' instead.
+
+'rMRME' samples from moving-resting process with Guassian measurement error
 }
 \examples{
 tgrid <- seq(0, 10, length=1001)
@@ -48,6 +55,10 @@ plot(dat[,1], dat[,2], xlab="t", ylab="X(t)", type='l')
 
 dat2 <- rMR(tgrid, 1, 1, 1, "m", state = TRUE)
 head(dat2)
+
+dat3 <- rMRME(tgrid, 1, 1, 1, 0.01, "m", state = TRUE)
+head(dat3)
+plot(dat3[,1], dat3[,3], xlab="t", ylab="Z(t)=X(t)+GWN(0.01)", type="l")
 
 }
 \references{
