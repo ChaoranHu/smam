@@ -754,7 +754,7 @@ fitMRME <- function(data, start, segment = NULL,
 #' \donttest{
 #' tgrid <- seq(0, 10*100, length=100)
 #' set.seed(123)
-#' dat <- rMRME(tgird, 1, 0.5, 1, 0.01, "m")
+#' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 #' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' }
