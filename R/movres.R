@@ -756,7 +756,9 @@ fitMRME <- function(data, start, segment = NULL,
 #' set.seed(123)
 #' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 #' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' }
 #'
 #' @export
@@ -811,6 +813,44 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
 
 }
 
+#' 'estVarMRME_pBootstrap' uses parametric bootstrap to obtain variance matrix
+#' of estimators from 'fitMRME'
+#' @param detailBS whether or not output estimation results during bootstrap,
+#' which can be used to generate bootstrap CI.
+#' @rdname estVarMRME_Godambe
+#' @export
+estVarMRME_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
+                                  integrControl = integr.control()) {
+
+    tgrid <- data[, 1]
+    dim <- ncol(data) - 1
+    
+    lamM <- est_theta[1]
+    lamR <- est_theta[2]
+    sigma <- est_theta[3]
+    sig_err <- est_theta[4]
+
+    p_m <- 1/lamM/(1/lamM + 1/lamR)
+    p_r <- 1 - p_m
+
+    
+    result <- matrix(NA, ncol = 4, nrow = nBS)
+
+    for (i in seq_len(nBS)) {
+        start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+        datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+        result[i, ] <- fitMRME(datBS, start = est_theta,
+                               integrControl = integrControl)$estimate
+    }
+
+    if (detailBS) {
+        return(list(cov = cov(result),
+                    BS_detail = result))
+    } else {
+        return(cov(result))
+    }
+}
+
 
 
 #' 'fitMRME_naive' fits moving-resting model with measurement error
@@ -857,7 +897,7 @@ fitMRME_naive <- function(data, start, segment = NULL,
 #' @rdname estVarMRME_Godambe
 #' @export
 estVarMRMEnaive_Godambe <- function(est_theta, data, nBS,
-                               integrControl = integr.control()) {
+                                    integrControl = integr.control()) {
     
     ## get J matrix in Godambe information matrix via bootstrap
     getJ_MRMEnaive <- function(est_theta, data, nBS, integrControl) {
@@ -905,6 +945,43 @@ estVarMRMEnaive_Godambe <- function(est_theta, data, nBS,
 
     solve(Hmatrix %*% solve(Jmatrix) %*% Hmatrix)
 
+}
+
+
+#' 'estVarMRMEnaive_pBootstrap' uses parametric bootstrap to obtain variance matrix
+#' of estimators from 'fitMRME_naive'
+#' @rdname estVarMRME_Godambe
+#' @export
+estVarMRMEnaive_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
+                                       integrControl = integr.control()) {
+
+    tgrid <- data[, 1]
+    dim <- ncol(data) - 1
+    
+    lamM <- est_theta[1]
+    lamR <- est_theta[2]
+    sigma <- est_theta[3]
+    sig_err <- est_theta[4]
+
+    p_m <- 1/lamM/(1/lamM + 1/lamR)
+    p_r <- 1 - p_m
+
+    
+    result <- matrix(NA, ncol = 4, nrow = nBS)
+
+    for (i in seq_len(nBS)) {
+        start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+        datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+        result[i, ] <- fitMRME_naive(datBS, start = est_theta,
+                                     integrControl = integrControl)$estimate
+    }
+
+    if (detailBS) {
+        return(list(cov = cov(result),
+                    BS_detail = result))
+    } else {
+        return(cov(result))
+    }
 }
 
 
