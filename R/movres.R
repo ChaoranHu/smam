@@ -1,4 +1,4 @@
-#' @importFrom stats dnorm integrate optim rexp rnorm
+#' @importFrom stats dnorm integrate optim rexp rnorm cov
 #' @importFrom methods is
 #' @importFrom numDeriv hessian
 #' @importFrom Rcpp evalCpp
@@ -735,8 +735,84 @@ fitMRME <- function(data, start, segment = NULL,
     }
 }
 
-##############################################################
-## the following code is for testing purpose only ############
+#' Variance matrix of estimators from moving-resting process with measurement error
+#'
+#' 'estVarMRME_Godambe' uses Godambe information matrix to obtain variance matrix
+#' of estimators from 'fitMRME'.
+#'
+#' @param est_theta estimators of MRME model
+#' @param data data used to process estimation
+#' @param nBS number of bootstrap.
+#' @param integrControl a list of control parameters for the \code{integrate}
+#' function: rel.tol, abs.tol, subdivision.
+#'
+#' @return variance-covariance matrix of estimators
+#'
+#' @author Chaoran Hu
+#'
+#' @examples
+#' \donttest{
+#' tgrid <- seq(0, 10*100, length=100)
+#' set.seed(123)
+#' dat <- rMRME(tgird, 1, 0.5, 1, 0.01, "m")
+#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' }
+#'
+#' @export
+estVarMRME_Godambe <- function(est_theta, data, nBS,
+                               integrControl = integr.control()) {
+    
+    ## get J matrix in Godambe information matrix via bootstrap
+    getJ_MRME <- function(est_theta, data, nBS, integrControl) {
+        
+        tgrid <- data[, 1]
+        dim <- ncol(data) - 1
+        
+        lamM <- est_theta[1]
+        lamR <- est_theta[2]
+        sigma <- est_theta[3]
+        sig_err <- est_theta[4]
+
+        p_m <- 1/lamM/(1/lamM + 1/lamR)
+        p_r <- 1 - p_m
+
+        integrControl <- unlist(integrControl)
+
+        result <- matrix(NA, ncol = 4, nrow = nBS)
+
+        for (i in seq_len(nBS)) {
+            start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+            datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+            datBS <- as.matrix(datBS)
+            dincBS <- apply(datBS, 2, diff)
+            grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta, data = dincBS,
+                                        integrControl = integrControl)
+            result[i, ] <- -grad_cart
+        }
+        
+        cov(result)
+    }
+
+    ## get H matrix in Godambe information matrix
+    getH_MRME <- function(est_theta, data, integrControl) {
+        data <- as.matrix(data)
+        dinc <- apply(data, 2, diff)
+        integrControl <- unlist(integrControl)
+
+        numDeriv::hessian(func = nllk_mrme, x = est_theta, data = dinc,
+                          integrControl = integrControl)
+    }
+
+    Jmatrix <- getJ_MRME(est_theta, data, nBS, integrControl)
+    Hmatrix <- getH_MRME(est_theta, data, integrControl)
+
+    solve(Hmatrix %*% solve(Jmatrix) %*% Hmatrix)
+
+}
+
+
+
 #' 'fitMRME_naive' fits moving-resting model with measurement error
 #' by MLE with a naive composite llk, that pretend two consecutive
 #' increments are independent.
@@ -774,8 +850,65 @@ fitMRME_naive <- function(data, start, segment = NULL,
         
     }
 }
-## test code ends here #####################################
-############################################################
+
+
+#' 'estVarMRMEnaive_Godambe' use Godambe information matrix to obtain variance matrix
+#' of estimators from 'fitMRME_naive'.
+#' @rdname estVarMRME_Godambe
+#' @export
+estVarMRMEnaive_Godambe <- function(est_theta, data, nBS,
+                               integrControl = integr.control()) {
+    
+    ## get J matrix in Godambe information matrix via bootstrap
+    getJ_MRMEnaive <- function(est_theta, data, nBS, integrControl) {
+        
+        tgrid <- data[, 1]
+        dim <- ncol(data) - 1
+        
+        lamM <- est_theta[1]
+        lamR <- est_theta[2]
+        sigma <- est_theta[3]
+        sig_err <- est_theta[4]
+
+        p_m <- 1/lamM/(1/lamM + 1/lamR)
+        p_r <- 1 - p_m
+
+        integrControl <- unlist(integrControl)
+
+        result <- matrix(NA, ncol = 4, nrow = nBS)
+
+        for (i in seq_len(nBS)) {
+            start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+            datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+            datBS <- as.matrix(datBS)
+            dincBS <- apply(datBS, 2, diff)
+            grad_cart <- numDeriv::grad(func = nllk_mrme_naive_cmp, x = est_theta, data = dincBS,
+                                        integrControl = integrControl)
+            result[i, ] <- -grad_cart
+        }
+        
+        cov(result)
+    }
+
+    ## get H matrix in Godambe information matrix
+    getH_MRMEnaive <- function(est_theta, data, integrControl) {
+        data <- as.matrix(data)
+        dinc <- apply(data, 2, diff)
+        integrControl <- unlist(integrControl)
+
+        numDeriv::hessian(func = nllk_mrme_naive_cmp, x = est_theta, data = dinc,
+                          integrControl = integrControl)
+    }
+
+    Jmatrix <- getJ_MRMEnaive(est_theta, data, nBS, integrControl)
+    Hmatrix <- getH_MRMEnaive(est_theta, data, integrControl)
+
+    solve(Hmatrix %*% solve(Jmatrix) %*% Hmatrix)
+
+}
+
+
+
 
 
 #' 'fitMRMEapprox' also fits moving-resting model. However, in this function,
