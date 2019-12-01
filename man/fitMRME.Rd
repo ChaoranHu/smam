@@ -74,7 +74,7 @@ the gaussian error is approximated with two discrete distributions.
 \donttest{
 tgrid <- seq(0, 10*100, length=100)
 set.seed(123)
-dat <- rMRME(tgird, 1, 0.5, 1, 0.01, "m")
+dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 
 ## fit whole dataset to the MRME model
 fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
