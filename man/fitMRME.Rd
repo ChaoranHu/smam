@@ -6,12 +6,11 @@
 \alias{fitMRMEapprox}
 \title{Fit a Moving-Resting Model with Measurement Error}
 \usage{
-fitMRME(data, start, segment = NULL, method = "Nelder-Mead", lower = c(0,
-  0, 0, 0), upper = c(10, 10, 10, 10), optim.control = list(),
-  integrControl = integr.control())
+fitMRME(data, start, segment = NULL, lower = c(0, 0, 0, 0), upper = c(10,
+  10, 10, 10), integrControl = integr.control())
 
-fitMRME_naive(data, start, segment = NULL, method = "Nelder-Mead",
-  optim.control = list(), integrControl = integr.control())
+fitMRME_naive(data, start, segment = NULL, lower = c(0, 0, 0, 0),
+  upper = c(10, 10, 10, 10), integrControl = integr.control())
 
 fitMRMEapprox(data, start, segment = NULL,
   approx_norm_even = approxNormalOrder(5),
@@ -36,11 +35,7 @@ s.d. of Guassian measurement error.}
 in the given \code{data.frame}. The default value, \code{NULL}, means using
 whole dataset to fit the model.}
 
-\item{method}{the method argument to feed \code{optim}.}
-
 \item{lower, upper}{Lower and upper bound for optimization.}
-
-\item{optim.control}{a list of control to be passed to \code{optim}.}
 
 \item{integrControl}{a list of control parameters for the \code{integrate}
 function: rel.tol, abs.tol, subdivision.}
@@ -52,6 +47,10 @@ column is probability mass function. \code{approx_norm_even} is used to
 approximate even step error and \code{approx_norm_odd} is used to
 approximate odd step error. We mention that the supports of these two
 discrete distributions should not have any common elements.}
+
+\item{method}{the method argument to feed \code{optim}.}
+
+\item{optim.control}{a list of control to be passed to \code{optim}.}
 }
 \value{
 a list of the following components:

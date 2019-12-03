@@ -324,38 +324,73 @@ fitMR_seasonal <- function(data, segment, start, likelihood,
 ##' @importFrom stats optim
 ##' @importFrom methods is
 fitMRME_seasonal <- function(data, segment, start,
-                             method, optim.control, integrControl) {
+                             lower, upper,
+                             #method, optim.control,
+                             integrControl) {
     data <- seg2list(data, segment)
     if (is.null(start)) start <- movres.start.seasonal(data, segment)
     dinc <- prepareSeasonalFit(data, segment)
     integrControl <- unlist(integrControl)
+
+
+    fit <- nloptr::nloptr(x0 = start, eval_f = nllk_mrme_seasonal,
+                          data = dinc,
+                          integrControl = integrControl,
+                          lb = lower,
+                          ub = upper,
+                          opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+                                      "print_level" = 3,
+                                      "maxeval" = -5))
+
+    result <- list(estimate    =  fit[[18]],
+                   loglik      = -fit[[17]],
+                   convergence =  fit[[13]])
+
+    return(result)
     
-    fit <- optim(start, nllk_mrme_seasonal, data = dinc, method = method,
-                 control = optim.control, integrControl = integrControl)
+    ## fit <- optim(start, nllk_mrme_seasonal, data = dinc, method = method,
+    ##              control = optim.control, integrControl = integrControl)
     
-    estimate <- fit$par
+    ## estimate <- fit$par
     
-    list(estimate    = estimate,
-         loglik      = -fit$value,
-         convergence = fit$convergence)
+    ## list(estimate    = estimate,
+    ##      loglik      = -fit$value,
+    ##      convergence = fit$convergence)
 }
 
 
 fitMRME_naive_seasonal <- function(data, segment, start,
-                             method, optim.control, integrControl) {
+                                   lower, upper,
+                                   #method, optim.control,
+                                   integrControl) {
     data <- seg2list(data, segment)
     if (is.null(start)) start <- movres.start.seasonal(data, segment)
     dinc <- prepareSeasonalFit(data, segment)
     integrControl <- unlist(integrControl)
+
+    fit <- nloptr::nloptr(x0 = start, eval_f = nllk_mrme_naive_cmp_seasonal,
+                          data = dinc,
+                          integrControl = integrControl,
+                          lb = lower,
+                          ub = upper,
+                          opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+                                      "print_level" = 3,
+                                      "maxeval" = -5))
+
+    result <- list(estimate    =  fit[[18]],
+                   loglik      = -fit[[17]],
+                   convergence =  fit[[13]])
+
+    return(result)
     
-    fit <- optim(start, nllk_mrme_naive_cmp_seasonal, data = dinc, method = method,
-                 control = optim.control, integrControl = integrControl)
+    ## fit <- optim(start, nllk_mrme_naive_cmp_seasonal, data = dinc, method = method,
+    ##              control = optim.control, integrControl = integrControl)
     
-    estimate <- fit$par
+    ## estimate <- fit$par
     
-    list(estimate    = estimate,
-         loglik      = -fit$value,
-         convergence = fit$convergence)
+    ## list(estimate    = estimate,
+    ##      loglik      = -fit$value,
+    ##      convergence = fit$convergence)
 }
 
 

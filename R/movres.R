@@ -656,8 +656,8 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' @param segment character variable, name of the column which indicates segments,
 #'     in the given \code{data.frame}. The default value, \code{NULL}, means using
 #'     whole dataset to fit the model.
-#' @param method the method argument to feed \code{optim}.
 #' @param lower,upper Lower and upper bound for optimization.
+#' @param method the method argument to feed \code{optim}.
 #' @param optim.control a list of control to be passed to \code{optim}.
 #' @param integrControl a list of control parameters for the \code{integrate}
 #'     function: rel.tol, abs.tol, subdivision.
@@ -704,10 +704,10 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' 
 #' @export
 fitMRME <- function(data, start, segment = NULL,
-                    method = "Nelder-Mead",
                     lower = c(0, 0, 0, 0),
                     upper = c(10, 10, 10, 10),
-                    optim.control = list(),
+                    #method = "Nelder-Mead",
+                    #optim.control = list(),
                     integrControl = integr.control()) {
     if (is.null(segment)) {
 
@@ -747,7 +747,9 @@ fitMRME <- function(data, start, segment = NULL,
         
         ## seasonal process
         result <- fitMRME_seasonal(data, segment, start,
-                                   method, optim.control, integrControl)
+                                   lower, upper,
+                                   #method, optim.control,
+                                   integrControl)
         return(result)
 
         
@@ -878,8 +880,10 @@ estVarMRME_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
 #' @rdname fitMRME
 #' @export
 fitMRME_naive <- function(data, start, segment = NULL,
-                          method = "Nelder-Mead",
-                          optim.control = list(),
+                          lower = c(0, 0, 0, 0),
+                          upper = c(10, 10, 10, 10),
+                          #method = "Nelder-Mead",
+                          #optim.control = list(),
                           integrControl = integr.control()) {
     if (is.null(segment)) {
 
@@ -887,15 +891,30 @@ fitMRME_naive <- function(data, start, segment = NULL,
         if (!is.matrix(data)) data <- as.matrix(data)
         dinc <- apply(data, 2, diff)
         integrControl <- unlist(integrControl)
-        
-        fit <- optim(start, nllk_mrme_naive_cmp, data = dinc, method = method,
-                     control = optim.control, integrControl = integrControl)
 
-        estimate <- fit$par
+        fit <- nloptr::nloptr(x0 = start, eval_f = nllk_mrme_naive_cmp,
+                              data = dinc,
+                              integrControl = integrControl,
+                              lb = lower,
+                              ub = upper,
+                              opts = list("algorithm"   = "NLOPT_LN_COBYLA",
+                                          "print_level" = 3,
+                                          "maxeval" = -5))
+
+        result <- list(estimate    =  fit[[18]],
+                       loglik      = -fit[[17]],
+                       convergence =  fit[[13]])
+
+        return(result)
         
-        return(list(estimate    = estimate,
-                    loglik      = -fit$value,
-                    convergence = fit$convergence))
+        ## fit <- optim(start, nllk_mrme_naive_cmp, data = dinc, method = method,
+        ##              control = optim.control, integrControl = integrControl)
+
+        ## estimate <- fit$par
+        
+        ## return(list(estimate    = estimate,
+        ##             loglik      = -fit$value,
+        ##             convergence = fit$convergence))
 
         
     } else {
@@ -903,7 +922,9 @@ fitMRME_naive <- function(data, start, segment = NULL,
         
         ## seasonal process
         result <- fitMRME_naive_seasonal(data, segment, start,
-                                         method, optim.control, integrControl)
+                                         lower, upper,
+                                         #method, optim.control,
+                                         integrControl)
         return(result)
 
         
