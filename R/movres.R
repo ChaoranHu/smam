@@ -727,7 +727,7 @@ fitMRME <- function(data, start, segment = NULL,
 
         result <- list(estimate    =  fit[[18]],
                        loglik      = -fit[[17]],
-                       convergence =  fit[[13]])
+                       convergence =  fit[[14]])
 
         return(result)
 
@@ -903,7 +903,7 @@ fitMRME_naive <- function(data, start, segment = NULL,
 
         result <- list(estimate    =  fit[[18]],
                        loglik      = -fit[[17]],
-                       convergence =  fit[[13]])
+                       convergence =  fit[[14]])
 
         return(result)
         

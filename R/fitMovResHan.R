@@ -84,7 +84,7 @@ fitMRH <- function(data, start, segment = NULL,
 
             result <- list(estimate    =  fit[[18]],
                            loglik      = -fit[[17]],
-                           convergence =  fit[[13]])
+                           convergence =  fit[[14]])
 
             ## fit <- optim(par = start, fn = nllk_fwd_ths,
             ##              data = dinc,
@@ -147,7 +147,7 @@ fitMRH_parallel <- function(data, start, lower, upper,
 
     result <- list(estimate    =  fit[[18]],
                    loglik      = -fit[[17]],
-                   convergence =  fit[[13]])
+                   convergence =  fit[[14]])
 
 
     ## fit <- optim(par = start, fn = nllk_fwd_ths_parallel,

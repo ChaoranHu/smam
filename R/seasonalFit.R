@@ -344,7 +344,7 @@ fitMRME_seasonal <- function(data, segment, start,
 
     result <- list(estimate    =  fit[[18]],
                    loglik      = -fit[[17]],
-                   convergence =  fit[[13]])
+                   convergence =  fit[[14]])
 
     return(result)
     
@@ -379,7 +379,7 @@ fitMRME_naive_seasonal <- function(data, segment, start,
 
     result <- list(estimate    =  fit[[18]],
                    loglik      = -fit[[17]],
-                   convergence =  fit[[13]])
+                   convergence =  fit[[14]])
 
     return(result)
     
@@ -483,7 +483,7 @@ fitMRH_seasonal <- function(data, segment, start,
 
     result <- list(estimate    =  fit[[18]],
                    loglik      = -fit[[17]],
-                   convergence =  fit[[13]])
+                   convergence =  fit[[14]])
     result
 }
 
