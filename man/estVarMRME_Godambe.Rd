@@ -7,10 +7,11 @@
 \alias{estVarMRMEnaive_pBootstrap}
 \title{Variance matrix of estimators from moving-resting process with measurement error}
 \usage{
-estVarMRME_Godambe(est_theta, data, nBS, integrControl = integr.control())
+estVarMRME_Godambe(est_theta, data, nBS, numThreads = 1,
+  integrControl = integr.control())
 
 estVarMRME_pBootstrap(est_theta, data, nBS, detailBS = FALSE,
-  integrControl = integr.control())
+  numThreads = 1, integrControl = integr.control())
 
 estVarMRMEnaive_Godambe(est_theta, data, nBS,
   integrControl = integr.control())
@@ -24,6 +25,10 @@ estVarMRMEnaive_pBootstrap(est_theta, data, nBS, detailBS = FALSE,
 \item{data}{data used to process estimation}
 
 \item{nBS}{number of bootstrap.}
+
+\item{numThreads}{the number of threads for parallel computation. If its value
+is greater than 1, then parallel computation will be processed. Otherwise,
+serial computation will be processed.}
 
 \item{integrControl}{a list of control parameters for the \code{integrate}
 function: rel.tol, abs.tol, subdivision.}
@@ -53,7 +58,9 @@ tgrid <- seq(0, 10*100, length=100)
 set.seed(123)
 dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 }

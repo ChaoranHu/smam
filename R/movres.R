@@ -764,6 +764,9 @@ fitMRME <- function(data, start, segment = NULL,
 #' @param est_theta estimators of MRME model
 #' @param data data used to process estimation
 #' @param nBS number of bootstrap.
+#' @param numThreads the number of threads for parallel computation. If its value
+#' is greater than 1, then parallel computation will be processed. Otherwise,
+#' serial computation will be processed.
 #' @param integrControl a list of control parameters for the \code{integrate}
 #' function: rel.tol, abs.tol, subdivision.
 #'
@@ -777,17 +780,20 @@ fitMRME <- function(data, start, segment = NULL,
 #' set.seed(123)
 #' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 #' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' }
 #'
 #' @export
 estVarMRME_Godambe <- function(est_theta, data, nBS,
+                               numThreads = 1,
                                integrControl = integr.control()) {
     
     ## get J matrix in Godambe information matrix via bootstrap
-    getJ_MRME <- function(est_theta, data, nBS, integrControl) {
+    getJ_MRME <- function(est_theta, data, nBS, numThreads, integrControl) {
         
         tgrid <- data[, 1]
         dim <- ncol(data) - 1
@@ -802,16 +808,38 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
 
         integrControl <- unlist(integrControl)
 
-        result <- matrix(NA, ncol = 4, nrow = nBS)
+        if (numThreads <= 1) {
+            
+            result <- matrix(NA, ncol = 4, nrow = nBS)
 
-        for (i in seq_len(nBS)) {
-            start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
-            datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
-            datBS <- as.matrix(datBS)
-            dincBS <- apply(datBS, 2, diff)
-            grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta, data = dincBS,
-                                        integrControl = integrControl)
-            result[i, ] <- -grad_cart
+            for (i in seq_len(nBS)) {
+                start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+                datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+                datBS <- as.matrix(datBS)
+                dincBS <- apply(datBS, 2, diff)
+                grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta, data = dincBS,
+                                            integrControl = integrControl)
+                result[i, ] <- -grad_cart
+            }
+            
+        } else {
+
+            ## create parallel backend
+            cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
+            doParallel::registerDoParallel(cl)
+
+            i = 1 #Dummy line for Rstudio warnings
+
+            result <- foreach(i = 1:nBS, .combine = rbind) %dopar% {
+                start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+                datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+                datBS <- as.matrix(datBS)
+                dincBS <- apply(datBS, 2, diff)
+                grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta, data = dincBS,
+                                            integrControl = integrControl)
+                -grad_cart
+            }
+
         }
         
         cov(result)
@@ -827,7 +855,7 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
                           integrControl = integrControl)
     }
 
-    Jmatrix <- getJ_MRME(est_theta, data, nBS, integrControl)
+    Jmatrix <- getJ_MRME(est_theta, data, nBS, numThreads, integrControl)
     Hmatrix <- getH_MRME(est_theta, data, integrControl)
 
     solve(Hmatrix %*% solve(Jmatrix) %*% Hmatrix)
@@ -841,6 +869,7 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
 #' @rdname estVarMRME_Godambe
 #' @export
 estVarMRME_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
+                                  numThreads = 1,
                                   integrControl = integr.control()) {
 
     tgrid <- data[, 1]
@@ -854,16 +883,32 @@ estVarMRME_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
     p_m <- 1/lamM/(1/lamM + 1/lamR)
     p_r <- 1 - p_m
 
-    
-    result <- matrix(NA, ncol = 4, nrow = nBS)
+    if (numThreads <= 1) {
+        
+        result <- matrix(NA, ncol = 4, nrow = nBS)
 
-    for (i in seq_len(nBS)) {
-        start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
-        datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
-        result[i, ] <- fitMRME(datBS, start = est_theta,
-                               integrControl = integrControl)$estimate
+        for (i in seq_len(nBS)) {
+            start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+            datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+            result[i, ] <- fitMRME(datBS, start = est_theta,
+                                   integrControl = integrControl)$estimate
+        }
+
+    } else {
+        
+        ## create parallel backend
+        cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
+        doParallel::registerDoParallel(cl)
+
+        i = 1
+        result <- foreach(i = 1:nBS, .combine = rbind) %dopar% {
+            start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
+            datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
+            fitMRME(datBS, start = est_theta, integrControl = integrControl)$estimate
+        }
     }
-
+    
+    
     if (detailBS) {
         return(list(cov = cov(result),
                     BS_detail = result))
