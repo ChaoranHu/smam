@@ -8,7 +8,7 @@
 \title{Variance matrix of estimators from moving-resting process with measurement error}
 \usage{
 estVarMRME_Godambe(est_theta, data, nBS, numThreads = 1,
-  integrControl = integr.control())
+  gradMethod = "simple", integrControl = integr.control())
 
 estVarMRME_pBootstrap(est_theta, data, nBS, detailBS = FALSE,
   numThreads = 1, integrControl = integr.control())
@@ -29,6 +29,8 @@ estVarMRMEnaive_pBootstrap(est_theta, data, nBS, detailBS = FALSE,
 \item{numThreads}{the number of threads for parallel computation. If its value
 is greater than 1, then parallel computation will be processed. Otherwise,
 serial computation will be processed.}
+
+\item{gradMethod}{method used for numeric gradient (\code{numDeriv::grad}).}
 
 \item{integrControl}{a list of control parameters for the \code{integrate}
 function: rel.tol, abs.tol, subdivision.}

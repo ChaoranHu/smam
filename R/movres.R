@@ -769,6 +769,7 @@ fitMRME <- function(data, start, segment = NULL,
 #' serial computation will be processed.
 #' @param integrControl a list of control parameters for the \code{integrate}
 #' function: rel.tol, abs.tol, subdivision.
+#' @param gradMethod method used for numeric gradient (\code{numDeriv::grad}).
 #'
 #' @return variance-covariance matrix of estimators
 #'
@@ -790,10 +791,11 @@ fitMRME <- function(data, start, segment = NULL,
 #' @export
 estVarMRME_Godambe <- function(est_theta, data, nBS,
                                numThreads = 1,
+                               gradMethod = "simple",
                                integrControl = integr.control()) {
     
     ## get J matrix in Godambe information matrix via bootstrap
-    getJ_MRME <- function(est_theta, data, nBS, numThreads, integrControl) {
+    getJ_MRME <- function(est_theta, data, nBS, numThreads, gradMethod, integrControl) {
         
         tgrid <- data[, 1]
         dim <- ncol(data) - 1
@@ -817,7 +819,9 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
                 datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
                 datBS <- as.matrix(datBS)
                 dincBS <- apply(datBS, 2, diff)
-                grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta, data = dincBS,
+                grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta,
+                                            method = gradMethod,
+                                            data = dincBS,
                                             integrControl = integrControl)
                 result[i, ] <- -grad_cart
             }
@@ -835,7 +839,9 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
                 datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
                 datBS <- as.matrix(datBS)
                 dincBS <- apply(datBS, 2, diff)
-                grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta, data = dincBS,
+                grad_cart <- numDeriv::grad(func = nllk_mrme, x = est_theta,
+                                            method = gradMethod,
+                                            data = dincBS,
                                             integrControl = integrControl)
                 -grad_cart
             }
@@ -855,7 +861,7 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
                           integrControl = integrControl)
     }
 
-    Jmatrix <- getJ_MRME(est_theta, data, nBS, numThreads, integrControl)
+    Jmatrix <- getJ_MRME(est_theta, data, nBS, numThreads, gradMethod, integrControl)
     Hmatrix <- getH_MRME(est_theta, data, integrControl)
 
     solve(Hmatrix %*% solve(Jmatrix) %*% Hmatrix)
