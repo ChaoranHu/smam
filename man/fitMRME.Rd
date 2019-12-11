@@ -6,8 +6,8 @@
 \alias{fitMRMEapprox}
 \title{Fit a Moving-Resting Model with Measurement Error}
 \usage{
-fitMRME(data, start, segment = NULL, lower = c(0, 0, 0, 0), upper = c(10,
-  10, 10, 10), integrControl = integr.control())
+fitMRME(data, start, segment = NULL, lower = c(1e-06, 1e-06, 1e-06, 1e-06),
+  upper = c(10, 10, 10, 10), integrControl = integr.control())
 
 fitMRME_naive(data, start, segment = NULL, lower = c(0, 0, 0, 0),
   upper = c(10, 10, 10, 10), integrControl = integr.control())

@@ -704,7 +704,7 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' 
 #' @export
 fitMRME <- function(data, start, segment = NULL,
-                    lower = c(0, 0, 0, 0),
+                    lower = c(0.000001, 0.000001, 0.000001, 0.000001),
                     upper = c(10, 10, 10, 10),
                     #method = "Nelder-Mead",
                     #optim.control = list(),
@@ -829,12 +829,18 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
         } else {
 
             ## create parallel backend
-            cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
-            doParallel::registerDoParallel(cl)
+            cl = parallel::makeCluster(numThreads)
+            on.exit(close(pb), add = TRUE)
+            on.exit(parallel::stopCluster(cl), add = TRUE)
+            #doParallel::registerDoParallel(cl)
+            doSNOW::registerDoSNOW(cl)
+            pb <- utils::txtProgressBar(max = nBS, style = 3)
+            progress <- function(n) utils::setTxtProgressBar(pb, n)
+            opts <- list(progress = progress)
 
             i = 1 #Dummy line for Rstudio warnings
 
-            result <- foreach(i = 1:nBS, .combine = rbind) %dopar% {
+            result <- foreach(i = 1:nBS, .combine = rbind, .options.snow = opts) %dopar% {
                 start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
                 datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
                 datBS <- as.matrix(datBS)
@@ -901,16 +907,22 @@ estVarMRME_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
         }
 
     } else {
-        
+
         ## create parallel backend
-        cl = parallel::makeCluster(numThreads); on.exit(parallel::stopCluster(cl))
-        doParallel::registerDoParallel(cl)
+        cl = parallel::makeCluster(numThreads)
+        on.exit(close(pb), add = TRUE)
+        on.exit(parallel::stopCluster(cl), add = TRUE)
+        doSNOW::registerDoSNOW(cl)
+        pb <- utils::txtProgressBar(max = nBS, style = 3)
+        progress <- function(n) utils::setTxtProgressBar(pb, n)
+        opts <- list(progress = progress)
 
         i = 1
-        result <- foreach(i = 1:nBS, .combine = rbind) %dopar% {
+        result <- foreach(i = 1:nBS, .combine = rbind, .options.snow = opts) %dopar% {
             start_state <- sample(c("m", "r"), size = 1, prob = c(p_m, p_r))
             datBS <- rMRME(tgrid, lamM, lamR, sigma, sig_err, s0 = start_state, dim = dim)
-            fitMRME(datBS, start = est_theta, integrControl = integrControl)$estimate
+            fit <- fitMRME(datBS, start = est_theta, integrControl = integrControl)$estimate
+            fit
         }
     }
     
