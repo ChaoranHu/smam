@@ -443,10 +443,10 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
     grm = g01_mrme(z, tt, theta, integrControl),
     gmr = g10_mrme(z, tt, theta, integrControl);
   NumericVector
-    tmm = t11_mrme(z, theta),
-    trr = t00_mrme(z, theta),
-    trm = t01_mrme(z, theta),
-    tmr = t10_mrme(z, theta);
+    tmm = t11_mrme(tt, theta),
+    trr = t00_mrme(tt, theta),
+    trm = t01_mrme(tt, theta),
+    tmr = t10_mrme(tt, theta);
 
   // forward algorithm for the first chain
   // start from Z_0
@@ -558,10 +558,10 @@ double nllk_mrme_one_chain(NumericVector &theta, NumericMatrix &data,
     grm = g01_mrme(z, tt, theta, integrControl),
     gmr = g10_mrme(z, tt, theta, integrControl);
   NumericVector
-    tmm = t11_mrme(z, theta),
-    trr = t00_mrme(z, theta),
-    trm = t01_mrme(z, theta),
-    tmr = t10_mrme(z, theta);
+    tmm = t11_mrme(tt, theta),
+    trr = t00_mrme(tt, theta),
+    trm = t01_mrme(tt, theta),
+    tmr = t10_mrme(tt, theta);
 
   // forward algorithm for the first chain
   // start from Z_0
