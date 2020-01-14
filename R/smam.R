@@ -6,9 +6,9 @@
 ##'
 ##' @author
 ##' \itemize{
-##'   \item *author* Jun Yan \email{jun.yan@@uconn.edu}
-##'   \item *author* Vladimir Pozdnyakov \email{vladimir.pozdnyakov@@uconn.edu}
 ##'   \item *maintainer, author* Chaoran Hu \email{chaoran.hu@@uconn.edu}
+##'   \item *author* Vladimir Pozdnyakov \email{vladimir.pozdnyakov@@uconn.edu}
+##'   \item *author* Jun Yan \email{jun.yan@@uconn.edu}
 ##' }
 ##' 
 ##' @docType package

@@ -2,14 +2,14 @@ citHeader("To cite smam in publications use:")
 
 citEntry(entry = "Manual",
          title = "{smam}: Statistical Modeling of Animal Movement",
-         author = personList(as.person("Jun Yan"),
+         author = personList(as.person("Chaoran Hu"),
                              as.person("Vladimir Pozdnyakov"),
-                             as.person("Chaoran Hu")),
+                             as.person("Jun Yan")),
          note = "R package version 0.5.0",
          year =	"2020",
          url = "https://github.com/ChaoranHu/smam",
          
-         textVersion = paste("Yan, J., Pozdnyakov, V., Hu, C. (2020). smam:",
+         textVersion = paste("Hu, C., Pozdnyakov, V., Yan, J. (2020). smam:",
                              "Statistical Modeling of Animal Movement.",
                              "R package version 0.5.0",
                              "https://github.com/ChaoranHu/smam")
