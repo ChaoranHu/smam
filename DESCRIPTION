@@ -1,11 +1,11 @@
 Package: smam
 Title: Statistical Modeling of Animal Movements
-Version: 0.4.0.9000
-Date: 2019-12-20
+Version: 0.5.0
+Date: 2020-01-14
 Authors@R: c(
-    person("Chaoran", "Hu", email = "chaoran.hu@uconn.edu", role = c("aut", "cre"))),
+    person("Chaoran", "Hu", email = "chaoran.hu@uconn.edu", role = c("aut", "cre")),
     person("Vladimir", "Pozdnyakov", email = "vladimir.pozdnyakov@uconn.edu", role = "aut"),
-    person("Jun", "Yan", email = "jun.yan@uconn.edu", role = "aut")
+    person("Jun", "Yan", email = "jun.yan@uconn.edu", role = "aut"))
 Description: Animal movement models including moving-resting process
     with embedded Brownian motion according to
     Yan et al. (2014) <doi:10.1007/s10144-013-0428-8>,
