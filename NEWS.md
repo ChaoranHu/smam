@@ -1,3 +1,10 @@
+# CHANGES IN smam VERSION 0.5.1
+
+## MINOR CHANGES
+
+* Fixed one bug.
+
+
 # CHANGES IN smam VERSION 0.5.0
 
 ## MAJOR CHANGES

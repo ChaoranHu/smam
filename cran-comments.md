@@ -16,6 +16,8 @@ There were 2 NOTEs:
 
 Maintainer: ‘Chaoran Hu <chaoran.hu@uconn.edu>’
 
+Days since last update: 1
+
 Uses the superseded package: ‘doSNOW’
 
 * checking for GNU extensions in Makefiles ... NOTE
@@ -31,4 +33,4 @@ There are currently no downstream dependencies for this package.
 
 ## Newer Version of R package smam
 
-The R package smam 0.4.0 has already in CRAN. This is the next version of smam. The version number of this package is 0.5.0.
+The R package smam 0.5.0 has already in CRAN. This is the next version of smam. The version number of this package is 0.5.1.
