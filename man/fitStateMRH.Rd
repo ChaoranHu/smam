@@ -10,8 +10,13 @@ fitStateMRH(data, theta, integrControl = integr.control())
 
 fitViterbiMRH(data, theta, integrControl = integr.control())
 
-fitPartialViterbiMRH(data, theta, startpoint, pathlength,
-  integrControl = integr.control())
+fitPartialViterbiMRH(
+  data,
+  theta,
+  startpoint,
+  pathlength,
+  integrControl = integr.control()
+)
 }
 \arguments{
 \item{data}{a \code{data.frame} whose first column is the observation

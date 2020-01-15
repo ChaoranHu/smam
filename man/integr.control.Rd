@@ -4,8 +4,11 @@
 \alias{integr.control}
 \title{Auxiliary for Controlling Numerical Integration}
 \usage{
-integr.control(rel.tol = .Machine$double.eps^0.25, abs.tol = rel.tol,
-  subdivisions = 100L)
+integr.control(
+  rel.tol = .Machine$double.eps^0.25,
+  abs.tol = rel.tol,
+  subdivisions = 100L
+)
 }
 \arguments{
 \item{rel.tol}{relative accuracy requested.}

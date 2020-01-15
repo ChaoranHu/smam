@@ -454,7 +454,7 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
   double llk1 = 0;
   double cartrr = 0, cartrm = 0, cartmm = 0, cartmr = 0;
   double dx = 0, sumfr = 0, sumfm = 0;
-  for (int i = 0; i < floor(n/2); i++) {
+  for (int i = 0; i < std::floor(static_cast <double> (n) / 2); i++) {
     cartrr = trm[2*i]*gmr[2*i+1] + trr[2*i]*grr[2*i+1];
     cartmr = tmm[2*i]*gmr[2*i+1] + tmr[2*i]*grr[2*i+1];
     cartrm = trm[2*i]*gmm[2*i+1] + trr[2*i]*grm[2*i+1];
@@ -474,7 +474,7 @@ double nllk_mrme(NumericVector &theta, NumericMatrix &data,
   cartrr = 0, cartrm = 0, cartmm = 0, cartmr = 0;
   dx = 0, sumfr = 0, sumfm = 0;
   // we have to reset all carts first.
-  for(int i = 0; i < floor((n-1)/2); i++) {
+  for(int i = 0; i < std::floor(static_cast <double> (n-1) / 2); i++) {
     cartrr = trm[2*i+1]*gmr[2*i+2] + trr[2*i+1]*grr[2*i+2];
     cartmr = tmm[2*i+1]*gmr[2*i+2] + tmr[2*i+1]*grr[2*i+2];
     cartrm = trm[2*i+1]*gmm[2*i+2] + trr[2*i+1]*grm[2*i+2];

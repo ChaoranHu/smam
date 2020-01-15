@@ -41,10 +41,6 @@ The transition between the two states is modeled by an alternating
 renewal process, with exponentially distributed duration. An animal
 stays at the same location while resting, and moves according to a
 Brownian motion while moving.
-
-'rMovRes' is deprecated. Using new function 'rMR' instead.
-
-'rMRME' samples from moving-resting process with Guassian measurement error
 }
 \examples{
 tgrid <- seq(0, 10, length=1001)

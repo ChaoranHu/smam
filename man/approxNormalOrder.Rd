@@ -25,11 +25,6 @@ approximate standard normal. This function generates
 order statistics of standard normal with same probability
 assigned. Then, the discrete distribution is standardized
 to variance one and mean zero.
-
-'approxNormalOrder2' generates a even space grid first.
-Then, the probability is calculated as normal kernal.
-Finally, it is also standardized to variance one and
-mean zero.
 }
 \details{
 This function use \code{EnvStats::evNormOrdStats} to get

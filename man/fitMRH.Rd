@@ -4,10 +4,15 @@
 \alias{fitMRH}
 \title{Fit a Moving-Resting-Handling Model with Embedded Brownian Motion}
 \usage{
-fitMRH(data, start, segment = NULL,
-  numThreads = RcppParallel::defaultNumThreads() * 3/4, lower = c(0.001,
-  0.001, 0.001, 0.001, 0.001), upper = c(10, 10, 10, 10, 0.999),
-  integrControl = integr.control())
+fitMRH(
+  data,
+  start,
+  segment = NULL,
+  numThreads = RcppParallel::defaultNumThreads() * 3/4,
+  lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
+  upper = c(10, 10, 10, 10, 0.999),
+  integrControl = integr.control()
+)
 }
 \arguments{
 \item{data}{a data.frame whose first column is the observation time, and other

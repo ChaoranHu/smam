@@ -1,7 +1,7 @@
 Package: smam
 Title: Statistical Modeling of Animal Movements
 Version: 0.5.0
-Date: 2020-01-14
+Date: 2020-01-15
 Authors@R: c(
     person("Chaoran", "Hu", email = "chaoran.hu@uconn.edu", role = c("aut", "cre")),
     person("Vladimir", "Pozdnyakov", email = "vladimir.pozdnyakov@uconn.edu", role = "aut"),
@@ -36,5 +36,5 @@ SystemRequirements: GNU GSL, GNU make, C++11
 VignetteBuilder: R.rsp
 BugReports: https://github.com/ChaoranHu/smam/issues
 URL: https://github.com/ChaoranHu/smam
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 NeedsCompilation: yes

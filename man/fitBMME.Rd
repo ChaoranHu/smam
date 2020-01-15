@@ -5,11 +5,15 @@
 \alias{fitBmme}
 \title{Fit a Brownian Motion with Measurement Error}
 \usage{
-fitBMME(data, start = NULL, segment = NULL, method = "Nelder-Mead",
-  optim.control = list())
+fitBMME(
+  data,
+  start = NULL,
+  segment = NULL,
+  method = "Nelder-Mead",
+  optim.control = list()
+)
 
-fitBmme(data, start = NULL, method = "Nelder-Mead",
-  optim.control = list())
+fitBmme(data, start = NULL, method = "Nelder-Mead", optim.control = list())
 }
 \arguments{
 \item{data}{a data.frame whose first column is the observation time, and other
@@ -46,8 +50,6 @@ Given discretely observed animal movement locations, fit a Brownian
 motion model with measurement errors. Using \code{segment} to fit
 part of observations to the model. A practical application of this
 feature is seasonal analysis.
-
-'fitBmme' is deprecated. Using new function 'fitBMME' instead.
 }
 \details{
 The joint density of the increment data is multivariate normal with a

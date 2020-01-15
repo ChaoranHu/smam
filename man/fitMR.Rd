@@ -5,13 +5,26 @@
 \alias{fitMovRes}
 \title{Fit a Moving-Resting Model with Embedded Brownian Motion}
 \usage{
-fitMR(data, start, segment = NULL, likelihood = c("full", "composite"),
-  logtr = FALSE, method = "Nelder-Mead", optim.control = list(),
-  integrControl = integr.control())
+fitMR(
+  data,
+  start,
+  segment = NULL,
+  likelihood = c("full", "composite"),
+  logtr = FALSE,
+  method = "Nelder-Mead",
+  optim.control = list(),
+  integrControl = integr.control()
+)
 
-fitMovRes(data, start, likelihood = c("full", "composite"), logtr = FALSE,
-  method = "Nelder-Mead", optim.control = list(),
-  integrControl = integr.control())
+fitMovRes(
+  data,
+  start,
+  likelihood = c("full", "composite"),
+  logtr = FALSE,
+  method = "Nelder-Mead",
+  optim.control = list(),
+  integrControl = integr.control()
+)
 }
 \arguments{
 \item{data}{a data.frame whose first column is the observation time, and other
@@ -57,8 +70,6 @@ movement data at discretely observation times by maximizing a composite
 likelihood constructed from the marginal density of increment.
 Using \code{segment} to fit part of observations to the model. A practical
 application of this feature is seasonal analysis.
-
-'fitMovRes' is deprecated. Using new function 'fitMR' instead.
 }
 \examples{
 \donttest{

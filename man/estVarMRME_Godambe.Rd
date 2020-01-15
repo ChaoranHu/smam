@@ -7,17 +7,33 @@
 \alias{estVarMRMEnaive_pBootstrap}
 \title{Variance matrix of estimators from moving-resting process with measurement error}
 \usage{
-estVarMRME_Godambe(est_theta, data, nBS, numThreads = 1,
-  gradMethod = "simple", integrControl = integr.control())
+estVarMRME_Godambe(
+  est_theta,
+  data,
+  nBS,
+  numThreads = 1,
+  gradMethod = "simple",
+  integrControl = integr.control()
+)
 
-estVarMRME_pBootstrap(est_theta, data, nBS, detailBS = FALSE,
-  numThreads = 1, integrControl = integr.control())
+estVarMRME_pBootstrap(
+  est_theta,
+  data,
+  nBS,
+  detailBS = FALSE,
+  numThreads = 1,
+  integrControl = integr.control()
+)
 
-estVarMRMEnaive_Godambe(est_theta, data, nBS,
-  integrControl = integr.control())
+estVarMRMEnaive_Godambe(est_theta, data, nBS, integrControl = integr.control())
 
-estVarMRMEnaive_pBootstrap(est_theta, data, nBS, detailBS = FALSE,
-  integrControl = integr.control())
+estVarMRMEnaive_pBootstrap(
+  est_theta,
+  data,
+  nBS,
+  detailBS = FALSE,
+  integrControl = integr.control()
+)
 }
 \arguments{
 \item{est_theta}{estimators of MRME model}
@@ -44,15 +60,6 @@ variance-covariance matrix of estimators
 \description{
 'estVarMRME_Godambe' uses Godambe information matrix to obtain variance matrix
 of estimators from 'fitMRME'.
-
-'estVarMRME_pBootstrap' uses parametric bootstrap to obtain variance matrix
-of estimators from 'fitMRME'
-
-'estVarMRMEnaive_Godambe' use Godambe information matrix to obtain variance matrix
-of estimators from 'fitMRME_naive'.
-
-'estVarMRMEnaive_pBootstrap' uses parametric bootstrap to obtain variance matrix
-of estimators from 'fitMRME_naive'
 }
 \examples{
 \donttest{

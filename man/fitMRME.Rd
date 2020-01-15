@@ -6,16 +6,34 @@
 \alias{fitMRMEapprox}
 \title{Fit a Moving-Resting Model with Measurement Error}
 \usage{
-fitMRME(data, start, segment = NULL, lower = c(1e-06, 1e-06, 1e-06, 1e-06),
-  upper = c(10, 10, 10, 10), integrControl = integr.control())
+fitMRME(
+  data,
+  start,
+  segment = NULL,
+  lower = c(1e-06, 1e-06, 1e-06, 1e-06),
+  upper = c(10, 10, 10, 10),
+  integrControl = integr.control()
+)
 
-fitMRME_naive(data, start, segment = NULL, lower = c(0, 0, 0, 0),
-  upper = c(10, 10, 10, 10), integrControl = integr.control())
+fitMRME_naive(
+  data,
+  start,
+  segment = NULL,
+  lower = c(0, 0, 0, 0),
+  upper = c(10, 10, 10, 10),
+  integrControl = integr.control()
+)
 
-fitMRMEapprox(data, start, segment = NULL,
+fitMRMEapprox(
+  data,
+  start,
+  segment = NULL,
   approx_norm_even = approxNormalOrder(5),
-  approx_norm_odd = approxNormalOrder(6), method = "Nelder-Mead",
-  optim.control = list(), integrControl = integr.control())
+  approx_norm_odd = approxNormalOrder(6),
+  method = "Nelder-Mead",
+  optim.control = list(),
+  integrControl = integr.control()
+)
 }
 \arguments{
 \item{data}{a data.frame whose first column is the observation time, and other
@@ -64,13 +82,6 @@ evaluated at the estimate}
 error is modeled by Guassian noise. Using \code{segment} to fit part
 of observations to the model. A practical application of this feature
 is seasonal analysis.
-
-'fitMRME_naive' fits moving-resting model with measurement error
-by MLE with a naive composite llk, that pretend two consecutive
-increments are independent.
-
-'fitMRMEapprox' also fits moving-resting model. However, in this function,
-the gaussian error is approximated with two discrete distributions.
 }
 \examples{
 \donttest{

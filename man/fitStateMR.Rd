@@ -10,8 +10,14 @@ fitStateMR(data, theta, cutoff = 0.5, integrControl = integr.control())
 
 fitViterbiMR(data, theta, cutoff = 0.5, integrControl = integr.control())
 
-fitPartialViterbiMR(data, theta, cutoff = 0.5, startpoint, pathlength,
-  integrControl = integr.control())
+fitPartialViterbiMR(
+  data,
+  theta,
+  cutoff = 0.5,
+  startpoint,
+  pathlength,
+  integrControl = integr.control()
+)
 }
 \arguments{
 \item{data}{a \code{data.frame} whose first column is the observation
