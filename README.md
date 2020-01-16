@@ -9,7 +9,7 @@ This README would normally document whatever steps are necessary to get this app
 
 * Statistical modeling of animal movements in R. Three statistcal models are provided by this package. They are moving-resting model with embedded Brownian motion^[1,2], moving-resting-handling model with embedded Brownian motion^[3] and Brownian motion with measurement error^[4]. A quick guide for this package is given as package vignette.
 
-* Version: 0.5.1
+* Version: 0.5.2
 
 ### How do I get set up? ###
 
