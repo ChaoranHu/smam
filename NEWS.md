@@ -1,16 +1,11 @@
-# CHANGES IN smam VERSION 0.5.2
+# CHANGES IN smam VERSION 0.5.3, 0.5.2, 0.5.1
 
 ## MINOR CHANGES
 
-* Fixed one bug.
-
-
-
-# CHANGES IN smam VERSION 0.5.1
-
-## MINOR CHANGES
-
-* Fixed one bug.
+* Fixed some bugs in solaris system. It is difficult to debug in solaris system. CRAN check packages
+in solaris system but I cannot do it locally. You can use R-hub to check your own package under
+solaris environment but R-hub does not support GSL, which is needed by `smam`. So, this is why
+I submitted such many versions.
 
 
 # CHANGES IN smam VERSION 0.5.0

@@ -23,7 +23,7 @@ double myProd(NumericVector x) { // prod in R
 }
 
 NumericMatrix generate_grid(int m, int dim) {
-  NumericMatrix result(pow(m, dim), dim+1);
+  NumericMatrix result(std::pow(static_cast <double> (m), static_cast <double> (dim)), dim+1);
   NumericVector h(dim+1, 1.0);
   for (int i = 0; i < result.nrow(); i++) {
     result(i, _) = h;
@@ -160,10 +160,10 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
   
 
   // initial forward variable matrix
-  NumericMatrix fwd_mov_even(pow(m_even, dim), dim+1);
-  NumericMatrix fwd_res_even(pow(m_even, dim), dim+1);
-  NumericMatrix fwd_mov_odd(pow(m_odd, dim), dim+1);
-  NumericMatrix fwd_res_odd(pow(m_odd, dim), dim+1);
+  NumericMatrix fwd_mov_even(std::pow(static_cast <double> (m_even), static_cast <double> (dim)), dim+1);
+  NumericMatrix fwd_res_even(std::pow(static_cast <double> (m_even), static_cast <double> (dim)), dim+1);
+  NumericMatrix fwd_mov_odd(std::pow(static_cast <double> (m_odd), static_cast <double> (dim)), dim+1);
+  NumericMatrix fwd_res_odd(std::pow(static_cast <double> (m_odd), static_cast <double> (dim)), dim+1);
 
   fwd_mov_even = generate_grid(m_even, dim);
   fwd_res_even = generate_grid(m_even, dim);
