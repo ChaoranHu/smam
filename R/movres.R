@@ -760,6 +760,12 @@ fitMRME <- function(data, start, segment = NULL,
 #'
 #' 'estVarMRME_Godambe' uses Godambe information matrix to obtain variance matrix
 #' of estimators from 'fitMRME'.
+#' 'estVarMRME_pBootstrap' uses parametric bootstrap to obtain variance matrix
+#' of estimators from 'fitMRME'.
+#' 'estVarMRMEnaive_Godambe' use Godambe information matrix to obtain variance matrix
+#' of estimators from 'fitMRME_naive'.
+#' 'estVarMRMEnaive_pBootstrap' uses parametric bootstrap to obtain variance matrix
+#' of estimators from 'fitMRME_naive'.
 #'
 #' @param est_theta estimators of MRME model
 #' @param data data used to process estimation
@@ -874,8 +880,7 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
 
 }
 
-#' 'estVarMRME_pBootstrap' uses parametric bootstrap to obtain variance matrix
-#' of estimators from 'fitMRME'
+
 #' @param detailBS whether or not output estimation results during bootstrap,
 #' which can be used to generate bootstrap CI.
 #' @rdname estVarMRME_Godambe
@@ -995,8 +1000,7 @@ fitMRME_naive <- function(data, start, segment = NULL,
 }
 
 
-#' 'estVarMRMEnaive_Godambe' use Godambe information matrix to obtain variance matrix
-#' of estimators from 'fitMRME_naive'.
+
 #' @rdname estVarMRME_Godambe
 #' @export
 estVarMRMEnaive_Godambe <- function(est_theta, data, nBS,
@@ -1051,8 +1055,7 @@ estVarMRMEnaive_Godambe <- function(est_theta, data, nBS,
 }
 
 
-#' 'estVarMRMEnaive_pBootstrap' uses parametric bootstrap to obtain variance matrix
-#' of estimators from 'fitMRME_naive'
+
 #' @rdname estVarMRME_Godambe
 #' @export
 estVarMRMEnaive_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,

@@ -60,6 +60,12 @@ variance-covariance matrix of estimators
 \description{
 'estVarMRME_Godambe' uses Godambe information matrix to obtain variance matrix
 of estimators from 'fitMRME'.
+'estVarMRME_pBootstrap' uses parametric bootstrap to obtain variance matrix
+of estimators from 'fitMRME'.
+'estVarMRMEnaive_Godambe' use Godambe information matrix to obtain variance matrix
+of estimators from 'fitMRME_naive'.
+'estVarMRMEnaive_pBootstrap' uses parametric bootstrap to obtain variance matrix
+of estimators from 'fitMRME_naive'.
 }
 \examples{
 \donttest{
