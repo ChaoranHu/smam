@@ -1,4 +1,4 @@
-#' @importFrom stats dnorm integrate optim rexp rnorm cov
+#' @importFrom stats dnorm integrate optim rexp rnorm cov na.omit
 #' @importFrom methods is
 #' @importFrom numDeriv hessian
 #' @importFrom Rcpp evalCpp
@@ -854,7 +854,7 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
 
         }
         
-        cov(result)
+        cov(na.omit(result))
     }
 
     ## get H matrix in Godambe information matrix
@@ -928,10 +928,10 @@ estVarMRME_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
     
     
     if (detailBS) {
-        return(list(cov = cov(result),
+        return(list(cov = cov(na.omit(result)),
                     BS_detail = result))
     } else {
-        return(cov(result))
+        return(cov(na.omit(result)))
     }
 }
 
