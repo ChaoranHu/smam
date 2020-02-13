@@ -855,6 +855,10 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
                                             method = gradMethod,
                                             data = dincBS,
                                             integrControl = integrControl)
+                ## test code only ##
+                print(grad_cart)
+                ## test code only ##
+                
                 -grad_cart
             }
 
