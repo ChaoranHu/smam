@@ -134,6 +134,7 @@ simmr.state <- function(time, brtimes, t0moving) {
 #' @export
 
 rMR <- function(time, lamM, lamR, sigma, s0, dim = 2, state = FALSE) {
+    time <- time - time[1]
     stopifnot(s0 %in% c("m", "r"))
     t0moving <- (s0 == "m")
     lam1 <- if (t0moving) lamM else lamR
@@ -176,6 +177,7 @@ rMovRes <- function(time, lamM, lamR, sigma, s0, dim = 2) {
 #' @rdname rMR
 #' @export
 rMRME <- function(time, lamM, lamR, sigma, sig_err, s0, dim = 2, state = FALSE){
+    time <- time - time[1]
     dat <- rMR(time, lamM, lamR, sigma, s0, dim = 2, state)
     if (state) {
         for (i in 1:dim) {
@@ -862,7 +864,7 @@ estVarMRME_Godambe <- function(est_theta, data, nBS,
         }
 
         ## test code only ##
-        print(result)
+        ## print(result)
         ## test code only ##
         
         cov(na.omit(result))

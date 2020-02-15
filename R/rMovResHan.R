@@ -169,6 +169,8 @@ rMRH <- function(time, lamM, lamR, lamH, sigma, p, s0, dim = 2, state = FALSE) {
     lam1 <- lamM
     lam2 <- c(lamR, lamH)
 
+    time <- time - time[1]
+
     timeIND <- 0
     if (length(time) == 1) {
         timeIND <- 1
