@@ -25,13 +25,21 @@ estVarMRME_pBootstrap(
   integrControl = integr.control()
 )
 
-estVarMRMEnaive_Godambe(est_theta, data, nBS, integrControl = integr.control())
+estVarMRMEnaive_Godambe(
+  est_theta,
+  data,
+  nBS,
+  numThreads = 1,
+  gradMethod = "simple",
+  integrControl = integr.control()
+)
 
 estVarMRMEnaive_pBootstrap(
   est_theta,
   data,
   nBS,
   detailBS = FALSE,
+  numThreads = 1,
   integrControl = integr.control()
 )
 }
@@ -77,7 +85,9 @@ estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 }
 
 }

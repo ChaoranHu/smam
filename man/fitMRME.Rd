@@ -19,7 +19,7 @@ fitMRME_naive(
   data,
   start,
   segment = NULL,
-  lower = c(0, 0, 0, 0),
+  lower = c(1e-06, 1e-06, 1e-06, 1e-06),
   upper = c(10, 10, 10, 10),
   integrControl = integr.control()
 )
