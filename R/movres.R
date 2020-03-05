@@ -178,7 +178,7 @@ rMovRes <- function(time, lamM, lamR, sigma, s0, dim = 2) {
 #' @export
 rMRME <- function(time, lamM, lamR, sigma, sig_err, s0, dim = 2, state = FALSE){
     time <- time - time[1]
-    dat <- rMR(time, lamM, lamR, sigma, s0, dim = 2, state)
+    dat <- rMR(time, lamM, lamR, sigma, s0, dim = dim, state)
     if (state) {
         for (i in 1:dim) {
             dat[, i+2] <- dat[, i+2] + rnorm(length(time), mean = 0, sd = sig_err)
