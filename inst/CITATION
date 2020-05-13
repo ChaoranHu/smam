@@ -33,18 +33,20 @@ citEntry(entry = "Article",
 )
 
 citEntry(entry = "Article",
-         title = "Discretely observed Brownian motion governed by telegraph process: estimation",
+         title = "Discretely observed Brownian motion governed by telegraph process: Estimation",
          author = personList(as.person("Vladimir Pozdnyakov"),
                              as.person("L. Mark Elbroch"),
                              as.person("Anthony Labarga"),
                              as.person("Thomas Meyer"),
                              as.person("Jun Yan")),
          journal = "Methodology and Computing in Applied Probability",
-         year = "2017",
+         year = "2019",
+         volume = "21",
+         pages = "907--920",
          url = "https://doi.org/10.1007/s11009-017-9547-6",
 
          textVersion =
-  paste("Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability. 10.1007/s11009-017-9547-6.")
+  paste("Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability, 21: 907--920. doi:10.1007/s11009-017-9547-6.")
 )
 
 citEntry(entry = "Article",
