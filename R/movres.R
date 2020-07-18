@@ -544,29 +544,27 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' doi:10.1007/s11009-017-9547-6.
 #'
 #' @examples
-#' \dontrun{
 #' ## time consuming example
-#' tgrid <- seq(0, 10, length=500)
-#' set.seed(123)
+#' #tgrid <- seq(0, 10, length=500)
+#' #set.seed(123)
 #' ## make it irregularly spaced
-#' tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
-#' dat <- rMR(tgrid, 1, 2, 25, "m")
+#' #tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
+#' #dat <- rMR(tgrid, 1, 2, 25, "m")
 #'
 #' ## fit whole dataset to the MR model
-#' fit.fl <- fitMR(dat, start=c(2, 2, 20), likelihood = "full")
-#' fit.fl
+#' #fit.fl <- fitMR(dat, start=c(2, 2, 20), likelihood = "full")
+#' #fit.fl
 #' 
-#' fit.cl <- fitMR(dat, start=c(2, 2, 20), likelihood = "composite")
-#' fit.cl
+#' #fit.cl <- fitMR(dat, start=c(2, 2, 20), likelihood = "composite")
+#' #fit.cl
 #'
 #' ## fit part of dataset to the MR model
-#' batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
-#' dat.segment <- cbind(dat, batch)
-#' fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
-#'                      likelihood = "full")
-#' head(dat.segment)
-#' fit.segment
-#' }
+#' #batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
+#' #dat.segment <- cbind(dat, batch)
+#' #fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
+#' #                     likelihood = "full")
+#' #head(dat.segment)
+#' #fit.segment
 #' 
 #' @export
 fitMR <- function(data, start, segment = NULL,
@@ -679,32 +677,30 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' @author Chaoran Hu
 #' 
 #' @examples
-#' \dontrun{
 #' ## time consuming example
-#' tgrid <- seq(0, 10*100, length=100)
-#' set.seed(123)
-#' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
+#' #tgrid <- seq(0, 10*100, length=100)
+#' #set.seed(123)
+#' #dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 #'
 #' ## fit whole dataset to the MRME model
-#' fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
-#' fit
+#' #fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
+#' #fit
 #'
 #' ## fit whole dataset to the MRME model with naive composite likelihood
-#' fit.naive <- fitMRME_naive(dat, start=c(1, 0.5, 1, 0.01))
-#' fit.naive
+#' #fit.naive <- fitMRME_naive(dat, start=c(1, 0.5, 1, 0.01))
+#' #fit.naive
 #'
 #' ## fit whole dataset to the MRME model with approximate error
-#' fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))
-#' fit.approx
+#' #fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))
+#' #fit.approx
 #'
 #' ## fit part of dataset to the MR model
-#' batch <- c(rep(0, 5), rep(1, 17), rep(0, 4), rep(2, 30), rep(0, 4), rep(3, 40))
-#' dat.segment <- cbind(dat, batch)
-#' fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
-#' fit.segment.approx <- fitMRMEapprox(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
-#' head(dat.segment)
-#' fit.segment
-#' }
+#' #batch <- c(rep(0, 5), rep(1, 17), rep(0, 4), rep(2, 30), rep(0, 4), rep(3, 40))
+#' #dat.segment <- cbind(dat, batch)
+#' #fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
+#' #fit.segment.approx <- fitMRMEapprox(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
+#' #head(dat.segment)
+#' #fit.segment
 #' 
 #' @export
 fitMRME <- function(data, start, segment = NULL,
