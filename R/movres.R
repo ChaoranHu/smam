@@ -788,14 +788,22 @@ fitMRME <- function(data, start, segment = NULL,
 #' tgrid <- seq(0, 10*100, length=100)
 #' set.seed(123)
 #' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
+#'
+#' chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
+#' if (nzchar(chk) && chk == "TRUE") {
+#'   num_workers <- 2L
+#' } else {
+#'   num_workers <- parallel::detectCores() - 1
+#' }
+#' 
 #' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' }
 #'
 #' @export
