@@ -147,7 +147,7 @@ double nllk_mrme_approx(NumericVector &theta, NumericMatrix &data,
 			NumericMatrix &approx_norm_even,
 			NumericMatrix &approx_norm_odd) {
   if (is_true(any(theta <= 0))) return(NA_REAL);
-  if (theta[2] <= theta[3]) return(NA_REAL);
+  if (theta[2] < theta[3]) return(NA_REAL);
   int n = data.nrow(), dim = data.ncol() - 1;
   int m_even = approx_norm_even.nrow(), m_odd = approx_norm_odd.nrow();
   NumericVector tt = data.column(0);
@@ -434,7 +434,7 @@ double nllk_mrme_approx_1dim(NumericVector &theta, NumericMatrix &data,
 			     NumericMatrix &approx_norm_even,
 			     NumericMatrix &approx_norm_odd) {
   if (is_true(any(theta <= 0))) return(NA_REAL);
-  if (theta[2] <= theta[3]) return(NA_REAL);
+  if (theta[2] < theta[3]) return(NA_REAL);
   int n = data.nrow(); // dim = 1;
   int m_even = approx_norm_even.nrow(), m_odd = approx_norm_odd.nrow();
   NumericVector tt = data.column(0);
