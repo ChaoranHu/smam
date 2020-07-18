@@ -544,7 +544,8 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' doi:10.1007/s11009-017-9547-6.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' ## time consuming example
 #' tgrid <- seq(0, 10, length=500)
 #' set.seed(123)
 #' ## make it irregularly spaced
@@ -678,7 +679,8 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' @author Chaoran Hu
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' ## time consuming example
 #' tgrid <- seq(0, 10*100, length=100)
 #' set.seed(123)
 #' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
@@ -785,7 +787,7 @@ fitMRME <- function(data, start, segment = NULL,
 #'
 #' @examples
 #' \dontrun{
-#' ## travis ci does not allow 6 cores for checking
+#' ## time consuming example
 #' tgrid <- seq(0, 10*100, length=100)
 #' set.seed(123)
 #' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")

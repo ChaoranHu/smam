@@ -54,7 +54,8 @@
 ##' \code{\link{fitMRH}} for estimation of parameters.
 ##'
 ##' @examples
-##' \donttest{
+##' \dontrun{
+##' ## time consuming example
 ##' set.seed(06269)
 ##' tgrid <- seq(0, 400, by = 8)
 ##' dat <- rMRH(tgrid, 4, 0.5, 0.1, 5, 0.8, 'm')
