@@ -784,7 +784,8 @@ fitMRME <- function(data, start, segment = NULL,
 #' @author Chaoran Hu
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' ## travis ci does not allow 6 cores for checking
 #' tgrid <- seq(0, 10*100, length=100)
 #' set.seed(123)
 #' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
@@ -793,15 +794,12 @@ fitMRME <- function(data, start, segment = NULL,
 #' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' 
-#' \dontrun{
-#' ## travis ci does not allow 6 cores for checking
+#'
 #' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' }
 #' }
 #'
 #' @export
