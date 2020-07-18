@@ -797,13 +797,13 @@ fitMRME <- function(data, start, segment = NULL,
 #' }
 #' 
 #' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' #estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
+#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' #estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
+#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' #estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
+#' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
+#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = num_workers)
 #' }
 #'
 #' @export
