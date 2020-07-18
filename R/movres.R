@@ -786,23 +786,21 @@ fitMRME <- function(data, start, segment = NULL,
 #' @author Chaoran Hu
 #'
 #' @examples
-#' \dontrun{
 #' ## time consuming example
-#' tgrid <- seq(0, 10*100, length=100)
-#' set.seed(123)
-#' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
+#' #tgrid <- seq(0, 10*100, length=100)
+#' #set.seed(123)
+#' #dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 #'
-#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' #estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' #estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' #estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #'
-#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' }
+#' #estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #'
 #' @export
 estVarMRME_Godambe <- function(est_theta, data, nBS,
