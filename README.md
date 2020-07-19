@@ -1,7 +1,8 @@
 # README #
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/smam)](https://cran.r-project.org/package=smam)
 
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/smam)](https://cran.r-project.org/package=smam)
+[![Build Status](https://travis-ci.org/ChaoranHu/smam.svg?branch=master)](https://travis-ci.org/ChaoranHu/smam)
 
 This README would normally document whatever steps are necessary to get this application up and running.
 
