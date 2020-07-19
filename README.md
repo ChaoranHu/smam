@@ -36,7 +36,7 @@ Please read the vignette of this package for more information, documentation and
 
 ### Who do I talk to? ###
 
-Chaoran Hu, <chaoran.hu@uconn.edu>
+Chaoran Hu, <huchaoran.stat@gmail.com>
 
 
 ### Reference ###
