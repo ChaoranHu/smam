@@ -84,31 +84,30 @@ of observations to the model. A practical application of this feature
 is seasonal analysis.
 }
 \examples{
-\donttest{
-tgrid <- seq(0, 10*100, length=100)
-set.seed(123)
-dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
+## time consuming example
+#tgrid <- seq(0, 10*100, length=100)
+#set.seed(123)
+#dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 
 ## fit whole dataset to the MRME model
-fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
-fit
+#fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
+#fit
 
 ## fit whole dataset to the MRME model with naive composite likelihood
-fit.naive <- fitMRME_naive(dat, start=c(1, 0.5, 1, 0.01))
-fit.naive
+#fit.naive <- fitMRME_naive(dat, start=c(1, 0.5, 1, 0.01))
+#fit.naive
 
 ## fit whole dataset to the MRME model with approximate error
-fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))
-fit.approx
+#fit.approx <- fitMRMEapprox(dat, start=c(1, 0.5, 1, 0.01))
+#fit.approx
 
 ## fit part of dataset to the MR model
-batch <- c(rep(0, 5), rep(1, 17), rep(0, 4), rep(2, 30), rep(0, 4), rep(3, 40))
-dat.segment <- cbind(dat, batch)
-fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
-fit.segment.approx <- fitMRMEapprox(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
-head(dat.segment)
-fit.segment
-}
+#batch <- c(rep(0, 5), rep(1, 17), rep(0, 4), rep(2, 30), rep(0, 4), rep(3, 40))
+#dat.segment <- cbind(dat, batch)
+#fit.segment <- fitMRME(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
+#fit.segment.approx <- fitMRMEapprox(dat.segment, start = c(1, 0.5, 1, 0.01), segment = "batch")
+#head(dat.segment)
+#fit.segment
 
 }
 \references{

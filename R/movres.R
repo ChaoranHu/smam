@@ -544,28 +544,29 @@ ncllk.m1.inc <- function(theta, data, logtr = FALSE) { ## data is increment alre
 #' doi:10.1007/s11009-017-9547-6.
 #'
 #' @examples
+#' \dontrun{
 #' ## time consuming example
-#' #tgrid <- seq(0, 10, length=500)
-#' #set.seed(123)
+#' tgrid <- seq(0, 10, length=500)
+#' set.seed(123)
 #' ## make it irregularly spaced
-#' #tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
-#' #dat <- rMR(tgrid, 1, 2, 25, "m")
+#' tgrid <- sort(sample(tgrid, 30)) # change to 400 for a larger sample
+#' dat <- rMR(tgrid, 1, 2, 25, "m")
 #'
 #' ## fit whole dataset to the MR model
-#' #fit.fl <- fitMR(dat, start=c(2, 2, 20), likelihood = "full")
-#' #fit.fl
+#' fit.fl <- fitMR(dat, start=c(2, 2, 20), likelihood = "full")
+#' fit.fl
 #' 
-#' #fit.cl <- fitMR(dat, start=c(2, 2, 20), likelihood = "composite")
-#' #fit.cl
+#' fit.cl <- fitMR(dat, start=c(2, 2, 20), likelihood = "composite")
+#' fit.cl
 #'
 #' ## fit part of dataset to the MR model
-#' #batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
-#' #dat.segment <- cbind(dat, batch)
-#' #fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
-#' #                     likelihood = "full")
-#' #head(dat.segment)
-#' #fit.segment
-#' 
+#' batch <- c(rep(0, 5), rep(1, 7), rep(0, 4), rep(2, 10), rep(0, 4))
+#' dat.segment <- cbind(dat, batch)
+#' fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
+#'                      likelihood = "full")
+#' head(dat.segment)
+#' fit.segment
+#' }
 #' @export
 fitMR <- function(data, start, segment = NULL,
                   likelihood = c("full", "composite"),
@@ -782,22 +783,23 @@ fitMRME <- function(data, start, segment = NULL,
 #' @author Chaoran Hu
 #'
 #' @examples
+#' \dontrun{
 #' ## time consuming example
-#' #tgrid <- seq(0, 10*100, length=100)
-#' #set.seed(123)
-#' #dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
+#' tgrid <- seq(0, 10*100, length=100)
+#' set.seed(123)
+#' dat <- rMRME(tgrid, 1, 0.5, 1, 0.01, "m")
 #'
-#' #estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' #estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' #estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
-#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10)
+#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10)
 #'
-#' #estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' #estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' #estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#' #estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
-#'
+#' estVarMRME_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' estVarMRME_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' estVarMRMEnaive_Godambe(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
+#' }
 #' @export
 estVarMRME_Godambe <- function(est_theta, data, nBS,
                                numThreads = 1,

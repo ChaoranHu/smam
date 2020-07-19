@@ -72,7 +72,8 @@ Using \code{segment} to fit part of observations to the model. A practical
 application of this feature is seasonal analysis.
 }
 \examples{
-\donttest{
+\dontrun{
+## time consuming example
 tgrid <- seq(0, 10, length=500)
 set.seed(123)
 ## make it irregularly spaced
@@ -94,7 +95,6 @@ fit.segment <- fitMR(dat.segment, start = c(2, 2, 20), segment = "batch",
 head(dat.segment)
 fit.segment
 }
-
 }
 \references{
 Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakov, V.,
