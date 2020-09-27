@@ -41,7 +41,7 @@ NumericMatrix generate_grid(int m, int dim) {
 LogicalVector weak_equal (NumericVector x, NumericVector y) {
   NumericVector diff = x - y;
   diff = abs(diff);
-  return(diff < 0.0);
+  return(diff == 0.0);
 }
 
 
