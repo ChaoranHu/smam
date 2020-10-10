@@ -1,8 +1,10 @@
-# CHANGES IN smam VERSION 0.5.3.9000
+# CHANGES IN smam VERSION 0.5.4
 
 ## MINOR CHANGES
 
 * Modified `estVarMRME_Godambe` and `estVarMRME_pBootstrap`.
+
+* Added 'f109' data.
 
 
 # CHANGES IN smam VERSION 0.5.3, 0.5.2, 0.5.1
