@@ -8,7 +8,7 @@ This README would normally document whatever steps are necessary to get this app
 
 ### What is this R package for? ###
 
-* Statistical modeling of animal movements in R. Three statistcal models are provided by this package. They are moving-resting model with embedded Brownian motion^[1,2], moving-resting-handling model with embedded Brownian motion^[3] and Brownian motion with measurement error^[4]. A quick guide for this package is given as package vignette.
+* Statistical modeling of animal movements in R. Statistcal models in reference are provided by this package. They are moving-resting model with embedded Brownian motion^[1,2], moving-resting-handling model with embedded Brownian motion^[3], Brownian motion with measurement error^[4], moving-resting model with measurement error^[5]. A quick guide for this package is given as package vignette.
 
 * Version: 0.5.4
 
@@ -46,6 +46,8 @@ Chaoran Hu, <huchaoran.stat@gmail.com>
 
 [2] Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability, 21: 907--920. doi:10.1007/s11009-017-9547-6.
 
-[3] Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab (2020). https://doi.org/10.1007/s11009-020-09774-1
+[3] Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab, 22, 1275–1291 (2020). https://doi.org/10.1007/s11009-020-09774-1
 
 [4] Pozdnyakov, V. , Meyer, T. , Wang, Y. and Yan, J. (2014), On modeling animal movements using Brownian motion with measurement error. Ecology, 95: 247-253. doi:10.1890/13-0532.1
+
+[5] Hu, Chaoran, Vladimir Pozdnyakov, and Jun Yan. "Moving-Resting Process with Measurement Error in Animal Movement Modeling." arXiv preprint arXiv:2004.00160 (2020).

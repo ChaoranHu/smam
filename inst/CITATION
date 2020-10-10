@@ -78,7 +78,24 @@ citEntry(entry = "Article",
                              as.person("Jun Yan")),
          journal = "Methodology and Computing in Applied Probability",
          year = "2020",
+         volume = "22",
+         pages = "1275--1291",
          url = "https://doi.org/10.1007/s11009-020-09774-1",
          textVersion =
-             paste("Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab (2020). https://doi.org/10.1007/s11009-020-09774-1")
+             paste("Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab 22, 1275–1291 (2020). https://doi.org/10.1007/s11009-020-09774-1")
+)
+
+citEntry(entry = "misc",
+         title = "Moving-Resting Process with Measurement Error in Animal Movement Modeling",
+         author = personList(as.person("Chaoran Hu"),
+                             as.person("L. Mark Elbroch"),
+                             as.person("Thomas Meyer"),
+                             as.person("Vladimir Pozdnyakov"),
+                             as.person("Jun Yan")),
+         year="2020",
+         eprint="2004.00160",
+         archivePrefix="arXiv",
+         primaryClass="stat.ME",
+         textVersion =
+             paste("Hu, C., Elbroch, L.M., Meyer, T., Pozdnyakov, V., and Yan, J. (2020) Moving-Resting Process with Measurement Error in Animal Movement Modeling. arXiv preprint. arXiv:2004.00160")
 )
