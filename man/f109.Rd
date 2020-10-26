@@ -4,12 +4,14 @@
 \name{f109}
 \alias{f109}
 \title{GPS data of f109}
-\format{A data frame with 3917 rows and 3 variables:
+\format{
+A data frame with 3917 rows and 3 variables:
 \describe{
     \item{t}{time when the GPS coordinates were collected (unit: year)}
     \item{dE}{UTM easting (unit: meter)}
     \item{dN}{UTM northing (unit: meter)}
-}}
+}
+}
 \usage{
 f109
 }
