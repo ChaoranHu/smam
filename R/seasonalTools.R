@@ -17,6 +17,7 @@
 ##' @param data The raw dataset.
 ##' @param dateFormat Charater string indicates the format of date variable.
 ##' @param roundValue Round GPS coordinate to \code{roundValue} with unit meter.
+##' If NULL (default), no rounding will be processed.
 ##' @param lengthUnit Charater string indicates the length unit of GPS coordinate,
 ##' which can be "m" or "km"(default). Usually, we recommend not change the
 ##' default setup of this parameter. Otherwise, numerical computation problem
@@ -39,14 +40,16 @@
 ##' same as the parameter \code{dateFormat} in this function.
 ##' @author Chaoran Hu
 ##' @export
-transfData <- function(data, dateFormat, roundValue, lengthUnit = "km") {
+transfData <- function(data, dateFormat, roundValue = NULL, lengthUnit = "km") {
     stopifnot(lengthUnit %in% c("m", "km"))
     date <- as.Date(data$t1, format = dateFormat)
     cumTime <- cumsum(data$dt..hr.)
     centerE <- data$e1 - data$e1[1]
     centerN <- data$n1 - data$n1[1]
     result <- data.frame(date, cumTime, centerE, centerN)
-    result[, 3:4] <- round(result[, 3:4] / roundValue) * roundValue
+    if (!is.null(roundValue)) {
+        result[, 3:4] <- round(result[, 3:4] / roundValue) * roundValue
+    }
     if (lengthUnit == "km") {
         result[, 3:4] <- result[, 3:4] / 1000
         return(result)

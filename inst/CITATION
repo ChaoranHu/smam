@@ -6,10 +6,10 @@ citEntry(entry = "Manual",
                              as.person("Vladimir Pozdnyakov"),
                              as.person("Jun Yan")),
          note = "R package version 0.5.4.9000",
-         year =	"2020",
+         year =	"2021",
          url = "https://github.com/ChaoranHu/smam",
          
-         textVersion = paste("Hu, C., Pozdnyakov, V., Yan, J. (2020). smam:",
+         textVersion = paste("Hu, C., Pozdnyakov, V., Yan, J. (2021). smam:",
                              "Statistical Modeling of Animal Movement.",
                              "R package version 0.5.4.9000",
                              "https://github.com/ChaoranHu/smam")

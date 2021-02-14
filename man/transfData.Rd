@@ -4,14 +4,15 @@
 \alias{transfData}
 \title{Transfer raw dataset to the standard dataset (seasonal analysis toolbox)}
 \usage{
-transfData(data, dateFormat, roundValue, lengthUnit = "km")
+transfData(data, dateFormat, roundValue = NULL, lengthUnit = "km")
 }
 \arguments{
 \item{data}{The raw dataset.}
 
 \item{dateFormat}{Charater string indicates the format of date variable.}
 
-\item{roundValue}{Round GPS coordinate to \code{roundValue} with unit meter.}
+\item{roundValue}{Round GPS coordinate to \code{roundValue} with unit meter.
+If NULL (default), no rounding will be processed.}
 
 \item{lengthUnit}{Charater string indicates the length unit of GPS coordinate,
 which can be "m" or "km"(default). Usually, we recommend not change the
