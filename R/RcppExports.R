@@ -97,6 +97,26 @@ nllk_mrme_approx_1dim <- function(theta, data, integrControl, approx_norm_even, 
     .Call('_smam_nllk_mrme_approx_1dim', PACKAGE = 'smam', theta, data, integrControl, approx_norm_even, approx_norm_odd)
 }
 
+h11mm <- function(x, t, theta, integrControl) {
+    .Call('_smam_h11mm', PACKAGE = 'smam', x, t, theta, integrControl)
+}
+
+h10mm <- function(x, t, theta, integrControl) {
+    .Call('_smam_h10mm', PACKAGE = 'smam', x, t, theta, integrControl)
+}
+
+h00mm <- function(x, t, theta, integrControl) {
+    .Call('_smam_h00mm', PACKAGE = 'smam', x, t, theta, integrControl)
+}
+
+h01mm <- function(x, t, theta, integrControl) {
+    .Call('_smam_h01mm', PACKAGE = 'smam', x, t, theta, integrControl)
+}
+
+nllk_inc_mm <- function(theta, data, integrControl, logtr) {
+    .Call('_smam_nllk_inc_mm', PACKAGE = 'smam', theta, data, integrControl, logtr)
+}
+
 vp11 <- function(vw, t, lambda1, lambda0) {
     .Call('_smam_vp11', PACKAGE = 'smam', vw, t, lambda1, lambda0)
 }
