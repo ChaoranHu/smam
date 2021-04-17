@@ -167,8 +167,8 @@ rMM <- function(time, lamM1, lamM2, sigma1, sigma2, s0, dim = 2) {
 #' fit <- fitMM(dat, start=c(1, 0.1, 1, 0.1))
 #' fit
 #'
-#' est <- estVarMM(fit$estimate, dat, nBS = 10, numThreads = 6)
-#' est
+#' var <- estVarMM(fit$estimate, dat, nBS = 10, numThreads = 6)
+#' var
 #' }
 #' @export
 fitMM <- function(data, start,
