@@ -125,6 +125,8 @@ rMM <- function(time, lamM1, lamM2, sigma1, sigma2, s0, dim = 2) {
 #' Fit a Moving-Moving Model with 2 Embedded Brownian Motion with animal
 #' movement data at discretely observation times by maximizing a full
 #' likelihood constructed from the marginal density of increment.
+#' 'estVarMM' uses parametric bootstrap to obtain variance matrix
+#' of estimators from 'fitMM'.
 #'
 #' @param data a data.frame whose first column is the observation time, and other
 #'     columns are location coordinates.
@@ -164,6 +166,9 @@ rMM <- function(time, lamM1, lamM2, sigma1, sigma2, s0, dim = 2) {
 #' ## fit whole dataset to the MR model
 #' fit <- fitMM(dat, start=c(1, 0.1, 1, 0.1))
 #' fit
+#'
+#' est <- estVarMM(fit$estimate, dat, nBS = 10, numThreads = 6)
+#' est
 #' }
 #' @export
 fitMM <- function(data, start,
@@ -199,4 +204,72 @@ fitMM <- function(data, start,
                 loglik      = -fit$value,
                 convergence = fit$convergence))
 
+}
+
+
+#' @param est_theta estimators of MRME model
+#' @param data data used to process estimation
+#' @param nBS number of bootstrap.
+#' @param detailBS whether or not output estimation results during bootstrap,
+#'     which can be used to generate bootstrap CI.
+#' @param numThreads the number of threads for parallel computation. If its value
+#'     is greater than 1, then parallel computation will be processed. Otherwise,
+#'     serial computation will be processed.
+#' @param integrControl a list of control parameters for the \code{integrate}
+#'     function: rel.tol, abs.tol, subdivision.
+#' @rdname fitMM
+#' @export
+estVarMM <- function(est_theta, data, nBS, detailBS = FALSE,
+                     numThreads = 1,
+                     integrControl = integr.control()) {
+    tgrid <- data[, 1]
+    dim <- ncol(data) - 1
+    
+    lam1 <- est_theta[1]
+    lam2 <- est_theta[2]
+    sig1 <- est_theta[3]
+    sig2 <- est_theta[4]
+
+    p_1 <- 1/lam1/(1/lam1 + 1/lam2)
+    p_2 <- 1 - p_1
+
+    if (numThreads <= 1) {
+        
+        result <- matrix(NA, ncol = 4, nrow = nBS)
+
+        for (i in seq_len(nBS)) {
+            start_state <- sample(c("m1", "m2"), size = 1, prob = c(p_1, p_2))
+            datBS <- rMM(tgrid, lam1, lam2, sig1, sig2, s0 = start_state, dim = dim)
+            result[i, ] <- fitMM(datBS, start = est_theta,
+                                 integrControl = integrControl)$estimate
+        }
+
+    } else {
+
+        ## create parallel backend
+        cl = parallel::makeCluster(numThreads)
+        on.exit(close(pb), add = TRUE)
+        on.exit(parallel::stopCluster(cl), add = TRUE)
+        doSNOW::registerDoSNOW(cl)
+        pb <- utils::txtProgressBar(max = nBS, style = 3)
+        progress <- function(n) utils::setTxtProgressBar(pb, n)
+        opts <- list(progress = progress)
+
+        i = 1
+        result <- foreach(i = 1:nBS, .combine = rbind, .options.snow = opts) %dopar% {
+            start_state <- sample(c("m1", "m2"), size = 1, prob = c(p_1, p_2))
+            datBS <- rMM(tgrid, lam1, lam2, sig1, sig2, s0 = start_state, dim = dim)
+            fit <- fitMM(datBS, start = est_theta, integrControl = integrControl)$estimate
+            fit
+        }
+    }
+    
+    
+    if (detailBS) {
+        return(list(cov = cov(na.omit(result)),
+                    BS_detail = result))
+    } else {
+        return(cov(na.omit(result)))
+    }
+        
 }

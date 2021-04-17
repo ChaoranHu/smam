@@ -2,6 +2,7 @@
 % Please edit documentation in R/movmov.R
 \name{fitMM}
 \alias{fitMM}
+\alias{estVarMM}
 \title{Fit a Moving-Moving Model with 2 Embedded Brownian Motion}
 \usage{
 fitMM(
@@ -12,10 +13,18 @@ fitMM(
   optim.control = list(),
   integrControl = integr.control()
 )
+
+estVarMM(
+  est_theta,
+  data,
+  nBS,
+  detailBS = FALSE,
+  numThreads = 1,
+  integrControl = integr.control()
+)
 }
 \arguments{
-\item{data}{a data.frame whose first column is the observation time, and other
-columns are location coordinates.}
+\item{data}{data used to process estimation}
 
 \item{start}{starting value of the model, a vector of four components
 in the order of rate for moving1, rate for moving2,
@@ -29,6 +38,17 @@ and volatility1(larger), volatility2(smaller).}
 
 \item{integrControl}{a list of control parameters for the \code{integrate}
 function: rel.tol, abs.tol, subdivision.}
+
+\item{est_theta}{estimators of MRME model}
+
+\item{nBS}{number of bootstrap.}
+
+\item{detailBS}{whether or not output estimation results during bootstrap,
+which can be used to generate bootstrap CI.}
+
+\item{numThreads}{the number of threads for parallel computation. If its value
+is greater than 1, then parallel computation will be processed. Otherwise,
+serial computation will be processed.}
 }
 \value{
 a list of the following components:
@@ -41,6 +61,8 @@ evaluated at the estimate}
 Fit a Moving-Moving Model with 2 Embedded Brownian Motion with animal
 movement data at discretely observation times by maximizing a full
 likelihood constructed from the marginal density of increment.
+'estVarMM' uses parametric bootstrap to obtain variance matrix
+of estimators from 'fitMM'.
 }
 \examples{
 \dontrun{
@@ -52,6 +74,9 @@ dat <- rMM(tgrid, 1, 0.1, 1, 0.1, "m1")
 ## fit whole dataset to the MR model
 fit <- fitMM(dat, start=c(1, 0.1, 1, 0.1))
 fit
+
+est <- estVarMM(fit$estimate, dat, nBS = 10, numThreads = 6)
+est
 }
 }
 \references{
