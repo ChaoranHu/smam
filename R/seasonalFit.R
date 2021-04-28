@@ -31,6 +31,10 @@ seg2list <- function(data, segment) {
     seg.ncol <- which(names(data) == segment)
     seg.col <- data[, seg.ncol]
     seg.col2 <- rep(0, length(seg.col))
+    
+    if (length(unique(seg.col)) == 1) {
+        return(list(data))
+    }
 
     j <- 0
 
