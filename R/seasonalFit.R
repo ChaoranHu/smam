@@ -32,13 +32,14 @@ seg2list <- function(data, segment) {
     seg.col <- data[, seg.ncol]
     seg.col2 <- rep(0, length(seg.col))
     
-    if (length(unique(seg.col)) == 1 & unique(seg.col) != 0) {
-        return(list(data))
+    if (length(unique(seg.col)) == 1) {
+        if (unique(seg.col) != 0) {
+            return(list(data))
+        } else {
+            return(NA)
+        }
     }
     
-    if (length(unique(seg.col)) == 1 & unique(seg.col) == 0) {
-        return(NA)
-    }
 
     j <- 0
 
