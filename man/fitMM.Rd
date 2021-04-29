@@ -75,8 +75,8 @@ dat <- rMM(tgrid, 1, 0.1, 1, 0.1, "m1")
 fit <- fitMM(dat, start=c(1, 0.1, 1, 0.1))
 fit
 
-est <- estVarMM(fit$estimate, dat, nBS = 10, numThreads = 6)
-est
+var <- estVarMM(fit$estimate, dat, nBS = 10, numThreads = 6)
+var
 }
 }
 \references{
