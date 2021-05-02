@@ -73,7 +73,11 @@ seg2list <- function(data, segment) {
         result[[i]] <- data[which(seg.col2 == new.seg[i]), ]
     }
 
-    lapply(result, function(x) x[, -ncol(data)])    
+    result <- lapply(result, function(x) x[, -ncol(data)])
+    
+    ## avoid element has only one obs
+    res_len <- sapply(result, nrow)
+    result[which(res_len > 1)]
 }
 
 ### old version seg2list, just for reference
