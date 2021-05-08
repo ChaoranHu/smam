@@ -22,7 +22,7 @@ void norm_integrand_mrme(double *w, int n, void *ex) {
 // [[Rcpp::export]]
 double norm_mrme(double z, double b, double d,
 		 NumericVector integrControl) {
-  double *ex = Calloc(3, double);
+  double *ex = R_Calloc(3, double);
   double bound = 0; // not use
   int inf = 2; // integration interval (-inf, inf)
   // input
@@ -34,15 +34,15 @@ double norm_mrme(double z, double b, double d,
   int last, ier;  // integrate()$subdivision and integrate()$message
   int neval; // number of evaluation of integrand
   // working arrays
-  int lenw = 4 * limit, *iwork = Calloc(limit, int);
-  double *work = Calloc(lenw,  double);
+  int lenw = 4 * limit, *iwork = R_Calloc(limit, int);
+  double *work = R_Calloc(lenw,  double);
   /* done setting for Rdqags */
 
   ex[0] = z; ex[1] = b; ex[2] = d;
   Rdqagi(norm_integrand_mrme, ex, &bound, &inf, &epsabs, &epsrel,
 	 &result, &abserr, &neval, &ier, &limit, &lenw, &last,
 	 iwork, work);
-  Free(ex); Free(iwork); Free(work);
+  R_Free(ex); R_Free(iwork); R_Free(work);
   return(result);
 }
 
@@ -83,7 +83,7 @@ NumericVector g10_mrme(NumericMatrix z, NumericVector t,
   int dim = z.ncol(), n = z.nrow();
   double lambda1 = theta[0], lambda0 = theta[1], sigma = theta[2], sig_err = theta[3];
   /* set up for Rdqags */
-  double *ex = Calloc(9 + dim, double);
+  double *ex = R_Calloc(9 + dim, double);
   double a = 0., b; // = t;
   // input
   double epsabs = integrControl[0], epsrel = integrControl[1];
@@ -93,8 +93,8 @@ NumericVector g10_mrme(NumericMatrix z, NumericVector t,
   int last, ier;  // integrate()$subdivision and integrate()$message
   int neval; // number of evaluation of integrand
   // working arrays
-  int lenw = 4 * limit, *iwork = Calloc(limit, int);
-  double *work = Calloc(lenw,  double);
+  int lenw = 4 * limit, *iwork = R_Calloc(limit, int);
+  double *work = R_Calloc(lenw,  double);
   /* done setting for Rdqags */
 
   ex[1] = sigma; ex[2] = lambda1; ex[3] = lambda0;
@@ -108,7 +108,7 @@ NumericVector g10_mrme(NumericMatrix z, NumericVector t,
 	   &limit, &lenw, &last, iwork, work);
     value[i] = result;
   }
-  Free(ex); Free(iwork); Free(work);
+  R_Free(ex); R_Free(iwork); R_Free(work);
   return(value);
 }
 
@@ -141,7 +141,7 @@ NumericVector g01_mrme(NumericMatrix z, NumericVector t,
   int dim = z.ncol(), n = z.nrow();
   double lambda1 = theta[0], lambda0 = theta[1], sigma = theta[2], sig_err = theta[3];
   /* set up for Rdqags */
-  double *ex = Calloc(9 + dim, double);
+  double *ex = R_Calloc(9 + dim, double);
   double a = 0., b; // = t;
   // input
   double epsabs = integrControl[0], epsrel = integrControl[1];
@@ -151,8 +151,8 @@ NumericVector g01_mrme(NumericMatrix z, NumericVector t,
   int last, ier;  // integrate()$subdivision and integrate()$message
   int neval; // number of evaluation of integrand
   // working arrays
-  int lenw = 4 * limit, *iwork = Calloc(limit, int);
-  double *work = Calloc(lenw,  double);
+  int lenw = 4 * limit, *iwork = R_Calloc(limit, int);
+  double *work = R_Calloc(lenw,  double);
   /* done setting for Rdqags */
 
   ex[1] = sigma; ex[2] = lambda1; ex[3] = lambda0;
@@ -166,7 +166,7 @@ NumericVector g01_mrme(NumericMatrix z, NumericVector t,
 	   &limit, &lenw, &last, iwork, work);
     value[i] = result;
   }
-  Free(ex); Free(iwork); Free(work);
+  R_Free(ex); R_Free(iwork); R_Free(work);
   return(value);
 }
 
@@ -199,7 +199,7 @@ NumericVector g00_mrme(NumericMatrix z, NumericVector t,
   int dim = z.ncol(), n = z.nrow();
   double lambda1 = theta[0], lambda0 = theta[1], sigma = theta[2], sig_err = theta[3];
   /* set up for Rdqags */
-  double *ex = Calloc(9 + dim, double);
+  double *ex = R_Calloc(9 + dim, double);
   double a = 0., b; // = t;
   // input
   double epsabs = integrControl[0], epsrel = integrControl[1];
@@ -209,8 +209,8 @@ NumericVector g00_mrme(NumericMatrix z, NumericVector t,
   int last, ier;  // integrate()$subdivision and integrate()$message
   int neval; // number of evaluation of integrand
   // working arrays
-  int lenw = 4 * limit, *iwork = Calloc(limit, int);
-  double *work = Calloc(lenw,  double);
+  int lenw = 4 * limit, *iwork = R_Calloc(limit, int);
+  double *work = R_Calloc(lenw,  double);
   /* done setting for Rdqags */
 
   ex[1] = sigma; ex[2] = lambda1; ex[3] = lambda0;
@@ -229,7 +229,7 @@ NumericVector g00_mrme(NumericMatrix z, NumericVector t,
     
     value[i] = result + atom;
   }
-  Free(ex); Free(iwork); Free(work);
+  R_Free(ex); R_Free(iwork); R_Free(work);
   return(value);
 }
 
@@ -262,7 +262,7 @@ NumericVector g11_mrme(NumericMatrix z, NumericVector t,
   int dim = z.ncol(), n = z.nrow();
   double lambda1 = theta[0], lambda0 = theta[1], sigma = theta[2], sig_err = theta[3];
   /* set up for Rdqags */
-  double *ex = Calloc(9 + dim, double);
+  double *ex = R_Calloc(9 + dim, double);
   double a = 0., b; // = t;
   // input
   double epsabs = integrControl[0], epsrel = integrControl[1];
@@ -272,8 +272,8 @@ NumericVector g11_mrme(NumericMatrix z, NumericVector t,
   int last, ier;  // integrate()$subdivision and integrate()$message
   int neval; // number of evaluation of integrand
   // working arrays
-  int lenw = 4 * limit, *iwork = Calloc(limit, int);
-  double *work = Calloc(lenw,  double);
+  int lenw = 4 * limit, *iwork = R_Calloc(limit, int);
+  double *work = R_Calloc(lenw,  double);
   /* done setting for Rdqags */
 
   ex[1] = sigma; ex[2] = lambda1; ex[3] = lambda0;
@@ -292,7 +292,7 @@ NumericVector g11_mrme(NumericMatrix z, NumericVector t,
     
     value[i] = result + atom;
   }
-  Free(ex); Free(iwork); Free(work);
+  R_Free(ex); R_Free(iwork); R_Free(work);
   return(value);
 }
 
