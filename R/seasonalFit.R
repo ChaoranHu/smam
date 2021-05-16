@@ -50,7 +50,7 @@ seg2list <- function(data, segment="BATCH") {
     }
         
     res_len <- sapply(result, nrow)
-    result[which(res_len > 1)]
+    result[which(res_len > 2)]
 }
 
 
