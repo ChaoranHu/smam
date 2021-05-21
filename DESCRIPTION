@@ -1,7 +1,7 @@
 Package: smam
 Title: Statistical Modeling of Animal Movements
 Version: 0.5.4.9000
-Date: 2021-05-16
+Date: 2021-05-21
 Authors@R: c(
     person("Chaoran", "Hu", email = "chaoran.hu@uconn.edu", role = c("aut", "cre")),
     person("Vladimir", "Pozdnyakov", email = "vladimir.pozdnyakov@uconn.edu", role = "aut"),
