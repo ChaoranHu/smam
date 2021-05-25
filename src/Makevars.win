@@ -1,5 +1,5 @@
 ## This assumes that the LIB_GSL variable points to working GSL libraries
-PKG_CPPFLAGS=-I$(LIB_GSL)/include
+PKG_CPPFLAGS=-I$(LIB_GSL)/include -DSTRICT_R_HEADERS
 PKG_LIBS=-L$(LIB_GSL)/lib -lgsl -lgslcblas 
 
 ## for RcppParallel
@@ -7,5 +7,3 @@ CXX_STD = CXX11
 PKG_CXXFLAGS += -DRCPP_PARALLEL_USE_TBB=1
 
 PKG_LIBS += $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "RcppParallel::RcppParallelLibs()")
-
-
