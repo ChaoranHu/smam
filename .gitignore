@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 inst/src_vign/f109.RData
+.DS_Store
