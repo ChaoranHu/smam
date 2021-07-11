@@ -1,3 +1,9 @@
+# CHANGES IN smam VERSION 0.6.0.9000
+
+## MINOR CHANGES
+
+* Updated package description by adding new references.
+
 # CHANGES IN smam VERSION 0.6.0
 
 ## MAJOR CHANGES
