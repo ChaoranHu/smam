@@ -4,7 +4,7 @@
 
 * win-builder (devel and release)
 
-* ubuntu 16.04 (on travis-ci), (devel, release, and oldrel)
+* ubuntu 16.04.6 LTS (on travis-ci), (devel, release, and oldrel)
 
 
 ## R CMD check results
