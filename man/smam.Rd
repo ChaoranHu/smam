@@ -5,9 +5,12 @@
 \alias{smam}
 \title{smam: Statistical Modeling of Animal Movements}
 \description{
-Animal movement models including moving-resting process
-with embedded Brownian motion, Brownian motion with measurement error,
-and moving-resting-handling process with embedded Brownian motion.
+Animal movement models including
+Moving-Resting Process with Embedded Brownian Motion,
+Brownian Motion with Measurement Error,
+Moving-Resting-Handling Process with Embedded Brownian Motion,
+Moving-Resting Process with Measurement Error,
+Moving-Moving Process with two Embedded Brownian Motions.
 }
 \author{
 \itemize{
