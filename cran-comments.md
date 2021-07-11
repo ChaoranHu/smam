@@ -1,6 +1,6 @@
 ## Test enviroments
 
-* local macOS 10.15 install, R 3.5.0
+* local macOS Big Sur 11.4 install, R 4.1.0
 
 * win-builder (devel and release)
 
@@ -30,4 +30,4 @@ There are currently no downstream dependencies for this package.
 
 ## Newer Version of R package smam
 
-The R package smam 0.5.3 has already in CRAN. This is the next version of smam. The version number of this package is 0.5.4.
+The R package smam 0.5.4 has already been in CRAN. This is the next version of smam. The version number of this package is 0.6.0.
