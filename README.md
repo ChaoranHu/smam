@@ -27,7 +27,7 @@ or
 install.packages("smam")
 ```
 
-Note: The first way need your computer have development tools, but can help you follow the newest version from my github. This package includes Cpp and C codes, so you need a CPP compiler (for mac, you can use Xcode, which can be installed from Apple Store). Also, this package use GNU GSL, so you also need to install GNU GSL first. If you do not have these tools, please use second way to install from CRAN.
+Note: The first way allows you to access to the most recent version of this package but it also requires development toolbox. This package includes Cpp and C codes, so you need a CPP compiler (for mac, you can use Xcode, which can be installed from Apple Store). Also, this package uses GNU GSL, so you need to install GNU GSL first. If you do not have these tools, you could use second way to install from CRAN.
 
 * Run `library(smam)` to load in R.
 
@@ -42,12 +42,12 @@ Chaoran Hu, <huchaoran.stat@gmail.com>
 
 ### Reference ###
 
-[1] Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415. doi:10.1007/s10144-013-0428-8.
+[1] Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415. (doi:10.1007/s10144-013-0428-8)
 
-[2] Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability, 21: 907--920. doi:10.1007/s11009-017-9547-6.
+[2] Pozdnyakov, V., Elbroch, L., Labarga, A., Meyer, T., and Yan, J. (2017) Discretely observed Brownian motion governed by telegraph process: estimation. Methodology and Computing in Applied Probability, 21: 907--920. (doi:10.1007/s11009-017-9547-6)
 
-[3] Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab, 22, 1275–1291 (2020). https://doi.org/10.1007/s11009-020-09774-1
+[3] Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab, 22, 1275–1291 (2020). (doi:10.1007/s11009-020-09774-1)
 
-[4] Pozdnyakov, V. , Meyer, T. , Wang, Y. and Yan, J. (2014), On modeling animal movements using Brownian motion with measurement error. Ecology, 95: 247-253. doi:10.1890/13-0532.1
+[4] Pozdnyakov, V. , Meyer, T. , Wang, Y. and Yan, J. (2014), On modeling animal movements using Brownian motion with measurement error. Ecology, 95: 247-253. (doi:10.1890/13-0532.1)
 
-[5] Hu, Chaoran, Vladimir Pozdnyakov, and Jun Yan. "Moving-Resting Process with Measurement Error in Animal Movement Modeling." arXiv preprint arXiv:2004.00160 (2020).
+[5] Hu, C., Elbroch, L.M., Meyer, T., Pozdnyakov, V. and Yan, J. (2021), Moving-resting process with measurement error in animal movement modeling. Methods in Ecology and Evolution. (doi:10.1111/2041-210X.13694)

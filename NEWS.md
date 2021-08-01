@@ -4,6 +4,8 @@
 
 * Updated package description by adding new references.
 
+* Updated citation information.
+
 # CHANGES IN smam VERSION 0.6.0
 
 ## MAJOR CHANGES

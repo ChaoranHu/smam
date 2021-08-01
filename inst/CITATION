@@ -82,20 +82,19 @@ citEntry(entry = "Article",
          pages = "1275--1291",
          url = "https://doi.org/10.1007/s11009-020-09774-1",
          textVersion =
-             paste("Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab 22, 1275–1291 (2020). https://doi.org/10.1007/s11009-020-09774-1")
+             paste("Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for Brownian Motion Governed by Telegraph Process with Multiple Off States. Methodol Comput Appl Probab 22, 1275–1291 (2020). doi:10.1007/s11009-020-09774-1")
 )
 
-citEntry(entry = "misc",
+citEntry(entry = "Article",
          title = "Moving-Resting Process with Measurement Error in Animal Movement Modeling",
          author = personList(as.person("Chaoran Hu"),
                              as.person("L. Mark Elbroch"),
                              as.person("Thomas Meyer"),
                              as.person("Vladimir Pozdnyakov"),
                              as.person("Jun Yan")),
-         year="2020",
-         eprint="2004.00160",
-         archivePrefix="arXiv",
-         primaryClass="stat.ME",
+         journal = "Methods of Ecology and Evolution",
+         year="2021",
+         url = "https://doi.org/10.1111/2041-210X.13694",
          textVersion =
-             paste("Hu, C., Elbroch, L.M., Meyer, T., Pozdnyakov, V., and Yan, J. (2020) Moving-Resting Process with Measurement Error in Animal Movement Modeling. arXiv preprint. arXiv:2004.00160")
+             paste("Hu, C., Elbroch, L.M., Meyer, T., Pozdnyakov, V. and Yan, J. (2021), Moving-resting process with measurement error in animal movement modeling. Methods in Ecology and Evolution. doi:10.1111/2041-210X.13694")
 )
