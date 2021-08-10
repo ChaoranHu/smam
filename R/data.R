@@ -5,10 +5,11 @@
 ##' Jackson, Wyoming. The data were collected by a code-only
 ##' GPS wildlife tracking collar from 2019 to 2012.
 ##'
-##' @format A data frame with 3917 rows and 3 variables:
+##' @format A data frame with 3917 rows and 4 variables:
 ##' \describe{
-##'     \item{t}{time when the GPS coordinates were collected (unit: year)}
-##'     \item{dE}{UTM easting (unit: meter)}
-##'     \item{dN}{UTM northing (unit: meter)}
+##'     \item{date}{Date when the GPS coordinates were collected}
+##'     \item{cumTime}{Standardized time when the GPS coordinates were collected (unit: hour)}
+##'     \item{centerE}{Standardized UTM easting (unit: km)}
+##'     \item{centerN}{Standardized UTM northing (unit: km)}
 ##' }
 "f109"
