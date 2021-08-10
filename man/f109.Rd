@@ -5,7 +5,7 @@
 \alias{f109}
 \title{GPS data of f109}
 \format{
-A data frame with 3917 rows and 4 variables:
+A data frame with 3919 rows and 4 variables:
 \describe{
     \item{date}{Date when the GPS coordinates were collected}
     \item{cumTime}{Standardized time when the GPS coordinates were collected (unit: hour)}

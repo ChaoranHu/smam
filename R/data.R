@@ -5,7 +5,7 @@
 ##' Jackson, Wyoming. The data were collected by a code-only
 ##' GPS wildlife tracking collar from 2019 to 2012.
 ##'
-##' @format A data frame with 3917 rows and 4 variables:
+##' @format A data frame with 3919 rows and 4 variables:
 ##' \describe{
 ##'     \item{date}{Date when the GPS coordinates were collected}
 ##'     \item{cumTime}{Standardized time when the GPS coordinates were collected (unit: hour)}
