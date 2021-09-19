@@ -728,7 +728,10 @@ fitMRME <- function(data, start, segment = NULL,
 
         result <- list(estimate    =  fit[[18]],
                        loglik      = -fit[[17]],
-                       convergence =  fit[[14]])
+                       convergence =  fit[[14]],
+                       data = data)
+
+        attr(result, "class") <- "smam_mrme"
 
         return(result)
 
@@ -751,6 +754,11 @@ fitMRME <- function(data, start, segment = NULL,
                                    lower, upper,
                                    #method, optim.control,
                                    integrControl)
+
+        result$data <- data
+
+        attr(result, "class") <- "smam_mrme"
+
         return(result)
 
         
@@ -800,6 +808,9 @@ fitMRME <- function(data, start, segment = NULL,
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' estVarMRMEnaive_pBootstrap(c(1, 0.5, 1, 0.01), dat, nBS = 10, numThreads = 6)
 #' }
+
+
+
 #' @export
 estVarMRME_Godambe <- function(est_theta, data, nBS,
                                numThreads = 1,
@@ -950,7 +961,6 @@ estVarMRME_pBootstrap <- function(est_theta, data, nBS, detailBS = FALSE,
         return(cov(na.omit(result)))
     }
 }
-
 
 
 #' 'fitMRME_naive' fits moving-resting model with measurement error
