@@ -20,6 +20,6 @@ f109
 A dataset of GPS coordinates of a mature female mountain
 lion living in the Gros Ventre Mountain Range near
 Jackson, Wyoming. The data were collected by a code-only
-GPS wildlife tracking collar from 2019 to 2012.
+GPS wildlife tracking collar from 2009 to 2012.
 }
 \keyword{datasets}
