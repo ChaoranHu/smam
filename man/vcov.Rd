@@ -6,7 +6,7 @@
 \title{Variance-Covariance Matrix of smam Estimators}
 \usage{
 \method{vcov}{smam_mrme}(
-  x,
+  object,
   nBS = 25,
   detailBS = TRUE,
   numThreads = 5,
@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{x}{a fitted object from one of `smam::fitXXXX` functions}
+\item{object}{a fitted object from one of `smam::fitXXXX` functions}
 
 \item{nBS}{number of bootstrap.}
 

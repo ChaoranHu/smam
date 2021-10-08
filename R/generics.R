@@ -5,7 +5,7 @@
 #' be used for different `smam` models.
 #'
 #' @name vcov
-#' @param x a fitted object from one of `smam::fitXXXX` functions
+#' @param object a fitted object from one of `smam::fitXXXX` functions
 #' @param ... Optional arguments that are not used
 #' @examples
 #' ## time consuming example
@@ -38,17 +38,17 @@ NULL
 #' function: rel.tol, abs.tol, subdivision.
 #' @rdname vcov
 #' @export
-vcov.smam_mrme <- function(x, nBS = 25, detailBS = TRUE, numThreads = 5,
+vcov.smam_mrme <- function(object, nBS = 25, detailBS = TRUE, numThreads = 5,
                            gradMethod = "simple",
                            vcovMethod = "pBootstrap",
                            integrControl = integr.control(), ...) {
     stopifnot(vcovMethod %in% c("pBootstrap", "Godambe"))
     if (vcovMethod == "pBootstrap") {
-        result <- estVarMRME_pBootstrap(x$estimate, x$data, nBS = nBS, detailBS = detailBS,
+        result <- estVarMRME_pBootstrap(object$estimate, object$data, nBS = nBS, detailBS = detailBS,
                               numThreads = numThreads, integrControl = integrControl)
     }
     if (vcovMethod == "Godambe") {
-        result <- estVarMRME_Godambe(x$estimate, x$data, nBS = nBS, numThreads = numThreads,
+        result <- estVarMRME_Godambe(object$estimate, object$data, nBS = nBS, numThreads = numThreads,
                            gradMethod = gradMethod, integrControl = integrControl)
     }
     result
