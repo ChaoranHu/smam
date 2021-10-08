@@ -5,8 +5,6 @@
 \alias{vcov.smam_mrme}
 \title{Variance-Covariance Matrix of smam Estimators}
 \usage{
-vcov(x, ...)
-
 \method{vcov}{smam_mrme}(
   x,
   nBS = 25,
@@ -20,8 +18,6 @@ vcov(x, ...)
 }
 \arguments{
 \item{x}{a fitted object from one of `smam::fitXXXX` functions}
-
-\item{...}{other arguments}
 
 \item{nBS}{number of bootstrap.}
 
@@ -41,9 +37,11 @@ This should be one of `pBootstrap` (default) and `Godambe`.}
 
 \item{integrControl}{a list of control parameters for the \code{integrate}
 function: rel.tol, abs.tol, subdivision.}
+
+\item{...}{Optional arguments that are not used}
 }
 \description{
-`vcov` function calculates variance covariance matrix for
+This function calculates variance covariance matrix for
 estimators from smam package. Different methods will
 be used for different `smam` models.
 }

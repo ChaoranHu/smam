@@ -1,11 +1,12 @@
 #' Variance-Covariance Matrix of smam Estimators
-#' 
-#' `vcov` function calculates variance covariance matrix for
+#'
+#' This function calculates variance covariance matrix for
 #' estimators from smam package. Different methods will
 #' be used for different `smam` models.
-#' 
+#'
+#' @name vcov
 #' @param x a fitted object from one of `smam::fitXXXX` functions
-#' @param ... other arguments
+#' @param ... Optional arguments that are not used
 #' @examples
 #' ## time consuming example
 #' #tgrid <- seq(0, 100, length=100)
@@ -15,12 +16,12 @@
 #' ## fit whole dataset to the MRME model
 #' #fit <- fitMRME(dat, start=c(1, 0.5, 1, 0.01))
 #' #fit
-#' 
+#'
 #' ## get covariance matrix of estimators
 #' #vcov(fit)
-#' 
-#' @export
-vcov <- function(x, ...) UseMethod("vcov")
+#'
+#' @importFrom stats vcov
+NULL
 
 #' @param nBS number of bootstrap.
 #' @param detailBS whether or not output estimation results of bootstrap,
@@ -36,7 +37,6 @@ vcov <- function(x, ...) UseMethod("vcov")
 #' @param integrControl a list of control parameters for the \code{integrate}
 #' function: rel.tol, abs.tol, subdivision.
 #' @rdname vcov
-#' @method vcov smam_mrme
 #' @export
 vcov.smam_mrme <- function(x, nBS = 25, detailBS = TRUE, numThreads = 5,
                            gradMethod = "simple",
@@ -53,4 +53,3 @@ vcov.smam_mrme <- function(x, nBS = 25, detailBS = TRUE, numThreads = 5,
     }
     result
 }
-
