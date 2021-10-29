@@ -3,6 +3,10 @@
 \name{vcov}
 \alias{vcov}
 \alias{vcov.smam_mrme}
+\alias{vcov.smam_mm}
+\alias{vcov.smam_mrh}
+\alias{vcov.smam_mr}
+\alias{vcov.smam_bmme}
 \title{Variance-Covariance Matrix of smam Estimators}
 \usage{
 \method{vcov}{smam_mrme}(
@@ -15,6 +19,21 @@
   integrControl = integr.control(),
   ...
 )
+
+\method{vcov}{smam_mm}(
+  object,
+  nBS = 25,
+  detailBS = TRUE,
+  numThreads = 5,
+  integrControl = integr.control(),
+  ...
+)
+
+\method{vcov}{smam_mrh}(object, numThreads = 5, integrControl = integr.control(), ...)
+
+\method{vcov}{smam_mr}(object, ...)
+
+\method{vcov}{smam_bmme}(object, ...)
 }
 \arguments{
 \item{object}{a fitted object from one of `smam::fitXXXX` functions}

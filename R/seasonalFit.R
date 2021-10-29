@@ -290,6 +290,7 @@ fitMR_seasonal <- function(data, segment, start, likelihood,
 ##' @importFrom methods is
 fitMRME_seasonal <- function(data, segment, start,
                              lower, upper,
+                             print_level,
                              #method, optim.control,
                              integrControl) {
     data <- seg2list(data, segment)
@@ -304,7 +305,7 @@ fitMRME_seasonal <- function(data, segment, start,
                           lb = lower,
                           ub = upper,
                           opts = list("algorithm"   = "NLOPT_LN_COBYLA",
-                                      "print_level" = 3,
+                                      "print_level" = print_level,
                                       "maxeval" = -5))
 
     result <- list(estimate    =  fit[[18]],
@@ -430,7 +431,7 @@ nllk_seasonal_parallel <- function(theta, data,
 ## internal function for fitMRH seasonal
 fitMRH_seasonal <- function(data, segment, start,
                             lower, upper,
-                            numThreads, integrControl) {
+                            numThreads, integrControl, print_level) {
     data <- seg2list(data, segment)
     dinc <- prepareSeasonalFit(data, segment)
 
@@ -443,7 +444,7 @@ fitMRH_seasonal <- function(data, segment, start,
                           lb = lower,
                           ub = upper,
                           opts = list("algorithm"   = "NLOPT_LN_COBYLA",
-                                      "print_level" = 3,
+                                      "print_level" = print_level,
                                       "maxeval" = -5))
 
     result <- list(estimate    =  fit[[18]],

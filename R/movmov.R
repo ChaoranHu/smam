@@ -199,10 +199,13 @@ fitMM <- function(data, start,
     ##     ## not -hess because objfun is negative llk already
     ## }
     
-    return(list(estimate    = estimate,
+    result <- list(estimate    = estimate,
                 #varest      = varest,
                 loglik      = -fit$value,
-                convergence = fit$convergence))
+                convergence = fit$convergence,
+                data = data)
+    attr(result, "class") <- "smam_mm"
+    return(result)
 
 }
 

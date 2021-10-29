@@ -211,6 +211,8 @@ fitBMME <- function(data, start = NULL, segment = NULL,
                     convergence = fit$convergence
                     ## vmat.l = t(chol(Sigma))
                     )
+        ans$data <- data
+        attr(ans, "class") <- "smam_bmme"
         return(ans)
 
         
@@ -221,6 +223,8 @@ fitBMME <- function(data, start = NULL, segment = NULL,
         result <- fitBMME_seasonal(data = data, segment = segment,
                                    start = start, method = method,
                                    optim.control = optim.control)
+        result$data <- data
+        attr(result, "class") <- "smam_bmme"
         return(result)
 
         

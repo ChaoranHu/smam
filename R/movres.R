@@ -603,11 +603,14 @@ fitMR <- function(data, start, segment = NULL,
             ## not -hess because objfun is negative llk already
         }
         
-        return(list(estimate    = estimate,
-                    varest      = varest,
-                    loglik      = -fit$value,
-                    convergence = fit$convergence,
-                    likelihood  = likelihood))
+        result <- return(list(estimate    = estimate,
+                              varest      = varest,
+                              loglik      = -fit$value,
+                              convergence = fit$convergence,
+                              likelihood  = likelihood))
+        
+        attr(result, "class") <- "smam_mr"
+        return(result)
 
         
     } else {
@@ -616,6 +619,7 @@ fitMR <- function(data, start, segment = NULL,
         ## seasonal process
         result <- fitMR_seasonal(data, segment, start, likelihood,
                                  logtr, method, optim.control, integrControl)
+        attr(result, "class") <- "smam_mr"
         return(result)
 
         
@@ -659,6 +663,9 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #'     in the given \code{data.frame}. The default value, \code{NULL}, means using
 #'     whole dataset to fit the model.
 #' @param lower,upper Lower and upper bound for optimization.
+#' @param print_level print_level passed to nloptr::nloptr. Possible values: 0 (default):
+#'     no output; 1: show iteration number and value of objective function; 2: 1 + show
+#'     value of (in)equalities; 3: 2 + show value of controls.
 #' @param method the method argument to feed \code{optim}.
 #' @param optim.control a list of control to be passed to \code{optim}.
 #' @param integrControl a list of control parameters for the \code{integrate}
@@ -707,6 +714,7 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 fitMRME <- function(data, start, segment = NULL,
                     lower = c(0.000001, 0.000001, 0.000001, 0.000001),
                     upper = c(10, 10, 10, 10),
+                    print_level = 3,
                     #method = "Nelder-Mead",
                     #optim.control = list(),
                     integrControl = integr.control()) {
@@ -723,7 +731,7 @@ fitMRME <- function(data, start, segment = NULL,
                               lb = lower,
                               ub = upper,
                               opts = list("algorithm"   = "NLOPT_LN_COBYLA",
-                                          "print_level" = 3,
+                                          "print_level" = print_level,
                                           "maxeval" = -5))
 
         result <- list(estimate    =  fit[[18]],
@@ -751,7 +759,7 @@ fitMRME <- function(data, start, segment = NULL,
         
         ## seasonal process
         result <- fitMRME_seasonal(data, segment, start,
-                                   lower, upper,
+                                   lower, upper, print_level,
                                    #method, optim.control,
                                    integrControl)
 

@@ -11,7 +11,8 @@ fitMRH(
   numThreads = RcppParallel::defaultNumThreads() * 3/4,
   lower = c(0.001, 0.001, 0.001, 0.001, 0.001),
   upper = c(10, 10, 10, 10, 0.999),
-  integrControl = integr.control()
+  integrControl = integr.control(),
+  print_level = 3
 )
 }
 \arguments{
@@ -40,6 +41,10 @@ is less or equal to 1, the serial computation will be processed.}
 
 \item{integrControl}{Integration control vector includes rel.tol,
 abs.tol, and subdivisions.}
+
+\item{print_level}{print_level passed to nloptr::nloptr. Possible values: 0 (default):
+no output; 1: show iteration number and value of objective function; 2: 1 + show
+value of (in)equalities; 3: 2 + show value of controls.}
 }
 \value{
 A list of estimation result with following components:
