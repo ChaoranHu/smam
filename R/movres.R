@@ -677,10 +677,12 @@ fitMovRes <- function(data, start, likelihood = c("full", "composite"),
 #' \item{loglik}{maximized loglikelihood or composite loglikelihood
 #' evaluated at the estimate}
 #' \item{convergence}{convergence code from \code{optim}}
+#' \item{data}{fitted data}
 #' 
 #' @references
-#' Hu, C., Pozdnyakov, V., and Yan, J. Moving-resting model with measurement
-#' error. In process.
+#' Hu, C., Elbroch, L.M., Meyer, T., Pozdnyakov, V. and Yan, J. (2021),
+#' Moving-resting process with measurement error in animal movement modeling.
+#' Methods in Ecology and Evolution. doi:10.1111/2041-210X.13694
 #'
 #' @author Chaoran Hu
 #' 

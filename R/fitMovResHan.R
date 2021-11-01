@@ -34,11 +34,13 @@
 ##' \item{loglik}{maximized loglikelihood or composite loglikelihood
 ##' evaluated at the estimate}
 ##' \item{convergence}{convergence code from \code{nloptr}}
+##' \item{data}{fitted data}
 ##'
 ##' @references
-##' Pozdnyakov, V., Elbroch, L.M., Hu, C., Meyer, T., and Yan, J. (2018+)
-##' On estimation for Brownian motion governed by telegraph process with
-##' multiple off states. <arXiv:1806.00849>
+##' Pozdnyakov, V., Elbroch, L.M., Hu, C. et al. On Estimation for
+##' Brownian Motion Governed by Telegraph Process with Multiple Off States.
+##' Methodol Comput Appl Probab 22, 1275–1291 (2020).
+##' doi:10.1007/s11009-020-09774-1
 ##'
 ##' @seealso \code{\link{rMRH}} for simulation.
 ##'

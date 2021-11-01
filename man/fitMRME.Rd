@@ -81,6 +81,7 @@ a list of the following components:
 \item{loglik}{maximized loglikelihood or composite loglikelihood
 evaluated at the estimate}
 \item{convergence}{convergence code from \code{optim}}
+\item{data}{fitted data}
 }
 \description{
 'fitMRME' fits a Moving-Resting Model with Measurement Error. The measurement
@@ -116,8 +117,9 @@ is seasonal analysis.
 
 }
 \references{
-Hu, C., Pozdnyakov, V., and Yan, J. Moving-resting model with measurement
-error. In process.
+Hu, C., Elbroch, L.M., Meyer, T., Pozdnyakov, V. and Yan, J. (2021),
+Moving-resting process with measurement error in animal movement modeling.
+Methods in Ecology and Evolution. doi:10.1111/2041-210X.13694
 }
 \author{
 Chaoran Hu
