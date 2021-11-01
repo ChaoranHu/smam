@@ -1,10 +1,18 @@
 # CHANGES IN smam VERSION 0.6.0.9000
 
+## MAJOR CHANGES
+
+* Added generic function `estimate` to retrieve estimation result for all fit functions.
+
+* Added generic function `vcov` to evaluate covariance matrix of estimate for all fit functions' result.
+
 ## MINOR CHANGES
 
 * Updated package description by adding new references.
 
 * Updated citation information.
+
+* Added `print_level` to `fitMRME` and `fitMRH` that controls how much output is shown during the optimization process.
 
 # CHANGES IN smam VERSION 0.6.0
 
