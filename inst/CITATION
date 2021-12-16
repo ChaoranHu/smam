@@ -64,7 +64,6 @@ citEntry(entry = "Article",
          number = "2",
          pages = "401--415",
          url = "https://doi.org/10.1007/s10144-013-0428-8",
-
          textVersion =
              paste("Yan, J., Chen, Y., Lawrence-Apfel, K., Ortega, I. M., Pozdnyakoc, V., Williams, S., and Meyer, T. (2014) A moving-resting process with an embedded Brownian motion for animal movements. Population Ecology. 56(2): 401--415. doi:10.1007/s10144-013-0428-8")
 )

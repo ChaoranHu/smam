@@ -1,0 +1,244 @@
+---
+title: "Statistical Modeling of Animal Movement with R Package smam"
+fontsize: 12pt
+documentclass: article
+geometry:
+  margin = 1in
+bibliography: blog.bib
+biblio-style: asa
+output: pdf_document
+---
+
+
+Among the many R packages for animal movement [@Joo:etal:2020],
+`smam` [@Rpkg:smam] is unique in that it allows an animal to stay still
+instead of perpetual movement.
+This model is known as the moving-resting process, in which the
+holding times in the moving stage and the resting stage are
+exponentially distributed, and the moving stage is modeled by a
+Brownian motion. The model was first proposed in 2014 [@Yan:etal:2014],
+but the measurement errors from the telemetric or GPS
+devices are not satisfactorily handled until our recent paper in
+Methods in Ecology and Evolution [@hu:etal:2021], which presents a
+solid and practical inference process for the
+moving-resting model with measurement errors (MRME).
+
+
+# Fitting the MRME model to animal movement data
+
+
+As an illustration, consider the movement data of a female mountain lion
+with id `f109`  in the Gros Ventre Mountain area, Wyoming. This data set was
+analyzed in @hu:etal:2021.  First, we need to load the package and GPS
+location data `f109raw`.  The datasets analyzed
+by this package should be formatted as a `data.frame` whose first column is the
+observation time and the other columns are location coordinates.
+In `f109`, column `t` is the time of records collected in seconds, and
+columns `dE` and `dN` are the centered Universal Transverse Mercator
+(UTM) easting and northing in meters. The trace of this animal
+is shown in the following plot. The distance should be expressed in 
+kilometers before analysis and plotting.
+```{r, echo = TRUE}
+library(smam)
+head(f109raw)
+
+## converting the distance units to kilometers
+f109raw <- within(f109raw, {dE = dE / 1000; dN = dN / 1000})
+```
+
+```{r, echo = TRUE, eval = TRUE, fig.width = 8}
+with(f109raw, plot(t, dE, type = 'l', ylim = c(-20, 30),
+                   xlab = "time (year)", ylab = "location (km)"))
+with(f109raw, lines(t, dN, lty = 2))
+legend(2009.2, 30, c("easting", "northing"), lty = c(1, 2))
+```
+
+The mountain lions behave differently in summer and winter seasons.
+As a result, these two seasons have to be modeled differently. 
+The summer is defined as June, July, and August.
+The winter is defined as December, January, and February
+We covert time units from years
+to hours for ease of interpretation of the Brownian motion mobility parameter.
+
+```{r, echo=TRUE}
+## define season
+f109raw$season <- with(f109raw, {
+    tt  <- t %% 1
+    ifelse(tt > 5/12 & tt <= 8/12, "summer",
+             ifelse(tt > 11/12 | tt <= 2/12, "winter", "other"))
+})
+
+## define time in hours
+f109raw$hr <- (f109raw$t - 2009) * 365.25 * 24
+## define year with March as starting month
+f109raw$year <- (f109raw$t - 2/12) %/% 1
+
+## subset of 2012 summer
+summer2012 <- subset(f109raw, season == "summer" & year == 2012,
+                     select = c("hr", "dE", "dN"))
+
+## subset of 2011-2012 winter
+winter2011 <- subset(f109raw, season == "winter" & year == 2011,
+                     select = c("hr", "dE", "dN"))
+
+head(summer2012)
+head(winter2011)
+```
+
+Now, the MRME model can be applied.
+The estimation results are displayed in the following order:
+
++ $\lambda_M$, rate parameter of the exponential holding time of moving; 
++ $\lambda_R$, rate parameter of the exponential holding time of
+  resting;
++ $\sigma$, mobility parameter of the Brownian motion in moving;
++ $\sigma_{\epsilon}$, standard error of the measurement error.
+
+
+```{r, echo=TRUE, eval=FALSE, cache=TRUE}
+## fit 2012 summer data to the MRME model
+## This takes a while
+fit_summer <- fitMRME(summer2012,
+                      start = c(4, 0.4, 1, 0.05))
+estimate(fit_summer)
+#       lamM       lamR      sigma    sig_err 
+# 2.84049099 0.17869261 1.33492477 0.01852022
+
+## fit 2011 winter data to the MRME model
+fit_winter <- fitMRME(winter2011,
+                      start = c(4, 0.4, 1, 0.05))
+estimate(fit_winter)
+#        lamM        lamR       sigma     sig_err 
+# 6.304029786 0.118513328 1.530265318 0.009068519
+```
+
+We use summer estimators as an example.
+The estimates $\hat{\lambda_M}=2.84 hr^{-1}$ and
+$\hat{\lambda_R}=0.18 hr^{-1}$
+mean that the average durations of moving and
+resting are $1/2.84=0.35$ and $1/0.18=5.56$ hours.
+The estimate $\hat{\sigma}=1.33 km/hr^{1/2}$
+tells us that if the lion keeps moving without stopping 
+for one hour, the average departure from original
+point is $1.33 km$. The last parameter estimate, 
+$\hat{\sigma_{\epsilon}}=0.019 km$, is the standard error of the
+measurement error.
+
+
+The package provides standard errors for inferences based on Godambe
+information and parametric bootstrap. The  
+recommended method is a parametric bootstrap, where
+`nBS` specifies the number 
+of bootstraps, and `numThreads` specifies the number of threads to be
+used for multicore computers. The following code
+provides the estimated covariance matrix of estimators.
+Taking square root of diagonal elements gives us  
+the standard errors of the estimators.
+
+
+```{r, echo=TRUE, eval=FALSE}
+vcov(fit_summer, nBS = 100, numThreads = 6)
+#  |=============================================| 100%
+#               [,1]          [,2]          [,3]          [,4]
+# [1,]  2.111367e-01  1.483937e-03  3.629777e-02 -6.775386e-05
+# [2,]  1.483937e-03  1.963202e-04 -2.547285e-05 -2.106885e-06
+# [3,]  3.629777e-02 -2.547285e-05  1.127234e-02 -1.014327e-05
+# [4,] -6.775386e-05 -2.106885e-06 -1.014327e-05  7.556806e-07
+```
+
+Summer data over multiple years can be pooled to form a more precise
+estimation. 
+
+```{r, echo = TRUE}
+## define summer batch variable
+summer <- subset(f109raw, season == "summer",
+                 select = c("hr", "dE", "dN", "year"))
+```
+Now, to fit the MRME model to only summer part of the dataset
+one should proceed as follow. The additional argument `segment="year"`
+identifies which observations are in the same year; the composite
+loglikelihoods for different years are added up as the pooled
+composite loglikelihood.
+
+```{r, echo = TRUE, eval = FALSE}
+fit <- fitMRME(summer, start = c(5, 0.5, 1, 0.01),
+               segment = "year")
+estimate(fit)
+#       lamM       lamR      sigma    sig_err
+# 3.82490120 0.16065612 1.86454989 0.02043802
+```
+
+# Simulation from for the MRME model
+
+One might also want to generate movement data from the MRME model for
+exploration or simulation purposes.
+In the following example, we show how to generate
+a two-dimensional dataset from MRME model by R function
+`rMRME`. Here, we use `time` to indicates
+time points at which observations are to be simulated.
+Again, `lamM`, `lamR`, `sigma`, `sig_err` are four parameters of
+MRME model that describe the duration of moving and 
+resting, mobility parameter $\sigma$ and measurement
+error. The initial state of this
+realization is set as moving by `s0="m"` (and you can
+also set it to resting by `s0="r"`). The dimension
+of this generated data is 2 that is specified with
+`dim = 2`. The columns `X1` and `X2` in
+`dat` are the two-dimensional location coordinates.
+The trajectories of this simulated data are shown
+in the following plot.
+
+```{r, echo = TRUE}
+tgrid <- seq(0, 10*500, length=500)
+set.seed(123)
+dat <- rMRME(time = tgrid, lamM = 1, lamR = 0.5, sigma = 1,
+             sig_err = 0.01, s0 = "m", dim = 2)
+head(dat)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+with(dat, plot(time, X1, type = 'l', xlab = "time", ylab = "location", ylim = range(c(X1, X2))))
+with(dat, lines(time, X2, lty = 2))
+legend(10, 45, c("dimension 1", "dimension 2"),lty = c(1, 2))
+```
+
+# Other models implemented in `smam`
+
+In addition to the MRME, there are four models implemented in the package.
+
+- **Moving-resting (MR) process** [@Yan:etal:2014; @Pozd:etal:2017]:
+    models animal movement with two
+    states, moving and resting. The transition between two
+    states is modeled by telegraph process.
+    Resting is a motionless state and moving
+    is modeled by Brownian motion. Functions `fitMR()` and `rMR()`
+	provide fitting and simulation from the model, respectively.
+- **Brownian motion with measurement error (BMME)** [@Pozd:etal:2014]:
+    models animal movement
+    by Brownian motion only with measurement error modelled by added
+    Gaussian noise.  Functions `fitBMME()` and `rBMME()` provide
+    fitting and simulation from the model, respectively.
+- **Moving-resting-handling (MRH) process** [@Pozd:etal:2018]:
+    models animal movement
+    with three states: moving, resting, and handling. Moving state
+    is modeled by Brownian motion. Both resting and handling states
+    are motionless states with duration times modeled by
+    two different exponential distributions. This model assumes animal always
+    switches from a motionless state to the moving state. But when animal
+    switches from the moving state, it may end with resting or handling.
+    Functions `fitMRH()` and `rMRH()` provide fitting and simulation
+    from the model, respectively.
+- **Moving-moving (MM) process**[@hu:etal:2021]: 
+    modified the moving-resting process by
+    replacing the resting state with a second moving state 
+    with a relatively lower mobility. These two
+    moving states are assumed to follow two Brownian motions with
+    different mobility parameters. The duration time of these two
+    states are also described by exponential distributions with different
+    rate parameters. Functions `fitMM()` and `rMM()` provide fitting
+    and simulation from the model, respectively.
+
+The `vcov` method has been implemented for each of the five models.
+See the documentation within the package for more details.
+
+# References

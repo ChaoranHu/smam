@@ -6,6 +6,8 @@
 
 * Added generic function `vcov` to evaluate covariance matrix of estimate for all fit functions' result.
 
+* Added a new vignette.
+
 ## MINOR CHANGES
 
 * Updated package description by adding new references.
