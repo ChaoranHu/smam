@@ -8,6 +8,10 @@
 
 * Added a new vignette.
 
+* Added function `rBB` for simulation Brownian bridge.
+
+* Added function `rMRB` for simulation moving-resting bridge.
+
 ## MINOR CHANGES
 
 * Updated package description by adding new references.

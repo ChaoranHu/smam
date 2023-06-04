@@ -36,9 +36,9 @@ unconditional or conditional on the initial state.
 }
 \section{Functions}{
 \itemize{
-\item \code{dtr}: Density of time spent in resting
-}}
+\item \code{dtr()}: Density of time spent in resting
 
+}}
 \examples{
 lamM <- 1
 lamR <- c(1/2, 1, 2)
