@@ -8,5 +8,5 @@ PKG_CPPFLAGS = $(GSL_CFLAGS) -DSTRICT_R_HEADERS
 PKG_LIBS = $(GSL_LIBS) 
 
 # for RcppParallel
-CXX_STD = CXX11
+# CXX_STD = CXX11
 PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "RcppParallel::RcppParallelLibs()")
