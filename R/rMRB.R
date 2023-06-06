@@ -49,8 +49,11 @@ sim1mrb.bbz <- function(s, sigma, time, brtimes, t0moving=TRUE,
                         start_pt, end_pt) {
   #### time: time points in [0, s]
   tt <- sort(unique(c(time, brtimes)))
+  if (time[length(time)] < brtimes[length(brtimes)]) {
+      tt <- tt[seq_len(length(tt)-1)]
+  }
   nt <- length(tt)
-  nb <- length(brtimes) 
+  nb <- length(brtimes)
   status <- as.integer(t0moving)
   tend <- brtimes[1]
   j <- 1
