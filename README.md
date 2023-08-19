@@ -2,7 +2,7 @@
 
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/smam)](https://cran.r-project.org/package=smam)
-[![Build Status](https://app.travis-ci.com/ChaoranHu/smam.svg?branch=master)](https://app.travis-ci.com/ChaoranHu/smam)
+[![R-CMD-check](https://github.com/ChaoranHu/smam/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ChaoranHu/smam/actions/workflows/R-CMD-check.yaml)
 
 This README would normally document whatever steps are necessary to get this application up and running.
 
