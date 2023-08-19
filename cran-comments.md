@@ -1,10 +1,10 @@
 ## Test enviroments
 
-* local macOS Big Sur 11.4 install, R 4.1.0
+* local macOS 13.5 install, R 4.3.0
 
 * win-builder (devel and release)
 
-* ubuntu 16.04.6 LTS (on travis-ci), (devel, release, and oldrel)
+* ubuntu 22.04.3 LTS (on travis-ci), (devel, release, and oldrel)
 
 
 ## R CMD check results
