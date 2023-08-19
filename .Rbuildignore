@@ -18,3 +18,4 @@
 ^README\.md$
 ^inst/src_vign$
 ^CRAN-RELEASE$
+^\.github$
