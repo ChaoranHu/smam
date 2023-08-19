@@ -1,4 +1,4 @@
-# CHANGES IN smam VERSION 0.6.0.9000
+# CHANGES IN smam VERSION 0.7.0
 
 ## MAJOR CHANGES
 
@@ -19,6 +19,8 @@
 * Updated citation information.
 
 * Added `print_level` to `fitMRME` and `fitMRH` that controls how much output is shown during the optimization process.
+
+* Added appropriate PKGNAME-package \alias as per "Documenting packages" in R-exts.
 
 # CHANGES IN smam VERSION 0.6.0
 

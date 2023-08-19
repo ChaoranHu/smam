@@ -15,6 +15,7 @@
 ##' }
 ##' 
 ##' @docType package
+##' @aliases smam-package
 ##' @name smam
 ##' @useDynLib smam
 ##' @importFrom Rcpp sourceCpp
