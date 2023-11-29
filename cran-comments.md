@@ -18,4 +18,4 @@ There are currently no downstream dependencies for this package.
 
 ## Newer Version of R package smam
 
-The R package smam 0.7.0 has already been in CRAN. This is the next version of smam. The version number of this package is 0.7.0.9000.
+The R package smam 0.7.0 has already been in CRAN. This is the next version of smam. The version number of this package is 0.7.1.

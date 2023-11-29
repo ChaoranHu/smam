@@ -1,5 +1,5 @@
 
-AC_INIT([smam], [0.7.0.9000])
+AC_INIT([smam], [0.7.1])
 
 ## Use gsl-config to find arguments for compiler and linker flags
 ##
