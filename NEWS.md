@@ -1,3 +1,9 @@
+# CHANGES IN smam VERSION 0.7.2
+
+## MINOR CHANGES
+
+* Updated maintainer email to huchaoran.stat@gmail.com
+
 # CHANGES IN smam VERSION 0.7.1
 
 ## MINOR CHANGES

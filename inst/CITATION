@@ -5,13 +5,13 @@ bibentry(bibtype = "Manual",
          author = c(person("Chaoran", "Hu"),
                              person("Vladimir", "Pozdnyakov"),
                              person("Jun", "Yan")),
-         note = "R package version 0.7.1",
-         year =	"2023",
+         note = "R package version 0.7.2",
+         year =	"2024",
          url = "https://github.com/ChaoranHu/smam",
          
-         textVersion = paste("Hu, C., Pozdnyakov, V., Yan, J. (2023). smam:",
+         textVersion = paste("Hu, C., Pozdnyakov, V., Yan, J. (2024). smam:",
                              "Statistical Modeling of Animal Movement.",
-                             "R package version 0.7.1",
+                             "R package version 0.7.2",
                              "https://github.com/ChaoranHu/smam")
 )
 
@@ -26,7 +26,7 @@ bibentry(bibtype = "Article",
          volume = "95",
          number = "2",
          pages = "247--253",
-         url = "https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/13-0532.1",
+         url = "https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/13-0532.1",
 
          textVersion =
   paste("Pozdnyakov, V. , Meyer, T. , Wang, Y. and Yan, J. (2014), On modeling animal movements using Brownian motion with measurement error. Ecology, 95(2): 247--253. doi:10.1890/13-0532.1")
