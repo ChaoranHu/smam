@@ -15,7 +15,7 @@ Moving-Moving Process with two Embedded Brownian Motions.
 }
 \author{
 \itemize{
-  \item *maintainer, author* Chaoran Hu \email{chaoran.hu@uconn.edu}
+  \item *maintainer, author* Chaoran Hu \email{huchaoran.stat@gmail.com}
   \item *author* Vladimir Pozdnyakov \email{vladimir.pozdnyakov@uconn.edu}
   \item *author* Jun Yan \email{jun.yan@uconn.edu}
 }
