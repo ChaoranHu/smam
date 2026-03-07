@@ -1,3 +1,7 @@
+# CHANGES IN smam VERSION 0.7.3
+
+* Rerun compileAttributes() with Rcpp >= 1.1.1 to guard Rf_error calls.
+
 # CHANGES IN smam VERSION 0.7.2
 
 ## MINOR CHANGES
